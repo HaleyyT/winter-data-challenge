@@ -1,0 +1,10 @@
+# Keep this list minimal; pin exact versions once the challenge environment is known.
+jupyterlab>=4.2,<5
+matplotlib>=3.9,<4
+numpy>=2.0,<3
+pandas>=2.2,<3
+pytest>=8.2,<9
+scikit-learn>=1.5,<2
+scipy>=1.14,<2
+seaborn>=0.13,<1
+

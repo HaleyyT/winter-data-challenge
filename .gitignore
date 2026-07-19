@@ -1,0 +1,45 @@
+# macOS and editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets and local configuration
+.env
+*.local
+
+# Data: keep documentation/placeholders, not challenge data
+data/raw/*
+data/external/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+!data/**/README.md
+
+# Generated analysis outputs
+reports/figures/*
+reports/tables/*
+!reports/figures/.gitkeep
+!reports/tables/.gitkeep
+
+# Generated submission exports (keep source files and instructions)
+submission/*.pdf
+submission/*.html
+submission/*.pptx
+submission/*.mp4
+submission/*.zip
+
