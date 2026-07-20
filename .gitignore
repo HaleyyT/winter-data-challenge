@@ -22,6 +22,7 @@ venv/
 .env
 *.local
 
+
 # Generated analysis outputs
 reports/figures/*
 reports/tables/*
@@ -34,4 +35,3 @@ submission/*.html
 submission/*.pptx
 submission/*.mp4
 submission/*.zip
-
