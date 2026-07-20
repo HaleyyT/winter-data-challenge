@@ -1,6 +1,6 @@
 # Notebooks
 
-Use numbered notebooks in execution order. Keep each notebook focused and move repeated or important logic into `src/`.
+Use numbered notebooks in execution order. Keep each notebook focused. The relevant implementation is included directly in the implemented notebooks so teammates and judges can read each workflow in one place. The matching code in `src/oecd_audit.py` remains the canonical, tested command-line version; update both copies together when logic changes.
 
 Implemented starter sequence:
 
