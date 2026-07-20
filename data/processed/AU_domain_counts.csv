@@ -1,0 +1,10 @@
+rank,domain_code,domain,observation_count,indicator_count,country_count,first_year,last_year,share_of_all_observations_pct
+1,HSL_2,Work and job quality,45,3,1,2010,2024,24.73
+2,HSL_5,Health,29,2,1,2010,2024,15.93
+3,HSL_9,Environmental quality,26,2,1,2010,2024,14.29
+4,HSL_1,Income and wealth,24,3,1,2010,2024,13.19
+5,HSL_11,Subjective well-being,17,2,1,2010,2024,9.34
+6,HSL_3,Housing,15,1,1,2010,2024,8.24
+7,HSL_7,Social connections,15,1,1,2010,2024,8.24
+8,HSL_8,Civic engagement,7,2,1,2010,2023,3.85
+9,HSL_6,Knowledge and skills,4,1,1,2012,2022,2.2
