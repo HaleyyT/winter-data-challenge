@@ -15,6 +15,8 @@ python -m pip install -r requirements.txt
 jupyter lab
 ```
 
+Always start Jupyter from the activated environment (or run `.venv/bin/jupyter lab`) so notebooks use the project dependencies. Verify the workspace with `python -m pytest` and regenerate the OECD audit with `python -m src.oecd_audit`.
+
 When the dataset is released, place the original, unchanged files in `data/raw/`. Do not commit restricted or large data files. Record their source, download time, licence, and any access conditions in `data/README.md`.
 
 ## Project structure
@@ -44,6 +46,8 @@ When the dataset is released, place the original, unchanged files in `data/raw/`
 5. Record decisions, assumptions, limitations, and external sources as the analysis evolves.
 6. Run `python -m pytest` before the final submission when tests exist.
 
+For the released OECD dataset, run `python -m src.oecd_audit` to validate the raw file and regenerate the cleaned data, coverage audit, time-series gaps, same-year Australia comparisons, and indicator metadata. See [the data-quality notes](docs/analysis/oecd_data_quality_notes.md) and [the initial findings and question direction](docs/analysis/oecd_exploration_and_questions.md).
+
 Suggested notebook names are `00_data_audit.ipynb`, `01_eda.ipynb`, `02_analysis.ipynb`, and `03_final_visuals.ipynb`. Avoid committing notebook outputs containing sensitive data or very large embedded plots.
 
 ## Team workflow
@@ -52,5 +56,4 @@ See [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Agree on names and ownership
 
 ## Current status
 
-The repository contains pre-challenge planning material only. Dataset-specific dependencies, methods, and submission formats should be confirmed against the instructions released on day one.
-
+The released OECD dataset audit and initial economic/social exploration are implemented. The team still needs to lock the primary question, comparison group, statistical protocol, robustness checks, and final submission format.
