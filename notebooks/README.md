@@ -10,7 +10,7 @@ Implemented starter sequence:
 - `03_robustness.ipynb`
 - `04_final_visuals.ipynb`
 
-The merge also preserves `yilin_data_cleaning_reference.ipynb`, Yilin's original tidy-data, category-summary, and domain-count workflow. It is kept as a companion reference so both implementations remain reviewable; `00_data_audit.ipynb` is the canonical shared audit workflow.
+`00_data_audit.ipynb` keeps both implementations in one place: Part A is the shared validated audit used by the EDA, while Part B preserves Yilin's original tidy-data, category-summary, and domain-count workflow.
 
 Each notebook should state its purpose, inputs, outputs, assumptions, author, and last successful run date near the top.
 
