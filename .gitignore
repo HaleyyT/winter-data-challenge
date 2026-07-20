@@ -22,6 +22,9 @@ venv/
 .env
 *.local
 
+# Private working notes: intentionally never version controlled.
+local_notes/
+
 
 # Generated analysis outputs
 reports/figures/*
