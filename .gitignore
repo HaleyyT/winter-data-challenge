@@ -22,14 +22,6 @@ venv/
 .env
 *.local
 
-# Data: keep documentation/placeholders, not challenge data
-data/raw/*
-data/external/*
-data/interim/*
-data/processed/*
-!data/**/.gitkeep
-!data/**/README.md
-
 # Generated analysis outputs
 reports/figures/*
 reports/tables/*
