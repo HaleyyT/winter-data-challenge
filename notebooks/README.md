@@ -12,4 +12,4 @@ Implemented starter sequence:
 
 Each notebook should state its purpose, inputs, outputs, assumptions, author, and last successful run date near the top.
 
-The audit and EDA notebooks contain immediately usable generic code. The analysis, robustness, and final-visual notebooks deliberately contain explicit placeholders because their correct implementation depends on the dataset, research question, and official day-one rules.
+The audit notebook now implements the OECD cleaning, gap, pooled-period, comparability, same-year comparison, and coverage checks. The EDA notebook implements the initial economic/social exploration and recommended question direction. The analysis, robustness, and final-visual notebooks remain explicit placeholders until the team locks the primary research protocol.
