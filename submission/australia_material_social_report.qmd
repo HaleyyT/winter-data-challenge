@@ -201,6 +201,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from IPython.display import display
 
@@ -682,17 +683,91 @@ display(
 
 ### Method 3: Bootstrap uncertainty and placebo ranking
 
-The common-endpoint comparison in Method 2 provides Australia's change and its position relative to comparator countries. However, the ranking may depend on which comparator countries are included. Two sensitivity checks are therefore applied.
+Method 3 asks whether the Method 2 comparator median is sensitive to which
+eligible countries are available. For each outcome, Australia's observed
+oriented endpoint change is held fixed while the exact eligible comparator
+countries are resampled with replacement 10,000 times. Each replicate
+recalculates the comparator median and Australia's oriented gap. The resulting
+interval is **comparator-country composition sensitivity**, not OECD
+survey-sampling uncertainty or a confidence interval around Australia's change.
 
-Bootstrap resampling evaluates the stability of Australia's percentile ranking. For each indicator, comparator-country changes are repeatedly sampled with replacement 10,000 times while keeping the same number of countries as the original comparator group. Australia's percentile is recalculated for each resampled comparison. The resulting distribution shows how much Australia's ranking changes under alternative comparator compositions.
+The placebo calculation expresses the same endpoint comparison from another
+viewpoint: every eligible country is treated as focal once and compared with
+the median of the remaining countries. Australia's placebo percentile is
+therefore an alternative presentation of the Method 2 endpoint percentile, not
+independent evidence.
 
-Placebo ranking provides an additional benchmark by treating each comparator country as the focal country in turn. Each country's change is ranked against the remaining comparator countries, creating a distribution of typical country rankings. Australia's actual percentile can then be compared with this placebo distribution to assess whether its performance is unusual.
+```{python}
+from IPython.display import Image
 
-Results: Australia's raw changes were +6,004 USD (income), +4.82 percentage points (employment), +5.12 percentage points (lack of social support), and +2.61 percentage points (negative affect). Comparator groups contained between 36 and 46 countries depending on indicator availability.
+method3_bootstrap_path = ROOT / "reports" / "tables" / "material_social_bootstrap_results.csv"
+method3_placebo_path = ROOT / "reports" / "tables" / "material_social_placebo_results.csv"
+method3_figure_path = ROOT / "reports" / "figures" / "material_social_comparative_gaps.png"
+if not (method3_bootstrap_path.exists() and method3_placebo_path.exists() and method3_figure_path.exists()):
+    raise FileNotFoundError("Run notebooks/02_analysis.ipynb to generate Method 3 outputs before rendering.")
 
-Bootstrap sensitivity results showed that income and employment were close to the centre of the comparator distribution, with median percentiles of approximately 47 and 39. Their wider percentile ranges indicate that Australia's ranking is sensitive to comparator composition. In contrast, lack of social support and negative affect remained consistently high, with median percentiles of approximately 91 and 80, suggesting that Australia's deterioration in these outcomes is robust across alternative comparator samples.
+method3_bootstrap = pd.read_csv(method3_bootstrap_path)
+method3_placebo = pd.read_csv(method3_placebo_path)
+method3_order = ["1_1", "2_1", "7_1_DEP", "11_2"]
+expected_counts = [31, 43, 46, 46]
+for table in (method3_bootstrap, method3_placebo):
+    assert table.indicator_code.tolist() == method3_order
+    assert table.indicator_code.is_unique
+    assert table.eligible_comparator_country_count.tolist() == expected_counts
 
-The placebo analysis showed that comparator countries generally produced rankings centred around the middle of the distribution. Australia's economic indicators were close to typical country outcomes, while social and emotional indicators were positioned near the adverse end of the distribution. This supports the conclusion that Australia's deterioration in perceived social support and negative affect was relatively unusual compared with the supplied-country reference group.
+assert method3_bootstrap.bootstrap_replicates.eq(10_000).all()
+assert method3_bootstrap.random_seed.eq(20260720).all()
+assert (method3_bootstrap.bootstrap_ci_lower <= method3_bootstrap.bootstrap_ci_upper).all()
+assert method3_figure_path.stat().st_size > 0
+
+method3_check = method3_bootstrap.merge(
+    frozen[["australia_minus_comparator_median_oriented"]],
+    left_on="indicator_code", right_index=True, validate="one_to_one"
+)
+np.testing.assert_allclose(
+    method3_check.observed_oriented_gap,
+    method3_check.australia_minus_comparator_median_oriented,
+    atol=1e-10,
+)
+np.testing.assert_allclose(
+    method3_placebo.australia_favourable_percentile,
+    frozen.loc[method3_order, "australia_favourable_percentile"],
+    atol=1e-10,
+)
+
+method3_display = method3_bootstrap.merge(
+    method3_placebo[["indicator_code", "australia_favourable_percentile"]],
+    on="indicator_code", validate="one_to_one"
+)[[
+    "indicator", "unit", "observed_oriented_gap", "bootstrap_gap_median",
+    "bootstrap_ci_lower", "bootstrap_ci_upper",
+    "australia_favourable_percentile", "eligible_comparator_country_count", "sensitivity_label",
+]].copy()
+method3_display["bootstrap_summary"] = method3_display.apply(
+    lambda row: (
+        f"{row.bootstrap_gap_median:.2f} "
+        f"[{row.bootstrap_ci_lower:.2f}, {row.bootstrap_ci_upper:.2f}]"
+    ),
+    axis=1,
+)
+method3_display = method3_display[[
+    "indicator", "unit", "observed_oriented_gap", "bootstrap_summary",
+    "australia_favourable_percentile", "eligible_comparator_country_count", "sensitivity_label",
+]]
+method3_display.columns = [
+    "Outcome", "Unit", "Oriented gap", "Bootstrap median [2.5%, 97.5%]",
+    "Favourable percentile", "Comparators", "Sensitivity",
+]
+display(method3_display)
+display(Image(filename=str(method3_figure_path)))
+```
+
+Income and employment intervals cross zero, so their relative endpoint gaps
+are comparator-sensitive. The social-support and negative-affect intervals
+remain below zero, making their adverse relative changes comparatively stable
+to this resampling of the eligible-country set. This does not establish a
+population parameter or causal mechanism; it calibrates how strongly the
+descriptive cross-country comparison can be stated.
 
 
 ### Method 4: Theil–Sen and Kendall trend robustness

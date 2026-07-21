@@ -1,5 +1,6 @@
 # macOS and editors
 .DS_Store
+.Rhistory
 .idea/
 .vscode/
 *.swp
@@ -34,14 +35,15 @@ reports/tables/*
 !reports/figures/material_social_trajectories.png
 !reports/figures/method4_australia_theilsen_trends.png
 !reports/figures/method4_country_slope_distributions.png
-!reports/figures/material_social_spearman_associations.png
+!reports/figures/material_social_comparative_gaps.png
 !reports/tables/material_social_primary_results.csv
 !reports/tables/material_social_trajectory_coverage.csv
+!reports/tables/material_social_bootstrap_results.csv
+!reports/tables/material_social_placebo_results.csv
 !reports/tables/material_social_trend_results.csv
 !reports/tables/method4_country_slope_distribution.csv
 !reports/tables/method4_country_slope_summary.csv
 !reports/tables/method4_independent_social_observations.csv
-!reports/tables/material_social_spearman_results.csv
 
 # Rendered analysis documents; Markdown sources are the reviewable originals.
 docs/analysis/*.html
