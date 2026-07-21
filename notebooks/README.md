@@ -10,9 +10,10 @@ Implemented starter sequence:
 - `03_robustness.ipynb`
 - `04_final_visuals.ipynb`
 - `05_health_social_wellbeing.ipynb`
+- `method4_theilsen_kendall.ipynb`
 
 `00_data_audit.ipynb` keeps both implementations in one place and in team order: Yilin's original tidy-data, category-summary, and domain-count workflow appears first exactly as merged, followed by Haley's validated audit and comparison workflow.
 
 Each notebook should state its purpose, inputs, outputs, assumptions, author, and last successful run date near the top.
 
-The audit notebook implements the OECD cleaning, gap, pooled-period, comparability, same-year comparison, and coverage checks. The EDA notebook implements the initial economic/social exploration and recommended question direction. The analysis and robustness notebooks implement exact common endpoints, same-year gaps, broad supplied-country comparisons, normal-value-only comparisons, and leave-one-peer-out checks. The health/social/well-being notebook applies those safeguards with pooled-window timing. The final-visual notebook remains a placeholder until the team selects the final submission figure.
+The audit notebook implements the OECD cleaning, gap, pooled-period, comparability, same-year comparison, and coverage checks. The EDA notebook implements the initial economic/social exploration and recommended question direction. The analysis and robustness notebooks implement exact common endpoints, same-year gaps, broad supplied-country comparisons, normal-value-only comparisons, and leave-one-peer-out checks. The Method 4 notebook adds Theil--Sen slopes, direction-aware Kendall diagnostics, 80%-coverage international slope comparisons and endpoint-agreement checks. The health/social/well-being notebook applies the data safeguards with pooled-window timing, and the final-visual notebook creates the primary trajectory figure.
