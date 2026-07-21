@@ -1,0 +1,5 @@
+indicator_code,short_name,n_countries_including_australia,n_comparator_countries,comparator_median_favourable_slope,australia_favourable_slope,australia_percentile_including_australia
+11_2,Negative affect,47,46,0.00279526616666678,-0.17393485974666673,24.46808510638298
+1_1,Household income,32,31,574.6666666666666,458.22222222222223,39.0625
+2_1,Employment rate,44,43,0.43400000000000105,0.35838461538461475,32.95454545454545
+7_1_DEP,Lack of social support,47,46,-0.031998665716666874,-0.18584215291666664,28.72340425531915

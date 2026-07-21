@@ -27,10 +27,6 @@ local_notes/
 
 
 # Generated analysis outputs
-reports/figures/*
-reports/tables/*
-!reports/figures/.gitkeep
-!reports/tables/.gitkeep
 !reports/figures/material_social_trajectories.png
 !reports/tables/material_social_primary_results.csv
 !reports/tables/material_social_trajectory_coverage.csv
