@@ -64,10 +64,12 @@ period labels and coverage information, and contains no manually entered data.
 
 ## Method 2 — Common-endpoint comparative change
 
-**Status:** In progress. Steps 1–3 are complete and verified: one four-outcome
-workflow now enforces exact common displayed endpoints and reports Australia's
-start value, endpoint value, and native-unit change. Comparative gaps, ranks,
-uncertainty, and frozen-table export remain outstanding.
+**Status:** In progress. Steps 1–6 are complete and verified: the four-outcome
+workflow enforces exact common displayed endpoints and reports Australia’s
+native change, comparator median native change, direction-oriented comparative
+gap, favourable percentile, and eligible-country count. Uncertainty,
+independent value recalculation, frozen-table export, and report integration
+remain outstanding.
 
 - [x]  Add all four primary outcomes to one common-endpoint workflow in
     
@@ -78,12 +80,12 @@ uncertainty, and frozen-table export remain outstanding.
     exact start and endpoint periods.
     
 - [x]  Report Australia's start value, endpoint value and native-unit change.
-- [ ]  Report the comparator median native-unit change.
-- [ ]  Calculate an oriented Australia-minus-comparator-median gap where positive
+- [x]  Report the comparator median native-unit change.
+- [x]  Calculate an oriented Australia-minus-comparator-median gap where positive
     
     always means more favourable.
     
-- [ ]  Report the favourable percentile and eligible comparator-country count.
+- [x]  Report the favourable percentile and eligible comparator-country count.
 - [ ]  Preserve the natural sign in native changes; sign-flip only oriented gaps,
     
     slopes and ranks for lower-is-better outcomes.
