@@ -95,3 +95,23 @@ The first alternative is safest. The recommended material-social question is mor
 7. Use external data only to close a defined gap. ABS income distribution or housing stress by income group would deepen “broadly shared”; disaggregated mortality would clarify the health signal.
 
 Avoid a single weighted “Australia score”, causal language, synthetic data augmentation, and increasingly complex models without a specific analytical purpose.
+
+# Health Aspects -- Is AUS healthy or just living longer?
+
+Australia’s health status is mixed. On the surface, Australia looks healthy: life expectancy increased from 81.7 years in 2010 to 83.0 years in 2023, placing Australia among the stronger-performing countries. 
+This suggests that Australians are, broadly, living longer and that Australia performs well on a traditional health outcome.
+However, deaths from suicide, alcohol, and drugs had sharp rise 2010–2016, then plateau at a high level. 
+From 14.9 deaths per 100,000 people in 2010 to 22.2 in 2024.  
+
+This indicates that while Australians are living longer overall, preventable deaths linked to mental health and substance use have worsened.
+This might to be connected to Australia’s lack of social support which increased from 4.9% in 2010 to 10.0% in 2024.
+
+Compared with similar countries, Australia looks strong on life expectancy. 
+It’s close to Japan, Korea, Sweden, and France, and performs better than New Zealand, Canada, the UK, and the US.
+But on deaths from suicide, alcohol, and drugs, Australia is more middle-ranked. 
+It performs better than the UK, Korea, Canada, and the US, but worse than the Netherlands, France, Japan, and Sweden.
+
+The health findings fit well with the existing story that Australia is stronger on headline/material indicators, 
+but weaker on lived social well-being indicators.
+
+
