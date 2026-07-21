@@ -536,9 +536,14 @@ assert coverage.groupby("indicator_code")["period"].nunique().to_dict() == expec
 ```
 
 ::: {.trajectory-figure}
-![Australia and same-period supplied-country distributions. The shaded band is
-the interquartile range; reference counts exclude Australia, and social points
-are independent three-year pooled windows.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
+![Australia's material and social trajectories relative to supplied-country
+distributions. Lines show Australia and the same-period median among supplied
+countries excluding Australia; shaded bands show the interquartile range.
+Income is measured in PPP-converted USD per person. Social indicators are
+independent three-year pooled estimates, with lower values indicating more
+favourable outcomes. Connecting lines are visual guides rather than annual
+observations, and country coverage varies by outcome and
+period.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
 :::
 
 ### Robustness: endpoint and full-trajectory directions agree
@@ -738,9 +743,10 @@ samples for the four Method 5 pairs. Australia is notable mainly for the
 severity and low comparative ranking of its social deterioration, especially
 social support.
 
-![Exploratory country-level material-social rank associations. Australia is
-shown separately and is excluded from each Spearman rho, bootstrap interval and
-permutation p-value.](../reports/figures/material_social_spearman_associations.png){#fig-method5-spearman width=100%}
+![Exploratory cross-country associations between material and social change.
+Positive values indicate improvement. Australia is shown separately and is
+excluded from each Spearman rho, bootstrap interval and permutation
+p-value.](../reports/figures/material_social_spearman_associations.png){#fig-method5-spearman width=100%}
 
 ### Reproduce this report
 
