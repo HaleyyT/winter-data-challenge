@@ -64,12 +64,13 @@ period labels and coverage information, and contains no manually entered data.
 
 ## Method 2 — Common-endpoint comparative change
 
-**Status:** In progress. Steps 1–6 are complete and verified: the four-outcome
+**Status:** In progress. Steps 1–9 are complete and verified: the four-outcome
 workflow enforces exact common displayed endpoints and reports Australia’s
 native change, comparator median native change, direction-oriented comparative
-gap, favourable percentile, and eligible-country count. Uncertainty,
-independent value recalculation, frozen-table export, and report integration
-remain outstanding.
+gap, favourable percentile, and eligible-country count. Native and oriented
+quantities are explicitly labelled, annual and pooled endpoints are verified,
+and a direct audited-data recalculation reconciles every Australian value.
+Frozen-table export and report integration remain outstanding.
 
 - [x]  Add all four primary outcomes to one common-endpoint workflow in
     
@@ -86,15 +87,15 @@ remain outstanding.
     always means more favourable.
     
 - [x]  Report the favourable percentile and eligible comparator-country count.
-- [ ]  Preserve the natural sign in native changes; sign-flip only oriented gaps,
+- [x]  Preserve the natural sign in native changes; sign-flip only oriented gaps,
     
     slopes and ranks for lower-is-better outcomes.
     
-- [ ]  Use `2010–2024` for income and employment and label the social comparison
+- [x]  Use `2010–2024` for income and employment and label the social comparison
     
     `2008–10 to 2023–25 pooled windows`.
     
-- [ ]  Independently recalculate all Australian values directly from the audited
+- [x]  Independently recalculate all Australian values directly from the audited
     
     tidy data and resolve any discrepancy.
     
