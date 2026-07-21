@@ -17,6 +17,61 @@ execute:
   warning: false
 ---
 
+<style>
+.economic-comparison {
+  margin: 1.25rem 0 1.75rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.economic-comparison table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.88rem;
+}
+
+.economic-comparison th,
+.economic-comparison td {
+  padding: 0.8rem 0.7rem;
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+.economic-comparison th {
+  border-bottom: 2px solid #6c757d;
+  font-weight: 650;
+}
+
+.economic-comparison tbody tr:nth-child(even) {
+  background-color: #f6f8fa;
+}
+
+.economic-comparison th:nth-child(1),
+.economic-comparison td:nth-child(1) { width: 16%; }
+.economic-comparison th:nth-child(2),
+.economic-comparison td:nth-child(2) { width: 11%; text-align: right; }
+.economic-comparison th:nth-child(3),
+.economic-comparison td:nth-child(3) { width: 16%; text-align: right; }
+.economic-comparison th:nth-child(4),
+.economic-comparison td:nth-child(4) { width: 17%; text-align: right; }
+.economic-comparison th:nth-child(5),
+.economic-comparison td:nth-child(5) { width: 40%; text-align: left; }
+
+.economic-comparison col:nth-child(1) { width: 15% !important; }
+.economic-comparison col:nth-child(2) { width: 12% !important; }
+.economic-comparison col:nth-child(3) { width: 15% !important; }
+.economic-comparison col:nth-child(4) { width: 16% !important; }
+.economic-comparison col:nth-child(5) { width: 42% !important; }
+
+.trajectory-figure .cell-output-display img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+</style>
+
 ## Executive summary
 
 **Research question:** As Australia's material conditions improved, did
@@ -123,6 +178,17 @@ Finally, the data cleaning and reprocessing conducts the following dataset:
 - `OECD_domain_counts.csv`: overall domain coverage ranked by observation count
 - `AU_domain_counts.csv`: the equivalent domain-coverage summary for Australia
 
+### Audit safeguards for the research question
+
+The reproducible audit in `src/oecd_audit.py` revalidates the unchanged raw
+file and rejects missing required values, duplicate keys and undocumented
+indicators; no values are imputed. It also prevents the two main comparison
+errors: countries are compared only within the same indicator and year, and 16
+displayed social rows are treated as six independent pooled windows. Income and
+employment have no internal Australian annual gaps. These safeguards support
+the four-outcome design; detailed audit outputs and coverage limitations are in
+the Appendix.
+
 
 ## Exploratory analysis and question selection
 
@@ -136,6 +202,7 @@ There are the significant improvements of Australia's living standards and the l
 
 However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.
 
+::: {.economic-comparison}
 | Indicator | Australia’s change | English-speaking reference | Broad supplied-country reference | Interpretation |
 |---|---:|---:|---:|---|
 | Household income per person, PPP | +USD 6,004 | +USD 5,218 median (3 peers) | +USD 6,960 median (31 countries) | A substantial domestic gain. It exceeds the small-peer median but not the broad median; the small-peer result changes when individual peers are omitted. |
@@ -143,6 +210,7 @@ However, Australia’s improvements in income and employment did not consisently
 | Gender wage gap | -3.37 pp | -2.60 pp median (4 peers) | -3.23 pp median (29 countries) | A favourable reduction, with broadly middle-of-the-distribution comparative change. |
 | Long-hours share | -3.81 pp | -1.80 pp median (4 peers) | -2.01 pp median (39 countries) | Australia’s improvement is stronger than both benchmarks. Its 2024 level remains above the English-speaking-peer median: 10.18% versus 9.20%. |
 | S80/S20 income inequality, 2012–20 | +0.04 | — | — | Essentially flat to slightly worse; the supplied data do not show that average gains were more equally shared. |
+:::
 
 #### Health
 The health investigation took into the aspects of life expectancy and suicide, alcohol and drugs death.
@@ -268,6 +336,12 @@ display(results.round(2))
 ```
 ### Method 2: Primary common-endpoint comparison
 
+Australia is compared only with countries reporting both exact endpoints for
+each outcome, and each eligible comparator count is reported. Changes retain
+their original units; direction-oriented values are used only for gaps and
+percentiles so positive consistently means favourable, including for the two
+lower-is-better social outcomes. The comparison is descriptive, not causal.
+
 ### Method 3: Bootstrap uncertainty and placebo ranking
 
 ### Method 4: Theil–Sen and Kendall trend robustness
@@ -301,6 +375,12 @@ display(results.round(2))
   a **2.61-point adverse change**. The broad-reference median change was near
   zero (+0.05 points), placing Australia at about the 20th favourable percentile.
 
+Australia improved materially, but less than the typical eligible comparator
+on the two primary material changes. Both social outcomes deteriorated more
+than their comparator medians. This supports a descriptive material--social
+tension, not a causal effect.
+
+::: {.trajectory-figure}
 ```{python}
 plot_specs = [("1_1", "Income per person", "USD"), ("2_1", "Employment", "%"),
               ("7_1_DEP", "Lack of social support", "%"), ("11_2", "Negative affect", "%")]
@@ -324,6 +404,7 @@ axes[0, 0].legend(frameon=False, fontsize=8)
 fig.suptitle("Australia and same-period supplied-country reference distributions", fontweight="bold")
 plt.show()
 ```
+:::
 
 ### Health is context, not the primary explanation
 
@@ -339,6 +420,14 @@ pooled-window midpoints and do not imply annual independent measurement.
 
 ## Conclusion
 
+Household income and employment increased, but by less than the median changes
+among countries with the same endpoints. Meanwhile, perceived lack of social
+support and negative affect worsened more than their typical eligible
+comparators. Within the supplied data, Australia therefore became materially
+better resourced while its measured social and emotional outcomes deteriorated
+comparatively. This is a descriptive conclusion; causal explanations require a
+different design.
+
 ## Limitations
 
 ### Limitations and claim boundaries
@@ -350,9 +439,34 @@ pooled-window midpoints and do not imply annual independent measurement.
   observation.
 - PPP-adjusted household income is not household disposable cash income;
   employment alone does not measure job security or job quality.
+- The eligible reference group changes across outcomes and plotted periods as
+  reporting coverage changes. All comparisons are therefore conditional on the
+  countries observed at the required endpoints, rather than a fixed OECD panel.
+- Survey design, source systems and observation-status flags may differ across
+  countries. These flags are retained for transparent sensitivity analysis,
+  but they limit claims of perfect cross-country comparability.
 - Results apply only to countries and periods available in the supplied extract.
 
 ## Appendix
+
+### Audit traceability
+
+The audit copy retains all 8,806 supplied observations and adds quality flags,
+favourable directions and independent-period labels. Applying the report's
+2010--2024 scope yields the same 8,575 observations used by the team analysis.
+
+| Audit control and output | How it protects the analysis |
+|---|---|
+| Gap and coverage tables: `time_series_gaps.csv`, `coverage_by_country_indicator.csv`, `coverage_by_country_year.csv` | Separate genuine annual gaps from scheduled non-annual measurement and report the evidence available for each series |
+| `indicator_metadata.csv` | Records units, direction, frequency and comparability caveats so unlike constructs are not treated as equivalent |
+| `same_year_australia_comparisons.csv` and `australia_indicator_summary.csv` | Compare Australia only with countries observed for the same indicator and year, report comparator counts and support transparent outcome selection |
+| `domain_coverage_all.csv` and `domain_coverage_australia.csv` | Count unique country--indicator--period evidence; ranks indicate availability, not substantive importance |
+
+Australia covers 17 of 21 indicators but lacks time spent in social
+interactions, so lack of social support is a focused proxy rather than a
+complete social-connection measure. Australian rows have normal OECD status;
+peer flags remain visible for sensitivity analysis. Indicator-specific caveats
+are documented in `docs/analysis/oecd_data_quality_notes.md`.
 
 ### Reproduce this report
 
