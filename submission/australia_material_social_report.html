@@ -2508,6 +2508,43 @@ white-space: normal;
 .primary-scorecard td:first-child { width: 24%; text-align: left; }
 .primary-scorecard th:not(:first-child),
 .primary-scorecard td:not(:first-child) { text-align: right; }
+.trend-scorecard table {
+width: 100%;
+table-layout: fixed;
+font-size: 0.66rem;
+}
+.trend-scorecard th,
+.trend-scorecard td {
+padding: 0.38rem 0.22rem;
+vertical-align: top;
+white-space: normal;
+overflow-wrap: break-word;
+}
+.trend-scorecard th:first-child,
+.trend-scorecard td:first-child {
+width: 19%;
+text-align: left;
+}
+.trend-scorecard th:not(:first-child),
+.trend-scorecard td:not(:first-child) { text-align: right; }
+.trend-scorecard th:nth-child(2),
+.trend-scorecard td:nth-child(2) { width: 15%; }
+.trend-scorecard th:nth-child(3),
+.trend-scorecard td:nth-child(3) { width: 10%; }
+.trend-scorecard th:nth-child(4),
+.trend-scorecard td:nth-child(4) { width: 9%; }
+.trend-scorecard th:nth-child(5),
+.trend-scorecard td:nth-child(5),
+.trend-scorecard th:nth-child(6),
+.trend-scorecard td:nth-child(6) { width: 7%; }
+.trend-scorecard th:nth-child(7),
+.trend-scorecard td:nth-child(7) { width: 5%; }
+.trend-scorecard th:nth-child(8),
+.trend-scorecard td:nth-child(8) { width: 10%; }
+.trend-scorecard th:nth-child(9),
+.trend-scorecard td:nth-child(9) { width: 8%; }
+.trend-scorecard th:nth-child(10),
+.trend-scorecard td:nth-child(10) { width: 10%; }
 .trend-agreement table {
 width: 100%;
 table-layout: fixed;
@@ -2549,50 +2586,50 @@ white-space: normal;
 <p>The raw <code>OECD Data.csv</code> file was preserved unchanged. The data preparation section is performed using all functions in <strong>Audit</strong> section. The <code>data/processed</code> directory will include the cleaned and examined datasets.</p>
 <p>We checked the raw dataset for duplicate entries, missing observations, data types, and expected columns. We made sure that there were no missing values in the principal observation field, no entirely duplicate rows, and no duplicate country-indicator-year keys.</p>
 <p>This table summaries a simple data cleaning steps.</p>
-<div id="33edd3f0" class="cell" data-execution_count="1">
+<div id="ff97e7dd" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<div id="T_18fe5" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
+<div id="T_018d1" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_18fe5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_018d1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 1: Data cleaning and preparation summary
 </figcaption>
-<div aria-describedby="T_18fe5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table id="T_18fe5" class="caption-top table table-sm table-striped small">
+<div aria-describedby="T_018d1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="T_018d1" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_18fe5_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Stage</th>
-<th id="T_18fe5_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">What we did</th>
-<th id="T_18fe5_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Why it matters</th>
+<th id="T_018d1_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Stage</th>
+<th id="T_018d1_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">What we did</th>
+<th id="T_018d1_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Why it matters</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_18fe5_row0_col0" class="data row0 col0">Raw input</td>
-<td id="T_18fe5_row0_col1" class="data row0 col1">8,806 country-indicator-year observations across 47 countries and 21 indicators</td>
-<td id="T_18fe5_row0_col2" class="data row0 col2">Preserved unchanged</td>
+<td id="T_018d1_row0_col0" class="data row0 col0">Raw input</td>
+<td id="T_018d1_row0_col1" class="data row0 col1">8,806 country-indicator-year observations across 47 countries and 21 indicators</td>
+<td id="T_018d1_row0_col2" class="data row0 col2">Preserved unchanged</td>
 </tr>
 <tr class="even">
-<td id="T_18fe5_row1_col0" class="data row1 col0">Structure check</td>
-<td id="T_18fe5_row1_col1" class="data row1 col1">Country-indicator-year keys are unique; observed values are complete</td>
-<td id="T_18fe5_row1_col2" class="data row1 col2">Validated before analysis</td>
+<td id="T_018d1_row1_col0" class="data row1 col0">Structure check</td>
+<td id="T_018d1_row1_col1" class="data row1 col1">Country-indicator-year keys are unique; observed values are complete</td>
+<td id="T_018d1_row1_col2" class="data row1 col2">Validated before analysis</td>
 </tr>
 <tr class="odd">
-<td id="T_18fe5_row2_col0" class="data row2 col0">Analysis-ready data</td>
-<td id="T_18fe5_row2_col1" class="data row2 col1">Selected required fields, renamed columns, and converted year and value to numeric types</td>
-<td id="T_18fe5_row2_col2" class="data row2 col2">No observations imputed or dropped</td>
+<td id="T_018d1_row2_col0" class="data row2 col0">Analysis-ready data</td>
+<td id="T_018d1_row2_col1" class="data row2 col1">Selected required fields, renamed columns, and converted year and value to numeric types</td>
+<td id="T_018d1_row2_col2" class="data row2 col2">No observations imputed or dropped</td>
 </tr>
 <tr class="even">
-<td id="T_18fe5_row3_col0" class="data row3 col0">Quality metadata</td>
-<td id="T_18fe5_row3_col1" class="data row3 col1">Retained OECD observation-status flags (266 flagged observations) and indicator directions</td>
-<td id="T_18fe5_row3_col2" class="data row3 col2">Used in sensitivity checks</td>
+<td id="T_018d1_row3_col0" class="data row3 col0">Quality metadata</td>
+<td id="T_018d1_row3_col1" class="data row3 col1">Retained OECD observation-status flags (266 flagged observations) and indicator directions</td>
+<td id="T_018d1_row3_col2" class="data row3 col2">Used in sensitivity checks</td>
 </tr>
 <tr class="odd">
-<td id="T_18fe5_row4_col0" class="data row4 col0">Time handling</td>
-<td id="T_18fe5_row4_col1" class="data row4 col1">Annual outcomes analysed through 2024; pooled Gallup outcomes collapsed to independent three-year windows</td>
-<td id="T_18fe5_row4_col2" class="data row4 col2">Avoids false annual precision</td>
+<td id="T_018d1_row4_col0" class="data row4 col0">Time handling</td>
+<td id="T_018d1_row4_col1" class="data row4 col1">Annual outcomes analysed through 2024; pooled Gallup outcomes collapsed to independent three-year windows</td>
+<td id="T_018d1_row4_col2" class="data row4 col2">Avoids false annual precision</td>
 </tr>
 </tbody>
 </table>
@@ -2644,62 +2681,62 @@ Table 1: Data cleaning and preparation summary
 <p>There are the significant improvements of Australia’s living standards and the labor market. Between 2010 and 2024, per capita household income increased by $6,004, while the employment rate rose by 4.82 percentage points. The proportion of employees working long hours decreased by 3.81 percentage points, and the gender wage gap also narrowed.</p>
 <p>However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.</p>
 <div class="economic-comparison">
-<div id="5f0a4fcb" class="cell" data-execution_count="2">
+<div id="aaebfb9d" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<div id="T_6a17c" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
+<div id="T_cc20f" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_6a17c-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_cc20f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 2: Economic outcomes compared with reference groups
 </figcaption>
-<div aria-describedby="T_6a17c-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table id="T_6a17c" class="caption-top table table-sm table-striped small">
+<div aria-describedby="T_cc20f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="T_cc20f" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_6a17c_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Indicator</th>
-<th id="T_6a17c_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Australia’s change</th>
-<th id="T_6a17c_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">English-speaking reference</th>
-<th id="T_6a17c_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Broad supplied-country reference</th>
-<th id="T_6a17c_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Interpretation</th>
+<th id="T_cc20f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Indicator</th>
+<th id="T_cc20f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Australia’s change</th>
+<th id="T_cc20f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">English-speaking reference</th>
+<th id="T_cc20f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Broad supplied-country reference</th>
+<th id="T_cc20f_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Interpretation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_6a17c_row0_col0" class="data row0 col0">Household income per person, PPP</td>
-<td id="T_6a17c_row0_col1" class="data row0 col1">+USD 6,004</td>
-<td id="T_6a17c_row0_col2" class="data row0 col2">+USD 5,218 median (3 peers)</td>
-<td id="T_6a17c_row0_col3" class="data row0 col3">+USD 6,960 median (31 countries)</td>
-<td id="T_6a17c_row0_col4" class="data row0 col4">A substantial domestic gain. It exceeds the small-peer median but not the broad median; the small-peer result changes when individual peers are omitted.</td>
+<td id="T_cc20f_row0_col0" class="data row0 col0">Household income per person, PPP</td>
+<td id="T_cc20f_row0_col1" class="data row0 col1">+USD 6,004</td>
+<td id="T_cc20f_row0_col2" class="data row0 col2">+USD 5,218 median (3 peers)</td>
+<td id="T_cc20f_row0_col3" class="data row0 col3">+USD 6,960 median (31 countries)</td>
+<td id="T_cc20f_row0_col4" class="data row0 col4">A substantial domestic gain. It exceeds the small-peer median but not the broad median; the small-peer result changes when individual peers are omitted.</td>
 </tr>
 <tr class="even">
-<td id="T_6a17c_row1_col0" class="data row1 col0">Employment rate</td>
-<td id="T_6a17c_row1_col1" class="data row1 col1">+4.82 pp</td>
-<td id="T_6a17c_row1_col2" class="data row1 col2">+5.17 pp median (4 peers)</td>
-<td id="T_6a17c_row1_col3" class="data row1 col3">+5.68 pp median (43 countries)</td>
-<td id="T_6a17c_row1_col4" class="data row1 col4">Employment improved in Australia, but its improvement was not faster than either reference median.</td>
+<td id="T_cc20f_row1_col0" class="data row1 col0">Employment rate</td>
+<td id="T_cc20f_row1_col1" class="data row1 col1">+4.82 pp</td>
+<td id="T_cc20f_row1_col2" class="data row1 col2">+5.17 pp median (4 peers)</td>
+<td id="T_cc20f_row1_col3" class="data row1 col3">+5.68 pp median (43 countries)</td>
+<td id="T_cc20f_row1_col4" class="data row1 col4">Employment improved in Australia, but its improvement was not faster than either reference median.</td>
 </tr>
 <tr class="odd">
-<td id="T_6a17c_row2_col0" class="data row2 col0">Gender wage gap</td>
-<td id="T_6a17c_row2_col1" class="data row2 col1">−3.37 pp</td>
-<td id="T_6a17c_row2_col2" class="data row2 col2">−2.60 pp median (4 peers)</td>
-<td id="T_6a17c_row2_col3" class="data row2 col3">−3.23 pp median (29 countries)</td>
-<td id="T_6a17c_row2_col4" class="data row2 col4">A favourable reduction, with broadly middle-of-the-distribution comparative change.</td>
+<td id="T_cc20f_row2_col0" class="data row2 col0">Gender wage gap</td>
+<td id="T_cc20f_row2_col1" class="data row2 col1">−3.37 pp</td>
+<td id="T_cc20f_row2_col2" class="data row2 col2">−2.60 pp median (4 peers)</td>
+<td id="T_cc20f_row2_col3" class="data row2 col3">−3.23 pp median (29 countries)</td>
+<td id="T_cc20f_row2_col4" class="data row2 col4">A favourable reduction, with broadly middle-of-the-distribution comparative change.</td>
 </tr>
 <tr class="even">
-<td id="T_6a17c_row3_col0" class="data row3 col0">Long-hours share</td>
-<td id="T_6a17c_row3_col1" class="data row3 col1">−3.81 pp</td>
-<td id="T_6a17c_row3_col2" class="data row3 col2">−1.80 pp median (4 peers)</td>
-<td id="T_6a17c_row3_col3" class="data row3 col3">−2.01 pp median (39 countries)</td>
-<td id="T_6a17c_row3_col4" class="data row3 col4">Australia’s improvement is stronger than both benchmarks. Its 2024 level remains above the English-speaking-peer median: 10.18% versus 9.20%.</td>
+<td id="T_cc20f_row3_col0" class="data row3 col0">Long-hours share</td>
+<td id="T_cc20f_row3_col1" class="data row3 col1">−3.81 pp</td>
+<td id="T_cc20f_row3_col2" class="data row3 col2">−1.80 pp median (4 peers)</td>
+<td id="T_cc20f_row3_col3" class="data row3 col3">−2.01 pp median (39 countries)</td>
+<td id="T_cc20f_row3_col4" class="data row3 col4">Australia’s improvement is stronger than both benchmarks. Its 2024 level remains above the English-speaking-peer median: 10.18% versus 9.20%.</td>
 </tr>
 <tr class="odd">
-<td id="T_6a17c_row4_col0" class="data row4 col0">S80/S20 income inequality, 2012–20</td>
-<td id="T_6a17c_row4_col1" class="data row4 col1">+0.04</td>
-<td id="T_6a17c_row4_col2" class="data row4 col2">—</td>
-<td id="T_6a17c_row4_col3" class="data row4 col3">—</td>
-<td id="T_6a17c_row4_col4" class="data row4 col4">Essentially flat to slightly worse; the supplied data do not show that average gains were more equally shared.</td>
+<td id="T_cc20f_row4_col0" class="data row4 col0">S80/S20 income inequality, 2012–20</td>
+<td id="T_cc20f_row4_col1" class="data row4 col1">+0.04</td>
+<td id="T_cc20f_row4_col2" class="data row4 col2">—</td>
+<td id="T_cc20f_row4_col3" class="data row4 col3">—</td>
+<td id="T_cc20f_row4_col4" class="data row4 col4">Essentially flat to slightly worse; the supplied data do not show that average gains were more equally shared.</td>
 </tr>
 </tbody>
 </table>
@@ -2715,50 +2752,50 @@ Table 2: Economic outcomes compared with reference groups
 <p>The health investigation took into the aspects of life expectancy and suicide, alcohol and drugs death.</p>
 <p>Australian life expectancy significantly increased and remained above the supplied-country median value. And the combined death increased from 14.9 to 22.2 per 100,000 by 2024.</p>
 <p>However, the overall mortality rate metric includes three separate causes of death (social support, subjective well-being and economic), and only 18 nations have supplied data for 2024. As a result, health is viewed as a valuable supporting background rather than the primary focus.</p>
-<div id="e5d0fa18" class="cell" data-execution_count="3">
+<div id="29162de2" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<div id="T_e17f1" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
+<div id="T_f3e5f" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_e17f1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_f3e5f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 3: Health outcomes and peer comparisons
 </figcaption>
-<div aria-describedby="T_e17f1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table id="T_e17f1" class="caption-top table table-sm table-striped small">
+<div aria-describedby="T_f3e5f-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="T_f3e5f" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_e17f1_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Measure</th>
-<th id="T_e17f1_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Earlier value</th>
-<th id="T_e17f1_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Latest value</th>
-<th id="T_e17f1_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Interpretation</th>
+<th id="T_f3e5f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Measure</th>
+<th id="T_f3e5f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Earlier value</th>
+<th id="T_f3e5f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Latest value</th>
+<th id="T_f3e5f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Interpretation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_e17f1_row0_col0" class="data row0 col0">Life expectancy</td>
-<td id="T_e17f1_row0_col1" class="data row0 col1">81.7 years (2010)</td>
-<td id="T_e17f1_row0_col2" class="data row0 col2">83.0 years (2023)</td>
-<td id="T_e17f1_row0_col3" class="data row0 col3">Increased</td>
+<td id="T_f3e5f_row0_col0" class="data row0 col0">Life expectancy</td>
+<td id="T_f3e5f_row0_col1" class="data row0 col1">81.7 years (2010)</td>
+<td id="T_f3e5f_row0_col2" class="data row0 col2">83.0 years (2023)</td>
+<td id="T_f3e5f_row0_col3" class="data row0 col3">Increased</td>
 </tr>
 <tr class="even">
-<td id="T_e17f1_row1_col0" class="data row1 col0">Suicide/alcohol/drug deaths</td>
-<td id="T_e17f1_row1_col1" class="data row1 col1">14.9 per 100,000 (2010)</td>
-<td id="T_e17f1_row1_col2" class="data row1 col2">22.2 per 100,000 (2024)</td>
-<td id="T_e17f1_row1_col3" class="data row1 col3">Increased</td>
+<td id="T_f3e5f_row1_col0" class="data row1 col0">Suicide/alcohol/drug deaths</td>
+<td id="T_f3e5f_row1_col1" class="data row1 col1">14.9 per 100,000 (2010)</td>
+<td id="T_f3e5f_row1_col2" class="data row1 col2">22.2 per 100,000 (2024)</td>
+<td id="T_f3e5f_row1_col3" class="data row1 col3">Increased</td>
 </tr>
 <tr class="odd">
-<td id="T_e17f1_row2_col0" class="data row2 col0">Life expectancy peer comparison</td>
-<td id="T_e17f1_row2_col1" class="data row2 col1">—</td>
-<td id="T_e17f1_row2_col2" class="data row2 col2">83.0 versus supplied-country median 81.5 (2023)</td>
-<td id="T_e17f1_row2_col3" class="data row2 col3">—</td>
+<td id="T_f3e5f_row2_col0" class="data row2 col0">Life expectancy peer comparison</td>
+<td id="T_f3e5f_row2_col1" class="data row2 col1">—</td>
+<td id="T_f3e5f_row2_col2" class="data row2 col2">83.0 versus supplied-country median 81.5 (2023)</td>
+<td id="T_f3e5f_row2_col3" class="data row2 col3">—</td>
 </tr>
 <tr class="even">
-<td id="T_e17f1_row3_col0" class="data row3 col0">Harm-death comparison</td>
-<td id="T_e17f1_row3_col1" class="data row3 col1">—</td>
-<td id="T_e17f1_row3_col2" class="data row3 col2">21.7 versus median 20.3 (2023)</td>
-<td id="T_e17f1_row3_col3" class="data row3 col3">Slightly worse</td>
+<td id="T_f3e5f_row3_col0" class="data row3 col0">Harm-death comparison</td>
+<td id="T_f3e5f_row3_col1" class="data row3 col1">—</td>
+<td id="T_f3e5f_row3_col2" class="data row3 col2">21.7 versus median 20.3 (2023)</td>
+<td id="T_f3e5f_row3_col3" class="data row3 col3">Slightly worse</td>
 </tr>
 </tbody>
 </table>
@@ -2773,50 +2810,50 @@ Table 3: Health outcomes and peer comparisons
 <p>The subjective well-being investigation took into the aspects of negative emotions and life satisfaction.</p>
 <p>Overall, negative emotions increased from 12.24% between 2008 and 2010 to 14.85% between 2023 and 2025. Australia’s rate climbed in the most recent period and exceeded the median, indicating a decline in its relative standing. Life satisfaction decreased from 7.5 in 2019 to 7.2 in 2020. However, with only two data sets available for Australia, this indicator cannot demonstrate a consistent long-term trend.</p>
 <p>Negative emotions offer far better temporal and worldwide coverage. Thus, it was chosen as the key measure of emotional well-being.</p>
-<div id="85e82464" class="cell" data-execution_count="4">
+<div id="1feed93d" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<div id="T_d3bc6" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
+<div id="T_302bd" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_d3bc6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_302bd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 4: Subjective wellbeing outcomes and peer comparisons
 </figcaption>
-<div aria-describedby="T_d3bc6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table id="T_d3bc6" class="caption-top table table-sm table-striped small">
+<div aria-describedby="T_302bd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="T_302bd" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_d3bc6_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Measure</th>
-<th id="T_d3bc6_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Earlier value</th>
-<th id="T_d3bc6_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Latest value</th>
-<th id="T_d3bc6_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Interpretation</th>
+<th id="T_302bd_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Measure</th>
+<th id="T_302bd_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Earlier value</th>
+<th id="T_302bd_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Latest value</th>
+<th id="T_302bd_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Interpretation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_d3bc6_row0_col0" class="data row0 col0">Negative affect balance</td>
-<td id="T_d3bc6_row0_col1" class="data row0 col1">12.24% (2008–10)</td>
-<td id="T_d3bc6_row0_col2" class="data row0 col2">14.85% (2023–25)</td>
-<td id="T_d3bc6_row0_col3" class="data row0 col3">Negative emotional experiences became more common</td>
+<td id="T_302bd_row0_col0" class="data row0 col0">Negative affect balance</td>
+<td id="T_302bd_row0_col1" class="data row0 col1">12.24% (2008–10)</td>
+<td id="T_302bd_row0_col2" class="data row0 col2">14.85% (2023–25)</td>
+<td id="T_302bd_row0_col3" class="data row0 col3">Negative emotional experiences became more common</td>
 </tr>
 <tr class="even">
-<td id="T_d3bc6_row1_col0" class="data row1 col0">Life satisfaction</td>
-<td id="T_d3bc6_row1_col1" class="data row1 col1">7.5/10 (2019)</td>
-<td id="T_d3bc6_row1_col2" class="data row1 col2">7.2/10 (2020)</td>
-<td id="T_d3bc6_row1_col3" class="data row1 col3">Fell by 0.3 points, but only two Australian observations are available</td>
+<td id="T_302bd_row1_col0" class="data row1 col0">Life satisfaction</td>
+<td id="T_302bd_row1_col1" class="data row1 col1">7.5/10 (2019)</td>
+<td id="T_302bd_row1_col2" class="data row1 col2">7.2/10 (2020)</td>
+<td id="T_302bd_row1_col3" class="data row1 col3">Fell by 0.3 points, but only two Australian observations are available</td>
 </tr>
 <tr class="odd">
-<td id="T_d3bc6_row2_col0" class="data row2 col0">Negative affect peer comparison</td>
-<td id="T_d3bc6_row2_col1" class="data row2 col1">12.24% versus supplied-country median 12.24% (2008–10)</td>
-<td id="T_d3bc6_row2_col2" class="data row2 col2">14.85% versus supplied-country median 12.39% (2023–25)</td>
-<td id="T_d3bc6_row2_col3" class="data row2 col3">Australia moved from the median to worse than the median</td>
+<td id="T_302bd_row2_col0" class="data row2 col0">Negative affect peer comparison</td>
+<td id="T_302bd_row2_col1" class="data row2 col1">12.24% versus supplied-country median 12.24% (2008–10)</td>
+<td id="T_302bd_row2_col2" class="data row2 col2">14.85% versus supplied-country median 12.39% (2023–25)</td>
+<td id="T_302bd_row2_col3" class="data row2 col3">Australia moved from the median to worse than the median</td>
 </tr>
 <tr class="even">
-<td id="T_d3bc6_row3_col0" class="data row3 col0">Life satisfaction peer comparison</td>
-<td id="T_d3bc6_row3_col1" class="data row3 col1">7.5 versus supplied-country median 7.58 (2019)</td>
-<td id="T_d3bc6_row3_col2" class="data row3 col2">7.2 versus supplied-country median 7.30 (2020)</td>
-<td id="T_d3bc6_row3_col3" class="data row3 col3">Slightly below the median, but only six countries reported in each year</td>
+<td id="T_302bd_row3_col0" class="data row3 col0">Life satisfaction peer comparison</td>
+<td id="T_302bd_row3_col1" class="data row3 col1">7.5 versus supplied-country median 7.58 (2019)</td>
+<td id="T_302bd_row3_col2" class="data row3 col2">7.2 versus supplied-country median 7.30 (2020)</td>
+<td id="T_302bd_row3_col3" class="data row3 col3">Slightly below the median, but only six countries reported in each year</td>
 </tr>
 </tbody>
 </table>
@@ -2859,60 +2896,60 @@ Table 4: Subjective wellbeing outcomes and peer comparisons
 <p>For each outcome, a country is eligible only if it reports both of Australia’s exact endpoints. The native change is <span class="math inline">\(\Delta_c = y_{c,\mathrm{end}}-y_{c,\mathrm{start}}\)</span>. The primary comparative estimand is <span class="math inline">\(G=s(\Delta_{AUS}-\operatorname{median}(\Delta_c))\)</span>, where <span class="math inline">\(s=1\)</span> for higher-is-better outcomes and <span class="math inline">\(s=-1\)</span> for lower-is-better outcomes. Thus, positive <span class="math inline">\(G\)</span> always indicates a more favourable Australian change. The median limits sensitivity to extreme country changes, while native units retain substantive meaning.</p>
 <p>The scorecard also reports the eligible-country count and Australia’s direction-aware percentile, using average ranks for ties. Percentiles describe relative position; they are not probabilities or significance tests. Rendering stops if these results differ from the independently generated Method 2 table. Methods 3–4 assess uncertainty and trend robustness separately.</p>
 <div class="primary-scorecard">
-<div id="6de94433" class="cell" data-execution_count="7">
+<div id="574d3d56" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<div id="T_0b5fe" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
+<div id="T_92737" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_0b5fe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_92737-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 5: Primary common-endpoint scorecard (changes in native units)
 </figcaption>
-<div aria-describedby="T_0b5fe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table id="T_0b5fe" class="caption-top table table-sm table-striped small">
+<div aria-describedby="T_92737-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="T_92737" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_0b5fe_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Outcome</th>
-<th id="T_0b5fe_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">AU change</th>
-<th id="T_0b5fe_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Median change</th>
-<th id="T_0b5fe_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Favourable gap</th>
-<th id="T_0b5fe_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Favourable percentile</th>
-<th id="T_0b5fe_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Comparators</th>
+<th id="T_92737_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Outcome</th>
+<th id="T_92737_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">AU change</th>
+<th id="T_92737_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Median change</th>
+<th id="T_92737_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Favourable gap</th>
+<th id="T_92737_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Favourable percentile</th>
+<th id="T_92737_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Comparators</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_0b5fe_row0_col0" class="data row0 col0">Household income per person, PPP</td>
-<td id="T_0b5fe_row0_col1" class="data row0 col1">6,004.00</td>
-<td id="T_0b5fe_row0_col2" class="data row0 col2">6,960.00</td>
-<td id="T_0b5fe_row0_col3" class="data row0 col3">-956.00</td>
-<td id="T_0b5fe_row0_col4" class="data row0 col4">45.16</td>
-<td id="T_0b5fe_row0_col5" class="data row0 col5">31</td>
+<td id="T_92737_row0_col0" class="data row0 col0">Household income per person, PPP</td>
+<td id="T_92737_row0_col1" class="data row0 col1">6,004.00</td>
+<td id="T_92737_row0_col2" class="data row0 col2">6,960.00</td>
+<td id="T_92737_row0_col3" class="data row0 col3">-956.00</td>
+<td id="T_92737_row0_col4" class="data row0 col4">45.16</td>
+<td id="T_92737_row0_col5" class="data row0 col5">31</td>
 </tr>
 <tr class="even">
-<td id="T_0b5fe_row1_col0" class="data row1 col0">Employment rate</td>
-<td id="T_0b5fe_row1_col1" class="data row1 col1">4.82</td>
-<td id="T_0b5fe_row1_col2" class="data row1 col2">5.68</td>
-<td id="T_0b5fe_row1_col3" class="data row1 col3">-0.86</td>
-<td id="T_0b5fe_row1_col4" class="data row1 col4">37.21</td>
-<td id="T_0b5fe_row1_col5" class="data row1 col5">43</td>
+<td id="T_92737_row1_col0" class="data row1 col0">Employment rate</td>
+<td id="T_92737_row1_col1" class="data row1 col1">4.82</td>
+<td id="T_92737_row1_col2" class="data row1 col2">5.68</td>
+<td id="T_92737_row1_col3" class="data row1 col3">-0.86</td>
+<td id="T_92737_row1_col4" class="data row1 col4">37.21</td>
+<td id="T_92737_row1_col5" class="data row1 col5">43</td>
 </tr>
 <tr class="odd">
-<td id="T_0b5fe_row2_col0" class="data row2 col0">Lack of social support</td>
-<td id="T_0b5fe_row2_col1" class="data row2 col1">5.12</td>
-<td id="T_0b5fe_row2_col2" class="data row2 col2">0.83</td>
-<td id="T_0b5fe_row2_col3" class="data row2 col3">-4.29</td>
-<td id="T_0b5fe_row2_col4" class="data row2 col4">8.70</td>
-<td id="T_0b5fe_row2_col5" class="data row2 col5">46</td>
+<td id="T_92737_row2_col0" class="data row2 col0">Lack of social support</td>
+<td id="T_92737_row2_col1" class="data row2 col1">5.12</td>
+<td id="T_92737_row2_col2" class="data row2 col2">0.83</td>
+<td id="T_92737_row2_col3" class="data row2 col3">-4.29</td>
+<td id="T_92737_row2_col4" class="data row2 col4">8.70</td>
+<td id="T_92737_row2_col5" class="data row2 col5">46</td>
 </tr>
 <tr class="even">
-<td id="T_0b5fe_row3_col0" class="data row3 col0">Negative affect</td>
-<td id="T_0b5fe_row3_col1" class="data row3 col1">2.61</td>
-<td id="T_0b5fe_row3_col2" class="data row3 col2">-0.05</td>
-<td id="T_0b5fe_row3_col3" class="data row3 col3">-2.66</td>
-<td id="T_0b5fe_row3_col4" class="data row3 col4">19.57</td>
-<td id="T_0b5fe_row3_col5" class="data row3 col5">46</td>
+<td id="T_92737_row3_col0" class="data row3 col0">Negative affect</td>
+<td id="T_92737_row3_col1" class="data row3 col1">2.61</td>
+<td id="T_92737_row3_col2" class="data row3 col2">-0.05</td>
+<td id="T_92737_row3_col3" class="data row3 col3">-2.66</td>
+<td id="T_92737_row3_col4" class="data row3 col4">19.57</td>
+<td id="T_92737_row3_col5" class="data row3 col5">46</td>
 </tr>
 </tbody>
 </table>
@@ -2932,81 +2969,81 @@ Table 5: Primary common-endpoint scorecard (changes in native units)
 <p>Tau describes monotonic ordering, while its p-value tests the null of no ordinal association. Standard Kendall p-values and Theil–Sen intervals do not model temporal dependence, so they are exploratory diagnostics rather than decisive significance tests. The primary robustness evidence is the slope’s magnitude, direction, coverage, international position and agreement with the common-endpoint result.</p>
 <section id="endpoint-versus-trend-results" class="level4" data-number="5.4.1">
 <h4 data-number="5.4.1" class="anchored" data-anchor-id="endpoint-versus-trend-results"><span class="header-section-number">5.4.1</span> Endpoint-versus-trend results</h4>
-<div class="primary-scorecard">
-<div id="bbc8f206" class="cell" data-execution_count="8">
+<div class="trend-scorecard">
+<div id="bcc4343c" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<div id="T_9e99d" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
+<div id="T_99767" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_9e99d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_99767-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 6: Primary trend scorecard
 </figcaption>
-<div aria-describedby="T_9e99d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table id="T_9e99d" class="caption-top table table-sm table-striped small">
+<div aria-describedby="T_99767-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="T_99767" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_9e99d_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Outcome</th>
-<th id="T_9e99d_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Native Theil–Sen slope</th>
-<th id="T_9e99d_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Direction</th>
-<th id="T_9e99d_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Favourable Kendall’s tau</th>
-<th id="T_9e99d_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Raw p-value</th>
-<th id="T_9e99d_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Holm-adjusted p-value</th>
-<th id="T_9e99d_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">Independent observations</th>
-<th id="T_9e99d_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">Comparator slope percentile</th>
-<th id="T_9e99d_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">Eligible comparators</th>
-<th id="T_9e99d_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">Endpoint agreement</th>
+<th id="T_99767_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Outcome</th>
+<th id="T_99767_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Theil–Sen slope</th>
+<th id="T_99767_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Direction</th>
+<th id="T_99767_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Kendall’s tau</th>
+<th id="T_99767_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Raw p</th>
+<th id="T_99767_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Holm p</th>
+<th id="T_99767_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">n</th>
+<th id="T_99767_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">Slope percentile</th>
+<th id="T_99767_level0_col8" class="col_heading level0 col8" data-quarto-table-cell-role="th">Comparators</th>
+<th id="T_99767_level0_col9" class="col_heading level0 col9" data-quarto-table-cell-role="th">Endpoint agrees</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_9e99d_row0_col0" class="data row0 col0">Household income</td>
-<td id="T_9e99d_row0_col1" class="data row0 col1">+USD 458 per person/year</td>
-<td id="T_9e99d_row0_col2" class="data row0 col2">Favourable</td>
-<td id="T_9e99d_row0_col3" class="data row0 col3">+0.85</td>
-<td id="T_9e99d_row0_col4" class="data row0 col4">&lt;0.0001</td>
-<td id="T_9e99d_row0_col5" class="data row0 col5">&lt;0.0001</td>
-<td id="T_9e99d_row0_col6" class="data row0 col6">15</td>
-<td id="T_9e99d_row0_col7" class="data row0 col7">38.7th</td>
-<td id="T_9e99d_row0_col8" class="data row0 col8">31</td>
-<td id="T_9e99d_row0_col9" class="data row0 col9">Yes</td>
+<td id="T_99767_row0_col0" class="data row0 col0">Household income</td>
+<td id="T_99767_row0_col1" class="data row0 col1">+USD 458 per person/year</td>
+<td id="T_99767_row0_col2" class="data row0 col2">Favourable</td>
+<td id="T_99767_row0_col3" class="data row0 col3">+0.85</td>
+<td id="T_99767_row0_col4" class="data row0 col4">&lt;0.0001</td>
+<td id="T_99767_row0_col5" class="data row0 col5">&lt;0.0001</td>
+<td id="T_99767_row0_col6" class="data row0 col6">15</td>
+<td id="T_99767_row0_col7" class="data row0 col7">38.7th</td>
+<td id="T_99767_row0_col8" class="data row0 col8">31</td>
+<td id="T_99767_row0_col9" class="data row0 col9">Yes</td>
 </tr>
 <tr class="even">
-<td id="T_9e99d_row1_col0" class="data row1 col0">Employment rate</td>
-<td id="T_9e99d_row1_col1" class="data row1 col1">+0.358 pp/year</td>
-<td id="T_9e99d_row1_col2" class="data row1 col2">Favourable</td>
-<td id="T_9e99d_row1_col3" class="data row1 col3">+0.75</td>
-<td id="T_9e99d_row1_col4" class="data row1 col4">&lt;0.0001</td>
-<td id="T_9e99d_row1_col5" class="data row1 col5">&lt;0.0001</td>
-<td id="T_9e99d_row1_col6" class="data row1 col6">15</td>
-<td id="T_9e99d_row1_col7" class="data row1 col7">32.6th</td>
-<td id="T_9e99d_row1_col8" class="data row1 col8">43</td>
-<td id="T_9e99d_row1_col9" class="data row1 col9">Yes</td>
+<td id="T_99767_row1_col0" class="data row1 col0">Employment rate</td>
+<td id="T_99767_row1_col1" class="data row1 col1">+0.358 pp/year</td>
+<td id="T_99767_row1_col2" class="data row1 col2">Favourable</td>
+<td id="T_99767_row1_col3" class="data row1 col3">+0.75</td>
+<td id="T_99767_row1_col4" class="data row1 col4">&lt;0.0001</td>
+<td id="T_99767_row1_col5" class="data row1 col5">&lt;0.0001</td>
+<td id="T_99767_row1_col6" class="data row1 col6">15</td>
+<td id="T_99767_row1_col7" class="data row1 col7">32.6th</td>
+<td id="T_99767_row1_col8" class="data row1 col8">43</td>
+<td id="T_99767_row1_col9" class="data row1 col9">Yes</td>
 </tr>
 <tr class="odd">
-<td id="T_9e99d_row2_col0" class="data row2 col0">Lack of social support</td>
-<td id="T_9e99d_row2_col1" class="data row2 col1">+0.186 pp/year</td>
-<td id="T_9e99d_row2_col2" class="data row2 col2">Unfavourable</td>
-<td id="T_9e99d_row2_col3" class="data row2 col3">−0.87</td>
-<td id="T_9e99d_row2_col4" class="data row2 col4">0.0167</td>
-<td id="T_9e99d_row2_col5" class="data row2 col5">0.0333</td>
-<td id="T_9e99d_row2_col6" class="data row2 col6">6</td>
-<td id="T_9e99d_row2_col7" class="data row2 col7">28.3rd</td>
-<td id="T_9e99d_row2_col8" class="data row2 col8">46</td>
-<td id="T_9e99d_row2_col9" class="data row2 col9">Yes</td>
+<td id="T_99767_row2_col0" class="data row2 col0">Lack of social support</td>
+<td id="T_99767_row2_col1" class="data row2 col1">+0.186 pp/year</td>
+<td id="T_99767_row2_col2" class="data row2 col2">Unfavourable</td>
+<td id="T_99767_row2_col3" class="data row2 col3">−0.87</td>
+<td id="T_99767_row2_col4" class="data row2 col4">0.0167</td>
+<td id="T_99767_row2_col5" class="data row2 col5">0.0333</td>
+<td id="T_99767_row2_col6" class="data row2 col6">6</td>
+<td id="T_99767_row2_col7" class="data row2 col7">28.3rd</td>
+<td id="T_99767_row2_col8" class="data row2 col8">46</td>
+<td id="T_99767_row2_col9" class="data row2 col9">Yes</td>
 </tr>
 <tr class="even">
-<td id="T_9e99d_row3_col0" class="data row3 col0">Negative affect</td>
-<td id="T_9e99d_row3_col1" class="data row3 col1">+0.174 pp/year</td>
-<td id="T_9e99d_row3_col2" class="data row3 col2">Unfavourable</td>
-<td id="T_9e99d_row3_col3" class="data row3 col3">−0.33</td>
-<td id="T_9e99d_row3_col4" class="data row3 col4">0.4694</td>
-<td id="T_9e99d_row3_col5" class="data row3 col5">0.4694</td>
-<td id="T_9e99d_row3_col6" class="data row3 col6">6</td>
-<td id="T_9e99d_row3_col7" class="data row3 col7">23.9th</td>
-<td id="T_9e99d_row3_col8" class="data row3 col8">46</td>
-<td id="T_9e99d_row3_col9" class="data row3 col9">Yes</td>
+<td id="T_99767_row3_col0" class="data row3 col0">Negative affect</td>
+<td id="T_99767_row3_col1" class="data row3 col1">+0.174 pp/year</td>
+<td id="T_99767_row3_col2" class="data row3 col2">Unfavourable</td>
+<td id="T_99767_row3_col3" class="data row3 col3">−0.33</td>
+<td id="T_99767_row3_col4" class="data row3 col4">0.4694</td>
+<td id="T_99767_row3_col5" class="data row3 col5">0.4694</td>
+<td id="T_99767_row3_col6" class="data row3 col6">6</td>
+<td id="T_99767_row3_col7" class="data row3 col7">23.9th</td>
+<td id="T_99767_row3_col8" class="data row3 col8">46</td>
+<td id="T_99767_row3_col9" class="data row3 col9">Yes</td>
 </tr>
 </tbody>
 </table>
@@ -3056,65 +3093,65 @@ Figure 1: Australia and same-period supplied-country distributions. The shaded 
 <section id="robustness-endpoint-and-full-trajectory-directions-agree" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="robustness-endpoint-and-full-trajectory-directions-agree"><span class="header-section-number">6.2</span> Robustness: endpoint and full-trajectory directions agree</h3>
 <div class="trend-agreement">
-<div id="5c83d5e9" class="cell" data-execution_count="11">
+<div id="310ef089" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<div id="T_f9496" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
+<div id="T_267b1" class="quarto-float quarto-figure quarto-figure-center anchored" data-quarto-postprocess="true">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_f9496-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="T_267b1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 7: Endpoint-versus-trend robustness for the four primary outcomes
 </figcaption>
-<div aria-describedby="T_f9496-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table id="T_f9496" class="caption-top table table-sm table-striped small">
+<div aria-describedby="T_267b1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="T_267b1" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_f9496_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Outcome</th>
-<th id="T_f9496_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Native slope</th>
-<th id="T_f9496_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Favourable tau</th>
-<th id="T_f9496_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Holm p</th>
-<th id="T_f9496_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Slope percentile rank</th>
-<th id="T_f9496_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Comparators</th>
-<th id="T_f9496_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">Endpoint agreement</th>
+<th id="T_267b1_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Outcome</th>
+<th id="T_267b1_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Native slope</th>
+<th id="T_267b1_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Favourable tau</th>
+<th id="T_267b1_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Holm p</th>
+<th id="T_267b1_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Slope percentile rank</th>
+<th id="T_267b1_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Comparators</th>
+<th id="T_267b1_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">Endpoint agreement</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_f9496_row0_col0" class="data row0 col0">Household income</td>
-<td id="T_f9496_row0_col1" class="data row0 col1">+458 USD/year</td>
-<td id="T_f9496_row0_col2" class="data row0 col2">+0.85</td>
-<td id="T_f9496_row0_col3" class="data row0 col3">&lt;0.0001</td>
-<td id="T_f9496_row0_col4" class="data row0 col4">39</td>
-<td id="T_f9496_row0_col5" class="data row0 col5">31</td>
-<td id="T_f9496_row0_col6" class="data row0 col6">Yes</td>
+<td id="T_267b1_row0_col0" class="data row0 col0">Household income</td>
+<td id="T_267b1_row0_col1" class="data row0 col1">+458 USD/year</td>
+<td id="T_267b1_row0_col2" class="data row0 col2">+0.85</td>
+<td id="T_267b1_row0_col3" class="data row0 col3">&lt;0.0001</td>
+<td id="T_267b1_row0_col4" class="data row0 col4">39</td>
+<td id="T_267b1_row0_col5" class="data row0 col5">31</td>
+<td id="T_267b1_row0_col6" class="data row0 col6">Yes</td>
 </tr>
 <tr class="even">
-<td id="T_f9496_row1_col0" class="data row1 col0">Employment rate</td>
-<td id="T_f9496_row1_col1" class="data row1 col1">+0.358 pp/year</td>
-<td id="T_f9496_row1_col2" class="data row1 col2">+0.75</td>
-<td id="T_f9496_row1_col3" class="data row1 col3">&lt;0.0001</td>
-<td id="T_f9496_row1_col4" class="data row1 col4">33</td>
-<td id="T_f9496_row1_col5" class="data row1 col5">43</td>
-<td id="T_f9496_row1_col6" class="data row1 col6">Yes</td>
+<td id="T_267b1_row1_col0" class="data row1 col0">Employment rate</td>
+<td id="T_267b1_row1_col1" class="data row1 col1">+0.358 pp/year</td>
+<td id="T_267b1_row1_col2" class="data row1 col2">+0.75</td>
+<td id="T_267b1_row1_col3" class="data row1 col3">&lt;0.0001</td>
+<td id="T_267b1_row1_col4" class="data row1 col4">33</td>
+<td id="T_267b1_row1_col5" class="data row1 col5">43</td>
+<td id="T_267b1_row1_col6" class="data row1 col6">Yes</td>
 </tr>
 <tr class="odd">
-<td id="T_f9496_row2_col0" class="data row2 col0">Lack of social support</td>
-<td id="T_f9496_row2_col1" class="data row2 col1">+0.186 pp/year</td>
-<td id="T_f9496_row2_col2" class="data row2 col2">-0.87</td>
-<td id="T_f9496_row2_col3" class="data row2 col3">0.0333</td>
-<td id="T_f9496_row2_col4" class="data row2 col4">28</td>
-<td id="T_f9496_row2_col5" class="data row2 col5">46</td>
-<td id="T_f9496_row2_col6" class="data row2 col6">Yes</td>
+<td id="T_267b1_row2_col0" class="data row2 col0">Lack of social support</td>
+<td id="T_267b1_row2_col1" class="data row2 col1">+0.186 pp/year</td>
+<td id="T_267b1_row2_col2" class="data row2 col2">-0.87</td>
+<td id="T_267b1_row2_col3" class="data row2 col3">0.0333</td>
+<td id="T_267b1_row2_col4" class="data row2 col4">28</td>
+<td id="T_267b1_row2_col5" class="data row2 col5">46</td>
+<td id="T_267b1_row2_col6" class="data row2 col6">Yes</td>
 </tr>
 <tr class="even">
-<td id="T_f9496_row3_col0" class="data row3 col0">Negative affect</td>
-<td id="T_f9496_row3_col1" class="data row3 col1">+0.174 pp/year</td>
-<td id="T_f9496_row3_col2" class="data row3 col2">-0.33</td>
-<td id="T_f9496_row3_col3" class="data row3 col3">0.4694</td>
-<td id="T_f9496_row3_col4" class="data row3 col4">24</td>
-<td id="T_f9496_row3_col5" class="data row3 col5">46</td>
-<td id="T_f9496_row3_col6" class="data row3 col6">Yes</td>
+<td id="T_267b1_row3_col0" class="data row3 col0">Negative affect</td>
+<td id="T_267b1_row3_col1" class="data row3 col1">+0.174 pp/year</td>
+<td id="T_267b1_row3_col2" class="data row3 col2">-0.33</td>
+<td id="T_267b1_row3_col3" class="data row3 col3">0.4694</td>
+<td id="T_267b1_row3_col4" class="data row3 col4">24</td>
+<td id="T_267b1_row3_col5" class="data row3 col5">46</td>
+<td id="T_267b1_row3_col6" class="data row3 col6">Yes</td>
 </tr>
 </tbody>
 </table>
