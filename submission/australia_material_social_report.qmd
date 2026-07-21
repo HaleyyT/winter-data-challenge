@@ -177,9 +177,16 @@ def frozen_primary_table() -> pd.DataFrame:
 
 results = frozen_primary_table()
 frozen_path = ROOT / "reports" / "tables" / "material_social_primary_results.csv"
-if frozen_path.exists():
-    stored = pd.read_csv(frozen_path)
-    pd.testing.assert_frame_equal(results, stored, check_dtype=False, check_exact=False, rtol=1e-12, atol=1e-12)
+if not frozen_path.exists():
+    raise FileNotFoundError(
+        "Run notebooks/02_analysis.ipynb before rendering so the frozen "
+        "Method 2 table can be verified."
+    )
+stored = pd.read_csv(frozen_path)
+pd.testing.assert_frame_equal(
+    results, stored, check_dtype=False, check_exact=False,
+    rtol=1e-12, atol=1e-12,
+)
 
 report_table = results[[
     "indicator_code", "comparison_period", "australia_start_value", "australia_end_value",
@@ -198,9 +205,8 @@ report_table.columns = [
 display(report_table.round(2))
 ```
 
-The displayed results are independently reproduced from the immutable OECD input
-and checked against the frozen analysis table, so the report cannot silently
-diverge from the Method 2 results.
+The displayed results are independently reproduced from the immutable OECD
+input and must match the tracked Method 2 table before rendering continues.
 
 ## Findings
 
@@ -229,28 +235,17 @@ diverge from the Method 2 results.
   zero (+0.05 points), placing Australia at about the 20th favourable percentile.
 
 ```{python}
-plot_specs = [("1_1", "Income per person", "USD"), ("2_1", "Employment", "%"),
-              ("7_1_DEP", "Lack of social support", "%"), ("11_2", "Negative affect", "%")]
-midpoints = {"2008-10": 2009, "2011-13": 2012, "2014-16": 2015, "2017-19": 2018, "2020-22": 2021, "2023-25": 2024}
-fig, axes = plt.subplots(2, 2, figsize=(12, 8), constrained_layout=True)
-for ax, (code, title, unit) in zip(axes.flat, plot_specs):
-    subset = data.loc[data.indicator_code.eq(code) & data.year.le(2024)].copy()
-    if code in {"7_1_DEP", "11_2"}:
-        subset = subset.sort_values("year").drop_duplicates(["country_code", "independent_period"], keep="last")
-        subset["plot_year"] = subset.independent_period.map(midpoints)
-    else:
-        subset["plot_year"] = subset.year
-    au = subset.loc[subset.country_code.eq(AUSTRALIA)]
-    ref = subset.loc[subset.country_code.ne(AUSTRALIA)].groupby("plot_year").agg(median=("value", "median"), q25=("value", lambda x: x.quantile(.25)), q75=("value", lambda x: x.quantile(.75))).reset_index()
-    ax.fill_between(ref["plot_year"], ref["q25"], ref["q75"], color="#b8c9dc", alpha=.6, label="Reference IQR")
-    ax.plot(ref["plot_year"], ref["median"], color="#365f8b", marker="o", label="Reference median")
-    ax.plot(au["plot_year"], au["value"], color="#d1495b", marker="o", linewidth=2.5, label="Australia")
-    ax.set(title=title, xlabel="Year" if code not in {"7_1_DEP", "11_2"} else "Pooled-window midpoint", ylabel=unit)
-    ax.grid(axis="y", alpha=.25)
-axes[0, 0].legend(frameon=False, fontsize=8)
-fig.suptitle("Australia and same-period supplied-country reference distributions", fontweight="bold")
-plt.show()
+#| output: false
+trajectory_figure = ROOT / "reports" / "figures" / "material_social_trajectories.png"
+if not trajectory_figure.exists():
+    raise FileNotFoundError(
+        "Run notebooks/04_final_visuals.ipynb before rendering the report."
+    )
 ```
+
+![Australia and same-period supplied-country distributions. The shaded band is
+the interquartile range; social observations are independent three-year pooled
+windows.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
 
 The figure illustrates the central tension: material measures improved while
 the two lived-experience outcomes moved adversely. The social panels use

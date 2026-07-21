@@ -31,6 +31,14 @@ reports/figures/*
 reports/tables/*
 !reports/figures/.gitkeep
 !reports/tables/.gitkeep
+!reports/figures/material_social_trajectories.png
+!reports/figures/material_social_comparative_gaps.png
+!reports/tables/material_social_primary_results.csv
+!reports/tables/material_social_trajectory_coverage.csv
+!reports/tables/material_social_bootstrap_results.csv
+!reports/tables/material_social_placebo_results.csv
+!reports/tables/material_social_trend_results.csv
+!reports/tables/material_social_robustness_results.csv
 
 # Rendered analysis documents; Markdown sources are the reviewable originals.
 docs/analysis/*.html
