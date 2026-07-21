@@ -50,6 +50,11 @@ For the released OECD dataset, run `python -m src.oecd_audit` to validate the ra
 
 Suggested notebook names are `00_data_audit.ipynb`, `01_eda.ipynb`, `02_analysis.ipynb`, and `03_final_visuals.ipynb`. Avoid committing notebook outputs containing sensitive data or very large embedded plots.
 
+## Reproduce the report
+```bash
+quarto render submission/australia_material_social_report.qmd
+```
+
 ## Team workflow
 
 See [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Agree on names and ownership before kickoff, use short-lived feature branches, and require another teammate to review conclusions as well as code.
