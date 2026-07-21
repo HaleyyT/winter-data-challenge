@@ -55,15 +55,61 @@ complete social-connection measure. Australian rows have normal OECD status;
 peer flags remain visible for sensitivity analysis. Indicator-specific caveats
 are documented in `docs/analysis/oecd_data_quality_notes.md`.
 
+## Exact report text added for Method 1
+
+### Method 1: EDA
+
+The four primary outcomes were fixed after the coverage audit and before the
+common-endpoint comparison. For each observed period, Australia is plotted in
+native units against the median and interquartile range of all other supplied
+countries reporting that outcome in the same period. Australia is excluded from
+the reference summaries; no values are interpolated and no composite score is
+constructed. Reference coverage is 31--36 countries for income, 44--46 for
+employment and 46 for each social outcome.
+
+Income and employment are annual. Lack of social support and negative affect
+are six independent three-year Gallup windows labelled by their full periods.
+The per-period reference composition may change with reporting availability, so
+Method 1 establishes patterns and coverage rather than a fixed-panel estimate.
+The supplied extract includes non-members and is therefore described as the
+*supplied-country reference*, not as an OECD ranking.
+
 ## Exact report text added for Method 2
 
 ### Method 2: Primary common-endpoint comparison
 
-Australia is compared only with countries reporting both exact endpoints for
-each outcome, and each eligible comparator count is reported. Changes retain
-their original units; direction-oriented values are used only for gaps and
-percentiles so positive consistently means favourable, including for the two
-lower-is-better social outcomes. The comparison is descriptive, not causal.
+For each outcome, a country is eligible only if it reports both of Australia's
+exact endpoints. The native change is
+$\Delta_c = y_{c,\mathrm{end}}-y_{c,\mathrm{start}}$. The primary comparative
+estimand is $G=s(\Delta_{AUS}-\operatorname{median}(\Delta_c))$, where
+$s=1$ for higher-is-better outcomes and $s=-1$ for lower-is-better outcomes.
+Thus, positive $G$ always indicates a more favourable Australian change. The
+median limits sensitivity to extreme country changes, while native units retain
+substantive meaning.
+
+The scorecard also reports the eligible-country count and Australia's
+direction-aware percentile, using average ranks for ties. Percentiles describe
+relative position; they are not probabilities or significance tests. Rendering
+stops if these results differ from the independently generated Method 2 table.
+Methods 3--4 assess uncertainty and trend robustness separately.
+
+## Exact primary finding refinements
+
+- Household income per person rose **USD 6,004** from 2010 to 2024. This is a
+  substantial domestic gain, but **USD 956 below** the median rise of USD 6,960
+  among 31 eligible comparators (about the **45th favourable percentile**).
+- Employment increased **4.82 percentage points**, below the broad-reference
+  median rise of 5.68 points by **0.86 points** among 43 eligible comparators
+  (about the **37th favourable percentile**).
+- Lack of social support rose from **4.93%** in 2008–10 to **10.04%** in the
+  2023–25 pooled window: a **5.12-point adverse change**. The broad-reference
+  median also worsened, but by only 0.83 points. Australia therefore
+  deteriorated **4.29 points more** and placed at about the **9th favourable
+  percentile** of 47 common-endpoint countries.
+- Negative affect rose from **12.24%** to **14.85%** across the same windows:
+  a **2.61-point adverse change**. The broad-reference median slightly improved
+  by 0.05 points, so Australia deteriorated **2.66 points more** and placed at
+  about the **20th favourable percentile**.
 
 ## Exact report synthesis added after the primary findings
 
@@ -216,14 +262,47 @@ Exact presentation CSS in the report:
 .economic-comparison col:nth-child(4) { width: 16% !important; }
 .economic-comparison col:nth-child(5) { width: 42% !important; }
 
-.trajectory-figure .cell-output-display img {
+.trajectory-figure img {
   display: block;
   width: 100%;
   max-width: 100%;
   height: auto;
   margin: 0 auto;
 }
+
+.primary-scorecard table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.82rem;
+}
+
+.primary-scorecard th,
+.primary-scorecard td {
+  padding: 0.5rem 0.45rem;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.primary-scorecard th:first-child,
+.primary-scorecard td:first-child { width: 24%; text-align: left; }
+
+.primary-scorecard th:not(:first-child),
+.primary-scorecard td:not(:first-child) { text-align: right; }
 ```
+
+## Method 1--2 report verification added in this pass
+
+- The Method 2 scorecard is recomputed from the cleaned data during rendering
+  and checked against `material_social_primary_results.csv` for both endpoints,
+  Australia's native change, the comparator median, the direction-oriented gap,
+  favourable percentile and eligible-comparator count.
+- Rendering stops when the frozen Method 2 output is absent or any checked
+  value differs, preventing stale narrative metrics from entering the report.
+- The trajectory figure is loaded from the executed Method 1 visual notebook;
+  rendering verifies 15 annual periods for both material outcomes and six
+  independent pooled periods for both social outcomes.
+- The compact scorecard removes row indices, labels its native-unit scale and
+  retains the six fields needed to assess magnitude, direction and coverage.
 
 ## Verification record
 
