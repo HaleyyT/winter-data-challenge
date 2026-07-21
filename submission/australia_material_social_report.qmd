@@ -1,0 +1,241 @@
+---
+title: "Australia's material progress and social well-being"
+subtitle: "Reproducible descriptive comparison using the supplied OECD Current Well-being extract"
+author: "Yilin Li, Winnie Qiu, Haley Tran"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-location: left
+    code-fold: true
+    embed-resources: true
+jupyter: python3
+execute:
+  echo: false
+  warning: false
+---
+
+## Executive summary
+
+**Research question:** As Australia's material conditions improved, did
+perceived social support and emotional well-being deteriorate relative to
+comparable countries?
+
+The evidence supports a **material--social tension**, but not a causal claim.
+Australia's income and employment increased from 2010 to 2024, while perceived
+lack of social support more than doubled and negative affect rose across the
+independent pooled survey windows. Australia deteriorated more than the typical
+supplied-country comparator on both social outcomes.
+
+> **Australia became materially better resourced, while perceived social
+> support and emotional well-being worsened relative to comparable countries.**
+
+## Data, cleaning and preprocessing
+
+```{python}
+from __future__ import annotations
+
+import subprocess
+import sys
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+from IPython.display import display
+
+
+def project_root() -> Path:
+    for candidate in (Path.cwd(), *Path.cwd().parents):
+        if (candidate / "data" / "raw" / "OECD Data.csv").exists():
+            return candidate
+    raise FileNotFoundError("Could not locate data/raw/OECD Data.csv.")
+
+
+ROOT = project_root()
+sys.path.insert(0, str(ROOT))
+from src.oecd_audit import INDICATOR_SPECS, load_clean  # noqa: E402
+
+RAW_FILE = ROOT / "data" / "raw" / "OECD Data.csv"
+data = load_clean(RAW_FILE)
+assert not data.duplicated(["country_code", "indicator_code", "year"]).any()
+assert data.value.notna().all()
+
+cleaning_summary = pd.DataFrame(
+    [
+        ("Raw input", f"{len(data):,} country-indicator-year observations across {data.country_code.nunique()} countries and {data.indicator_code.nunique()} indicators", "Preserved unchanged"),
+        ("Structure check", "Country-indicator-year keys are unique; observed values are complete", "Validated before analysis"),
+        ("Analysis-ready data", "Selected required fields, renamed columns, and converted year and value to numeric types", "No observations imputed or dropped"),
+        ("Quality metadata", f"Retained OECD observation-status flags ({int(data.is_flagged.sum())} flagged observations) and indicator directions", "Used in sensitivity checks"),
+        ("Time handling", "Annual outcomes analysed through 2024; pooled Gallup outcomes collapsed to independent three-year windows", "Avoids false annual precision"),
+    ], columns=["Stage", "What we did", "Why it matters"]
+)
+display(cleaning_summary)
+```
+
+The raw OECD file is never modified. Cleaning creates a tidy analysis copy with
+one observation per country, indicator and displayed year. We retain status
+flags rather than silently removing estimates, provisional observations or
+series breaks. This keeps the primary analysis transparent and allows a
+normal-status-only sensitivity check.
+
+## Exploratory analysis and question selection
+
+We first audited coverage by country, indicator and year, separating genuine
+annual gaps from non-annual survey designs. We then examined Australia's latest
+position and direction of change using only countries reporting the same
+indicator in the same period. This revealed a coherent tension:
+
+- Material resources and employment improved, but income inequality did not
+  clearly improve and long-hours work remained comparatively high despite a
+  favourable decline.
+- Perceived lack of social support and negative affect worsened across the six
+  independent Gallup windows.
+- Australia has sufficient coverage for household income, employment, lack of
+  social support and negative affect to form a focused four-outcome analysis.
+  Life satisfaction has only two Australian observations and is therefore not
+  used as a long-run primary outcome.
+
+These checks led to the report's research question: whether Australia’s
+material progress coexisted with a relative deterioration in perceived social
+support and emotional well-being. The question is deliberately descriptive and
+does not assume a causal pathway between the two domains.
+
+```{python}
+#| output: false
+test_run = subprocess.run([sys.executable, "-m", "pytest", "-q"], cwd=ROOT, capture_output=True, text=True)
+if test_run.returncode != 0:
+    raise RuntimeError("Repository tests failed.")
+```
+
+## Analytical protocol
+
+The focal country is Australia. The broad reference contains countries in the
+supplied extract with the same exact endpoints; it is not labelled “OECD”
+because the extract includes non-members. Canada, New Zealand, the United
+Kingdom and the United States are a separate English-speaking sensitivity group.
+
+Economic indicators are annual. Lack of social support and negative affect are
+six independent three-year Gallup windows. For lower-is-better outcomes, the
+report uses direction-oriented changes for ranks while preserving native-unit
+changes for interpretation.
+
+```{python}
+AUSTRALIA = "AUS"
+OUTCOMES = {
+    "1_1": ("Household income per person, PPP", 2010, 2024, "2010–24"),
+    "2_1": ("Employment rate", 2010, 2024, "2010–24"),
+    "7_1_DEP": ("Lack of social support", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
+    "11_2": ("Negative affect", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
+}
+
+
+def endpoint_changes(code: str, start: int, end: int, countries: list[str]) -> pd.DataFrame:
+    subset = data.loc[data.indicator_code.eq(code) & data.country_code.isin([AUSTRALIA, *countries]) & data.year.isin([start, end])].copy()
+    subset = subset.sort_values("year").drop_duplicates(["country_code", "independent_period"], keep="last")
+    wide = subset.pivot(index="country_code", columns="year", values="value").reindex(columns=[start, end]).dropna()
+    wide["native_change"] = wide[end] - wide[start]
+    sign = 1 if INDICATOR_SPECS[code].direction == "higher" else -1
+    wide["oriented_change"] = sign * wide["native_change"]
+    return wide
+
+
+def common_endpoint_scorecard() -> pd.DataFrame:
+    references = sorted(set(data.country_code) - {AUSTRALIA})
+    rows = []
+    for code, (label, start, end, period) in OUTCOMES.items():
+        changes = endpoint_changes(code, start, end, references)
+        au, peers = changes.loc[AUSTRALIA], changes.drop(index=AUSTRALIA)
+        rank = changes.oriented_change.rank(ascending=False, method="average").loc[AUSTRALIA]
+        n = len(changes)
+        rows.append({"Outcome": label, "Period": period, "Australia start": au[start], "Australia end": au[end], "Australia change": au.native_change, "Comparator median change": peers.native_change.median(), "Comparator countries": len(peers), "Favourable percentile": 100 * (n-rank)/(n-1)})
+    return pd.DataFrame(rows)
+
+
+results = common_endpoint_scorecard()
+display(results.round(2))
+```
+
+## Findings
+
+### Material conditions improved, but broad outperformance is not supported
+
+- Household income per person rose **USD 6,004** from 2010 to 2024. This is a
+  substantial domestic gain, but below the broad-reference median rise of USD
+  6,960 among 31 common-endpoint countries.
+- Employment increased **4.82 percentage points**, below the broad-reference
+  median rise of 5.68 points among 43 common-endpoint countries.
+- Long paid hours fell **3.81 points** (14.0% to 10.2%), outperforming the
+  broad-reference median reduction of 2.01 points. Australia's 2024 level still
+  exceeded the English-speaking-peer median.
+- The S80/S20 income ratio changed only from **5.52 in 2012 to 5.56 in 2020**.
+  The available distributional evidence does not show that average gains were
+  broadly shared.
+
+### Social support and emotional well-being deteriorated
+
+- Lack of social support rose from **4.93%** in 2008–10 to **10.04%** in the
+  2023–25 pooled window: a **5.12-point adverse change**. The broad-reference
+  median improved by 0.83 points, placing Australia at about the 9th favourable
+  percentile of 47 common-endpoint countries.
+- Negative affect rose from **12.24%** to **14.85%** across the same windows:
+  a **2.61-point adverse change**. The broad-reference median change was near
+  zero (+0.05 points), placing Australia at about the 20th favourable percentile.
+
+```{python}
+plot_specs = [("1_1", "Income per person", "USD"), ("2_1", "Employment", "%"),
+              ("7_1_DEP", "Lack of social support", "%"), ("11_2", "Negative affect", "%")]
+midpoints = {"2008-10": 2009, "2011-13": 2012, "2014-16": 2015, "2017-19": 2018, "2020-22": 2021, "2023-25": 2024}
+fig, axes = plt.subplots(2, 2, figsize=(12, 8), constrained_layout=True)
+for ax, (code, title, unit) in zip(axes.flat, plot_specs):
+    subset = data.loc[data.indicator_code.eq(code) & data.year.le(2024)].copy()
+    if code in {"7_1_DEP", "11_2"}:
+        subset = subset.sort_values("year").drop_duplicates(["country_code", "independent_period"], keep="last")
+        subset["plot_year"] = subset.independent_period.map(midpoints)
+    else:
+        subset["plot_year"] = subset.year
+    au = subset.loc[subset.country_code.eq(AUSTRALIA)]
+    ref = subset.loc[subset.country_code.ne(AUSTRALIA)].groupby("plot_year").agg(median=("value", "median"), q25=("value", lambda x: x.quantile(.25)), q75=("value", lambda x: x.quantile(.75))).reset_index()
+    ax.fill_between(ref["plot_year"], ref["q25"], ref["q75"], color="#b8c9dc", alpha=.6, label="Reference IQR")
+    ax.plot(ref["plot_year"], ref["median"], color="#365f8b", marker="o", label="Reference median")
+    ax.plot(au["plot_year"], au["value"], color="#d1495b", marker="o", linewidth=2.5, label="Australia")
+    ax.set(title=title, xlabel="Year" if code not in {"7_1_DEP", "11_2"} else "Pooled-window midpoint", ylabel=unit)
+    ax.grid(axis="y", alpha=.25)
+axes[0, 0].legend(frameon=False, fontsize=8)
+fig.suptitle("Australia and same-period supplied-country reference distributions", fontweight="bold")
+plt.show()
+```
+
+The figure illustrates the central tension: material measures improved while
+the two lived-experience outcomes moved adversely. The social panels use
+pooled-window midpoints and do not imply annual independent measurement.
+
+### Health is context, not the primary explanation
+
+Life expectancy rose from 81.7 years in 2010 to 83.0 in 2023. The combined
+death rate from suicide, alcohol and drugs rose from 14.9 to 22.2 per 100,000
+by 2024. This is a warning signal, but it cannot explain the material--social
+result: it combines distinct causes and only 18 countries share the 2024
+endpoint.
+
+## Limitations and claim boundaries
+
+- This is a descriptive country-level comparison, not a causal design.
+- Perceived support is not a complete measure of social connection; the extract
+  has no Australian time-use measure for social interaction.
+- The 2023–25 social endpoint partly includes 2025; it is not an annual 2024
+  observation.
+- PPP-adjusted household income is not household disposable cash income;
+  employment alone does not measure job security or job quality.
+- Results apply only to countries and periods available in the supplied extract.
+
+## Reproduce this report
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+quarto render submission/australia_material_social_report.qmd
+```
+
+The HTML output is ignored by Git. A successful render verifies the raw input,
+audit, report calculations, chart generation, and repository tests in one run.
