@@ -2266,7 +2266,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
   <li><a href="#data-quality-information" id="toc-data-quality-information" class="nav-link" data-scroll-target="#data-quality-information"><span class="header-section-number">3.3</span> Data quality information</a></li>
   <li><a href="#scope-and-validation" id="toc-scope-and-validation" class="nav-link" data-scroll-target="#scope-and-validation"><span class="header-section-number">3.4</span> Scope and validation</a></li>
   <li><a href="#processed-outputs" id="toc-processed-outputs" class="nav-link" data-scroll-target="#processed-outputs"><span class="header-section-number">3.5</span> Processed outputs</a></li>
-  <li><a href="#independent-audit-supporting-the-research-question" id="toc-independent-audit-supporting-the-research-question" class="nav-link" data-scroll-target="#independent-audit-supporting-the-research-question"><span class="header-section-number">3.6</span> Independent audit supporting the research question</a></li>
+  <li><a href="#audit-safeguards-for-the-research-question" id="toc-audit-safeguards-for-the-research-question" class="nav-link" data-scroll-target="#audit-safeguards-for-the-research-question"><span class="header-section-number">3.6</span> Audit safeguards for the research question</a></li>
   </ul></li>
   <li><a href="#exploratory-analysis-and-question-selection" id="toc-exploratory-analysis-and-question-selection" class="nav-link" data-scroll-target="#exploratory-analysis-and-question-selection"><span class="header-section-number">4</span> Exploratory analysis and question selection</a>
   <ul class="collapse">
@@ -2293,7 +2293,8 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
   </ul></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">9</span> Appendix</a>
   <ul class="collapse">
-  <li><a href="#reproduce-this-report" id="toc-reproduce-this-report" class="nav-link" data-scroll-target="#reproduce-this-report"><span class="header-section-number">9.1</span> Reproduce this report</a></li>
+  <li><a href="#audit-traceability" id="toc-audit-traceability" class="nav-link" data-scroll-target="#audit-traceability"><span class="header-section-number">9.1</span> Audit traceability</a></li>
+  <li><a href="#reproduce-this-report" id="toc-reproduce-this-report" class="nav-link" data-scroll-target="#reproduce-this-report"><span class="header-section-number">9.2</span> Reproduce this report</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2378,7 +2379,7 @@ margin: 0 auto;
 <p>The raw <code>OECD Data.csv</code> file was preserved unchanged. The data preparation section is performed using all functions in <strong>Audit</strong> section. The <code>data/processed</code> directory will include the cleaned and examined datasets.</p>
 <p>We checked the raw dataset for duplicate entries, missing observations, data types, and expected columns. We made sure that there were no missing values in the principal observation field, no entirely duplicate rows, and no duplicate country-indicator-year keys.</p>
 <p>This table summaries a simple data cleaning steps.</p>
-<div id="35e715d0" class="cell" data-execution_count="1">
+<div id="f7864759" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2456,52 +2457,9 @@ margin: 0 auto;
 <h3 data-number="3.5" class="anchored" data-anchor-id="processed-outputs"><span class="header-section-number">3.5</span> Processed outputs</h3>
 <p>Finally, the data cleaning and reprocessing conducts the following dataset: - <code>OECD_cleaned_version.csv</code>: the notebook’s tidy 2010–2024 dataset - <code>oecd_clean.csv</code>: the validated analysis dataset with indicator direction, quality flags and independent-period labels - <code>OECD_categories.csv</code>: a summary of indicators, units and coverage within each domain - <code>OECD_domain_counts.csv</code>: overall domain coverage ranked by observation count - <code>AU_domain_counts.csv</code>: the equivalent domain-coverage summary for Australia</p>
 </section>
-<section id="independent-audit-supporting-the-research-question" class="level3" data-number="3.6">
-<h3 data-number="3.6" class="anchored" data-anchor-id="independent-audit-supporting-the-research-question"><span class="header-section-number">3.6</span> Independent audit supporting the research question</h3>
-<p>An additional reproducible audit was implemented in <code>src/oecd_audit.py</code> and documented in <code>notebooks/00_data_audit.ipynb</code>. It begins from the unchanged raw file and stops if required columns or observation values are missing, if a country–indicator–year key is duplicated, or if an indicator lacks documented metadata. No observations are interpolated or imputed. The resulting <code>data/processed/oecd_clean.csv</code> retains all 8,806 supplied observations and adds quality flags, favourable directions and independent-period labels. Restricting this validated copy to the report’s 2010–2024 scope yields 8,575 observations, consistent with the team-prepared analysis dataset; later supplied rows are retained for auditability but excluded from the primary analysis.</p>
-<p>The audit outputs have distinct roles in protecting the analysis from common comparison errors:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Audit output</th>
-<th>What and how</th>
-<th>Why it supports the research question</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>time_series_gaps.csv</code>, <code>coverage_by_country_indicator.csv</code> and <code>coverage_by_country_year.csv</code></td>
-<td>Record observed years, independent periods, quality flags and country-year indicator availability</td>
-<td>Distinguish genuine annual gaps from intentionally periodic measurement and show where trend evidence is sufficiently complete</td>
-</tr>
-<tr class="even">
-<td><code>indicator_metadata.csv</code></td>
-<td>Records each indicator’s unit, favourable direction, frequency, definition pages and comparability caveat</td>
-<td>Prevents unlike constructs from being interpreted as equivalent and ensures adverse social changes are oriented correctly</td>
-</tr>
-<tr class="odd">
-<td><code>same_year_australia_comparisons.csv</code></td>
-<td>Compares Australia only with countries reporting the same indicator in the same displayed year and reports the contributing-country count</td>
-<td>Prevents a country measured in one period from being ranked against another measured in a different period</td>
-</tr>
-<tr class="even">
-<td><code>australia_indicator_summary.csv</code></td>
-<td>Summarises Australia’s independent-period change and latest same-year international position</td>
-<td>Supports transparent scouting of indicators before fixing the four primary outcomes</td>
-</tr>
-<tr class="odd">
-<td><code>domain_coverage_all.csv</code> and <code>domain_coverage_australia.csv</code></td>
-<td>Rank domains by unique country–indicator–period evidence rather than repeated displayed rows</td>
-<td>Guides question selection by evidential coverage; these ranks measure data availability, not substantive importance</td>
-</tr>
-</tbody>
-</table>
-<p>These checks directly shaped the final design. Australia’s income and employment series contain no internal annual gaps within their observed spans. In contrast, lack of social support and negative affect each contain 16 displayed Australian rows but only six independent three-year pooled windows; the repeated rows are therefore never treated as 16 independent observations. Australia reports 17 of the 21 indicators, with no observations for overcrowding, time off, the gender gap in working hours, or time spent in social interactions. Consequently, lack of social support is used as a focused proxy rather than a complete measure of social connection. All Australian rows carry normal OECD status, although flagged peer observations remain visible for sensitivity analysis. Detailed interpretations are provided in <code>docs/analysis/oecd_data_quality_notes.md</code>, and the exploratory rationale is recorded in <code>docs/analysis/oecd_exploration_and_questions.md</code>.</p>
+<section id="audit-safeguards-for-the-research-question" class="level3" data-number="3.6">
+<h3 data-number="3.6" class="anchored" data-anchor-id="audit-safeguards-for-the-research-question"><span class="header-section-number">3.6</span> Audit safeguards for the research question</h3>
+<p>The reproducible audit in <code>src/oecd_audit.py</code> revalidates the unchanged raw file and rejects missing required values, duplicate keys and undocumented indicators; no values are imputed. It also prevents the two main comparison errors: countries are compared only within the same indicator and year, and 16 displayed social rows are treated as six independent pooled windows. Income and employment have no internal Australian annual gaps. These safeguards support the four-outcome design; detailed audit outputs and coverage limitations are in the Appendix.</p>
 </section>
 </section>
 <section id="exploratory-analysis-and-question-selection" class="level2" data-number="4">
@@ -2695,7 +2653,7 @@ margin: 0 auto;
 <h3 data-number="5.1" class="anchored" data-anchor-id="method-1-eda"><span class="header-section-number">5.1</span> Method 1: EDA</h3>
 <p>The focal country is Australia. The broad reference contains countries in the supplied extract with the same exact endpoints; it is not labelled “OECD” because the extract includes non-members. Canada, New Zealand, the United Kingdom and the United States are a separate English-speaking sensitivity group.</p>
 <p>Economic indicators are annual. Lack of social support and negative affect are six independent three-year Gallup windows. For lower-is-better outcomes, the report uses direction-oriented changes for ranks while preserving native-unit changes for interpretation.</p>
-<div id="7c2837ff" class="cell" data-execution_count="3">
+<div id="f1e6bbfb" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2768,8 +2726,7 @@ margin: 0 auto;
 </section>
 <section id="method-2-primary-common-endpoint-comparison" class="level3" data-number="5.2">
 <h3 data-number="5.2" class="anchored" data-anchor-id="method-2-primary-common-endpoint-comparison"><span class="header-section-number">5.2</span> Method 2: Primary common-endpoint comparison</h3>
-<p>For each primary outcome, Australia was compared only with countries reporting both of the same endpoints. This avoids attributing differences caused by unequal observation periods to country performance. Because data availability varies across outcomes, the eligible comparator set and its size are reported separately for every comparison.</p>
-<p>Changes are retained in their original units for interpretation. A direction-oriented version is used only for comparative gaps and percentiles, so that a positive value consistently represents a more favourable change. This distinction is essential for lack of social support and negative affect, where lower values indicate better outcomes. The analysis is descriptive and does not estimate a causal effect of material conditions on social or emotional well-being.</p>
+<p>Australia is compared only with countries reporting both exact endpoints for each outcome, and each eligible comparator count is reported. Changes retain their original units; direction-oriented values are used only for gaps and percentiles so positive consistently means favourable, including for the two lower-is-better social outcomes. The comparison is descriptive, not causal.</p>
 </section>
 <section id="method-3-bootstrap-uncertainty-and-placebo-ranking" class="level3" data-number="5.3">
 <h3 data-number="5.3" class="anchored" data-anchor-id="method-3-bootstrap-uncertainty-and-placebo-ranking"><span class="header-section-number">5.3</span> Method 3: Bootstrap uncertainty and placebo ranking</h3>
@@ -2797,9 +2754,9 @@ margin: 0 auto;
 <li>Lack of social support rose from <strong>4.93%</strong> in 2008–10 to <strong>10.04%</strong> in the 2023–25 pooled window: a <strong>5.12-point adverse change</strong>. The broad-reference median improved by 0.83 points, placing Australia at about the 9th favourable percentile of 47 common-endpoint countries.</li>
 <li>Negative affect rose from <strong>12.24%</strong> to <strong>14.85%</strong> across the same windows: a <strong>2.61-point adverse change</strong>. The broad-reference median change was near zero (+0.05 points), placing Australia at about the 20th favourable percentile.</li>
 </ul>
-<p>Together, these results indicate that Australia’s material conditions improved in absolute terms, but not more rapidly than the typical eligible comparator for the two primary material outcomes. Over the observed pooled windows, both social outcomes moved in an adverse direction and deteriorated more than their respective comparator medians. This pattern supports a descriptive material–social tension; it does not establish that material progress caused the changes in social support or emotional well-being.</p>
+<p>Australia improved materially, but less than the typical eligible comparator on the two primary material changes. Both social outcomes deteriorated more than their comparator medians. This supports a descriptive material–social tension, not a causal effect.</p>
 <div class="trajectory-figure">
-<div id="1d097e62" class="cell" data-execution_count="4">
+<div id="65224d2c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2819,8 +2776,7 @@ margin: 0 auto;
 </section>
 <section id="conclusion" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">7</span> Conclusion</h2>
-<p>Australia’s performance cannot be characterised adequately by a single economic measure. Household income and employment both increased over the study period, demonstrating meaningful domestic material progress. However, Australia’s gains in these outcomes were below the median changes among countries with the same observed endpoints.</p>
-<p>At the same time, perceived lack of social support and negative affect worsened across the six independent pooled survey windows. Australia’s adverse changes were larger than those of the typical eligible comparator. Within the scope of the supplied data, the evidence therefore supports a carefully bounded conclusion: Australia became materially better resourced while its measured social and emotional outcomes deteriorated comparatively. Further analysis may test the robustness of this pattern, but causal explanations require different data and a dedicated causal design.</p>
+<p>Household income and employment increased, but by less than the median changes among countries with the same endpoints. Meanwhile, perceived lack of social support and negative affect worsened more than their typical eligible comparators. Within the supplied data, Australia therefore became materially better resourced while its measured social and emotional outcomes deteriorated comparatively. This is a descriptive conclusion; causal explanations require a different design.</p>
 </section>
 <section id="limitations" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="limitations"><span class="header-section-number">8</span> Limitations</h2>
@@ -2839,8 +2795,43 @@ margin: 0 auto;
 </section>
 <section id="appendix" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="appendix"><span class="header-section-number">9</span> Appendix</h2>
-<section id="reproduce-this-report" class="level3" data-number="9.1">
-<h3 data-number="9.1" class="anchored" data-anchor-id="reproduce-this-report"><span class="header-section-number">9.1</span> Reproduce this report</h3>
+<section id="audit-traceability" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="audit-traceability"><span class="header-section-number">9.1</span> Audit traceability</h3>
+<p>The audit copy retains all 8,806 supplied observations and adds quality flags, favourable directions and independent-period labels. Applying the report’s 2010–2024 scope yields the same 8,575 observations used by the team analysis.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Audit control and output</th>
+<th>How it protects the analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gap and coverage tables: <code>time_series_gaps.csv</code>, <code>coverage_by_country_indicator.csv</code>, <code>coverage_by_country_year.csv</code></td>
+<td>Separate genuine annual gaps from scheduled non-annual measurement and report the evidence available for each series</td>
+</tr>
+<tr class="even">
+<td><code>indicator_metadata.csv</code></td>
+<td>Records units, direction, frequency and comparability caveats so unlike constructs are not treated as equivalent</td>
+</tr>
+<tr class="odd">
+<td><code>same_year_australia_comparisons.csv</code> and <code>australia_indicator_summary.csv</code></td>
+<td>Compare Australia only with countries observed for the same indicator and year, report comparator counts and support transparent outcome selection</td>
+</tr>
+<tr class="even">
+<td><code>domain_coverage_all.csv</code> and <code>domain_coverage_australia.csv</code></td>
+<td>Count unique country–indicator–period evidence; ranks indicate availability, not substantive importance</td>
+</tr>
+</tbody>
+</table>
+<p>Australia covers 17 of 21 indicators but lacks time spent in social interactions, so lack of social support is a focused proxy rather than a complete social-connection measure. Australian rows have normal OECD status; peer flags remain visible for sensitivity analysis. Indicator-specific caveats are documented in <code>docs/analysis/oecd_data_quality_notes.md</code>.</p>
+</section>
+<section id="reproduce-this-report" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="reproduce-this-report"><span class="header-section-number">9.2</span> Reproduce this report</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>

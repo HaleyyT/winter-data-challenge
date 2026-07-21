@@ -11,99 +11,76 @@ below reproduce the report wording exactly as it appears on `haley-b`.
 
 | Report location | Haley material represented there |
 |---|---|
-| **Data cleaning and preprocessing → Independent audit supporting the research question** | Validation rules, immutable raw data, audit scope, missing-year handling, pooled-period handling, same-year comparisons, indicator metadata, quality flags and coverage outputs |
+| **Data cleaning and preprocessing → Audit safeguards for the research question** | The essential no-imputation, duplicate-key, same-year and pooled-period safeguards |
 | **Exploratory analysis and question selection → Development of the research question** | Coverage-led selection of the material--social question and exclusion of life satisfaction as a primary long-run outcome |
 | **Methodology → Method 1: EDA** | Same-period supplied-country reference, annual versus pooled outcomes, direction-aware interpretation and four pre-specified primary outcomes |
 | **Methodology → Method 2: Primary common-endpoint comparison** | Exact common-endpoint eligibility, comparator counts, native changes, direction-oriented gaps and non-causal interpretation |
 | **Analysis and results → Findings** | Material improvement, comparative underperformance on the two primary material changes, adverse social changes and the material--social synthesis |
 | **Conclusion** | The bounded answer to the research question and explicit causal boundary |
 | **Limitations → Limitations and claim boundaries** | Changing comparator composition, survey/source differences, quality flags, pooled-window timing and construct limitations |
+| **Appendix → Audit traceability** | Detailed audit outputs, coverage limitations, quality-flag handling and the relationship between the full audit copy and primary report scope |
 | **Economic comparison table and trajectory graph** | Responsive table widths, expanded interpretation column, alternating row styling and graph scaling that prevents clipping |
 
 ## Exact report text added for the cleaning audit
 
-### Independent audit supporting the research question
+### Audit safeguards for the research question
 
-An additional reproducible audit was implemented in `src/oecd_audit.py` and
-documented in `notebooks/00_data_audit.ipynb`. It begins from the unchanged raw
-file and stops if required columns or observation values are missing, if a
-country--indicator--year key is duplicated, or if an indicator lacks documented
-metadata. No observations are interpolated or imputed. The resulting
-`data/processed/oecd_clean.csv` retains all 8,806 supplied observations and adds
-quality flags, favourable directions and independent-period labels. Restricting
-this validated copy to the report's 2010--2024 scope yields 8,575 observations,
-consistent with the team-prepared analysis dataset; later supplied rows are
-retained for auditability but excluded from the primary analysis.
+The reproducible audit in `src/oecd_audit.py` revalidates the unchanged raw
+file and rejects missing required values, duplicate keys and undocumented
+indicators; no values are imputed. It also prevents the two main comparison
+errors: countries are compared only within the same indicator and year, and 16
+displayed social rows are treated as six independent pooled windows. Income and
+employment have no internal Australian annual gaps. These safeguards support
+the four-outcome design; detailed audit outputs and coverage limitations are in
+the Appendix.
 
-The audit outputs have distinct roles in protecting the analysis from common
-comparison errors:
+## Exact audit support moved to the Appendix
 
-| Audit output | What and how | Why it supports the research question |
-|---|---|---|
-| `time_series_gaps.csv`, `coverage_by_country_indicator.csv` and `coverage_by_country_year.csv` | Record observed years, independent periods, quality flags and country-year indicator availability | Distinguish genuine annual gaps from intentionally periodic measurement and show where trend evidence is sufficiently complete |
-| `indicator_metadata.csv` | Records each indicator's unit, favourable direction, frequency, definition pages and comparability caveat | Prevents unlike constructs from being interpreted as equivalent and ensures adverse social changes are oriented correctly |
-| `same_year_australia_comparisons.csv` | Compares Australia only with countries reporting the same indicator in the same displayed year and reports the contributing-country count | Prevents a country measured in one period from being ranked against another measured in a different period |
-| `australia_indicator_summary.csv` | Summarises Australia's independent-period change and latest same-year international position | Supports transparent scouting of indicators before fixing the four primary outcomes |
-| `domain_coverage_all.csv` and `domain_coverage_australia.csv` | Rank domains by unique country--indicator--period evidence rather than repeated displayed rows | Guides question selection by evidential coverage; these ranks measure data availability, not substantive importance |
+### Audit traceability
 
-These checks directly shaped the final design. Australia's income and
-employment series contain no internal annual gaps within their observed spans.
-In contrast, lack of social support and negative affect each contain 16
-displayed Australian rows but only six independent three-year pooled windows;
-the repeated rows are therefore never treated as 16 independent observations.
-Australia reports 17 of the 21 indicators, with no observations for
-overcrowding, time off, the gender gap in working hours, or time spent in social
-interactions. Consequently, lack of social support is used as a focused proxy
-rather than a complete measure of social connection. All Australian rows carry
-normal OECD status, although flagged peer observations remain visible for
-sensitivity analysis. Detailed interpretations are provided in
-`docs/analysis/oecd_data_quality_notes.md`, and the exploratory rationale is
-recorded in `docs/analysis/oecd_exploration_and_questions.md`.
+The audit copy retains all 8,806 supplied observations and adds quality flags,
+favourable directions and independent-period labels. Applying the report's
+2010--2024 scope yields the same 8,575 observations used by the team analysis.
+
+| Audit control and output | How it protects the analysis |
+|---|---|
+| Gap and coverage tables: `time_series_gaps.csv`, `coverage_by_country_indicator.csv`, `coverage_by_country_year.csv` | Separate genuine annual gaps from scheduled non-annual measurement and report the evidence available for each series |
+| `indicator_metadata.csv` | Records units, direction, frequency and comparability caveats so unlike constructs are not treated as equivalent |
+| `same_year_australia_comparisons.csv` and `australia_indicator_summary.csv` | Compare Australia only with countries observed for the same indicator and year, report comparator counts and support transparent outcome selection |
+| `domain_coverage_all.csv` and `domain_coverage_australia.csv` | Count unique country--indicator--period evidence; ranks indicate availability, not substantive importance |
+
+Australia covers 17 of 21 indicators but lacks time spent in social
+interactions, so lack of social support is a focused proxy rather than a
+complete social-connection measure. Australian rows have normal OECD status;
+peer flags remain visible for sensitivity analysis. Indicator-specific caveats
+are documented in `docs/analysis/oecd_data_quality_notes.md`.
 
 ## Exact report text added for Method 2
 
 ### Method 2: Primary common-endpoint comparison
 
-For each primary outcome, Australia was compared only with countries reporting
-both of the same endpoints. This avoids attributing differences caused by
-unequal observation periods to country performance. Because data availability
-varies across outcomes, the eligible comparator set and its size are reported
-separately for every comparison.
-
-Changes are retained in their original units for interpretation. A
-direction-oriented version is used only for comparative gaps and percentiles,
-so that a positive value consistently represents a more favourable change.
-This distinction is essential for lack of social support and negative affect,
-where lower values indicate better outcomes. The analysis is descriptive and
-does not estimate a causal effect of material conditions on social or emotional
-well-being.
+Australia is compared only with countries reporting both exact endpoints for
+each outcome, and each eligible comparator count is reported. Changes retain
+their original units; direction-oriented values are used only for gaps and
+percentiles so positive consistently means favourable, including for the two
+lower-is-better social outcomes. The comparison is descriptive, not causal.
 
 ## Exact report synthesis added after the primary findings
 
-Together, these results indicate that Australia's material conditions improved
-in absolute terms, but not more rapidly than the typical eligible comparator
-for the two primary material outcomes. Over the observed pooled windows, both
-social outcomes moved in an adverse direction and deteriorated more than their
-respective comparator medians. This pattern supports a descriptive
-material--social tension; it does not establish that material progress caused
-the changes in social support or emotional well-being.
+Australia improved materially, but less than the typical eligible comparator
+on the two primary material changes. Both social outcomes deteriorated more
+than their comparator medians. This supports a descriptive material--social
+tension, not a causal effect.
 
 ## Exact conclusion added to the report
 
-Australia's performance cannot be characterised adequately by a single
-economic measure. Household income and employment both increased over the
-study period, demonstrating meaningful domestic material progress. However,
-Australia's gains in these outcomes were below the median changes among
-countries with the same observed endpoints.
-
-At the same time, perceived lack of social support and negative affect worsened
-across the six independent pooled survey windows. Australia's adverse changes
-were larger than those of the typical eligible comparator. Within the scope of
-the supplied data, the evidence therefore supports a carefully bounded
-conclusion: Australia became materially better resourced while its measured
-social and emotional outcomes deteriorated comparatively. Further analysis may
-test the robustness of this pattern, but causal explanations require different
-data and a dedicated causal design.
+Household income and employment increased, but by less than the median changes
+among countries with the same endpoints. Meanwhile, perceived lack of social
+support and negative affect worsened more than their typical eligible
+comparators. Within the supplied data, Australia therefore became materially
+better resourced while its measured social and emotional outcomes deteriorated
+comparatively. This is a descriptive conclusion; causal explanations require a
+different design.
 
 ## Exact limitations added to the report
 
