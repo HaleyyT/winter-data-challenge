@@ -89,6 +89,25 @@ execute:
 
 .primary-scorecard th:not(:first-child),
 .primary-scorecard td:not(:first-child) { text-align: right; }
+
+.trend-agreement table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.80rem;
+}
+
+.trend-agreement th,
+.trend-agreement td {
+  padding: 0.45rem 0.4rem;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.trend-agreement th:first-child,
+.trend-agreement td:first-child { width: 22%; text-align: left; }
+
+.trend-agreement th:not(:first-child),
+.trend-agreement td:not(:first-child) { text-align: right; }
 </style>
 
 ## Executive summary
@@ -436,6 +455,20 @@ display(
 
 ### Method 4: Theil–Sen and Kendall trend robustness
 
+For each primary outcome, the Theil--Sen estimator summarises Australia's
+median pairwise rate of change across the full trajectory. Annual material
+series use 2010--2024; the social series use six independent pooled-window
+midpoints. Country slope comparisons require Australia's start and endpoint
+and at least 80% of its independent periods. Slopes and Kendall's tau are
+oriented so positive is favourable, and Holm adjustment is applied across the
+four pre-specified Australian tau tests.
+
+Tau describes monotonic ordering, while its p-value tests the null of no
+ordinal association. Standard Kendall p-values and Theil--Sen intervals do not
+model temporal dependence, so they are exploratory diagnostics rather than
+decisive significance tests. The primary robustness evidence is the slope's
+magnitude, direction, coverage, international position and agreement with the
+common-endpoint result.
 
 ## Analysis and results
 
@@ -489,6 +522,68 @@ assert coverage.groupby("indicator_code")["period"].nunique().to_dict() == expec
 the interquartile range; reference counts exclude Australia, and social points
 are independent three-year pooled windows.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
 :::
+
+### Robustness: endpoint and full-trajectory directions agree
+
+```{python}
+trend_path = ROOT / "reports" / "tables" / "material_social_trend_results.csv"
+if not trend_path.exists():
+    raise FileNotFoundError("Run notebooks/method4_theilsen_kendall.ipynb before rendering the report.")
+
+trend = pd.read_csv(trend_path)
+required_trend_columns = {
+    "indicator_code", "short_name", "native_slope_per_year", "n_independent",
+    "favourable_direction", "kendall_tau_favourable", "kendall_p_holm",
+    "n_comparator_countries", "australia_favourable_slope_percentile",
+    "slope_endpoint_agree",
+}
+if missing_trend_columns := required_trend_columns.difference(trend.columns):
+    raise ValueError(f"Method 4 output is missing columns: {sorted(missing_trend_columns)}")
+trend_order = {"1_1": 0, "2_1": 1, "7_1_DEP": 2, "11_2": 3}
+trend = trend.sort_values("indicator_code", key=lambda values: values.map(trend_order))
+
+def report_p_value(value: float) -> str:
+    return "<0.0001" if value < 0.0001 else f"{value:.4f}"
+
+def report_slope(row: pd.Series) -> str:
+    if row["short_name"] == "Household income":
+        return f"{row['native_slope_per_year']:+,.0f} USD/year"
+    return f"{row['native_slope_per_year']:+.3f} pp/year"
+
+trend_table = pd.DataFrame({
+    "Outcome": trend["short_name"],
+    "Native slope": trend.apply(report_slope, axis=1),
+    "Favourable tau": trend["kendall_tau_favourable"].map(lambda x: f"{x:+.2f}"),
+    "Holm p": trend["kendall_p_holm"].map(report_p_value),
+    "Slope percentile rank": trend["australia_favourable_slope_percentile"].map(lambda x: f"{x:.0f}"),
+    "Comparators": trend["n_comparator_countries"].astype(int),
+    "Endpoint agreement": trend["slope_endpoint_agree"].map({True: "Yes", False: "No"}),
+})
+```
+
+::: {.trend-agreement}
+```{python}
+display(
+    trend_table.style
+    .hide(axis="index")
+    .set_caption("Endpoint-versus-trend robustness for the four primary outcomes")
+)
+```
+:::
+
+The robust slopes agree with every endpoint direction. Income rose by about
+**USD 458 per person per year** and employment by **0.358 percentage points per
+year**, but their favourable slopes rank only around the 39th and 33rd
+percentiles. Lack of social support and negative affect have adverse native
+slopes of **0.186** and **0.174 points per year**, respectively, and both remain
+below their comparator medians on the favourable scale.
+
+The full-trajectory social-support slope is around the 28th percentile, whereas
+its endpoint change is around the 9th. Thus, the deterioration's direction is
+robust, but the unusually poor endpoint rank is partly driven by the latest
+pooled window. Negative affect has weak monotonic ordering (favourable tau
+-0.33; Holm-adjusted p=0.4694). These results strengthen the descriptive
+material--social tension while preserving the null and non-causal boundaries.
 
 ### Health is context, not the primary explanation
 
