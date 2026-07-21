@@ -113,58 +113,64 @@ comparison, a Quarto render-time table comparison, and `5 passed` tests.
 
 ## Method 3 — Country bootstrap and placebo-country ranking
 
-**Status:** Not implemented.
+**Status:** Complete and verified on 21 July 2026. The audited exact-endpoint
+workflow holds Australia's observed oriented change fixed, resamples eligible
+comparator countries only, and writes validated bootstrap, placebo and figure
+outputs. Intervals are explicitly comparator-country composition sensitivity,
+not OECD survey-sampling uncertainty.
 
 ### Country bootstrap
 
-- [ ]  Hold Australia's observed endpoint change fixed.
-- [ ]  Resample eligible comparator countries with replacement.
-- [ ]  Recalculate the comparator median and Australia's oriented gap in every
+- [x]  Hold Australia's observed endpoint change fixed.
+- [x]  Resample eligible comparator countries with replacement.
+- [x]  Recalculate the comparator median and Australia's oriented gap in every
     
     replicate.
     
-- [ ]  Run 10,000 replicates with seed `20260720` separately for each outcome.
-- [ ]  Report the bootstrap median, 2.5th percentile and 97.5th percentile.
-- [ ]  Describe the interval as comparator-country sensitivity, not OECD survey
+- [x]  Run 10,000 replicates with seed `20260720` separately for each outcome.
+- [x]  Report the bootstrap median, 2.5th percentile and 97.5th percentile.
+- [x]  Describe the interval as comparator-country sensitivity, not OECD survey
     
     sampling uncertainty.
     
-- [ ]  Label a result comparator-sensitive when its interval crosses zero.
-- [ ]  Write `reports/tables/material_social_bootstrap_results.csv`.
+- [x]  Label a result comparator-sensitive when its interval crosses zero.
+- [x]  Write `reports/tables/material_social_bootstrap_results.csv`.
 
 ### Placebo-country ranking
 
-- [ ]  Treat each eligible country as the focal country once.
-- [ ]  Exclude the focal country from its own comparison median.
-- [ ]  Calculate its oriented focal-minus-median gap.
-- [ ]  Locate Australia in the full focal-country distribution.
-- [ ]  Report Australia's favourable percentile and the number of countries with
+- [x]  Treat each eligible country as the focal country once.
+- [x]  Exclude the focal country from its own comparison median.
+- [x]  Calculate its oriented focal-minus-median gap.
+- [x]  Locate Australia in the full focal-country distribution.
+- [x]  Report Australia's favourable percentile and the number of countries with
     
     more- and less-favourable changes.
     
-- [ ]  Explain that the placebo rank and endpoint percentile are alternative
+- [x]  Explain that the placebo rank and endpoint percentile are alternative
     
     presentations of the same comparative data, not independent evidence.
     
-- [ ]  Write `reports/tables/material_social_placebo_results.csv`.
+- [x]  Write `reports/tables/material_social_placebo_results.csv`.
 
 ### Final Method 3 output
 
-- [ ]  Build a four-row effect figure with the oriented Australian gap, bootstrap
+- [x]  Build a four-row effect figure with the oriented Australian gap, bootstrap
     
     interval, zero reference line, placebo percentile and comparator count.
     
-- [ ]  Separate or clearly annotate native units so dollars and percentage points
+- [x]  Separate or clearly annotate native units so dollars and percentage points
     
     are not visually treated as commensurate effect sizes.
     
-- [ ]  Export `reports/figures/material_social_comparative_gaps.png` at 300 dpi.
+- [x]  Export `reports/figures/material_social_comparative_gaps.png` at 300 dpi.
 
 **Done when:** all four outcomes have reproducible bootstrap intervals and
 
 placebo positions, with interpretation calibrated to whether the interval
 
-crosses zero.
+crosses zero. Verified by fresh-kernel execution from repository-root and
+notebook-directory contexts, deterministic CSV rerun, output tests and a
+successful Quarto render.
 
 ## Method 4 — Theil–Sen trend and Kendall's tau
 
