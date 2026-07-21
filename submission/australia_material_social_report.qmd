@@ -63,13 +63,32 @@ execute:
 .economic-comparison col:nth-child(4) { width: 16% !important; }
 .economic-comparison col:nth-child(5) { width: 42% !important; }
 
-.trajectory-figure .cell-output-display img {
+.trajectory-figure img {
   display: block;
   width: 100%;
   max-width: 100%;
   height: auto;
   margin: 0 auto;
 }
+
+.primary-scorecard table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.82rem;
+}
+
+.primary-scorecard th,
+.primary-scorecard td {
+  padding: 0.5rem 0.45rem;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.primary-scorecard th:first-child,
+.primary-scorecard td:first-child { width: 24%; text-align: left; }
+
+.primary-scorecard th:not(:first-child),
+.primary-scorecard td:not(:first-child) { text-align: right; }
 </style>
 
 ## Executive summary
@@ -114,7 +133,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import pandas as pd
 from IPython.display import display
 
@@ -289,21 +307,43 @@ if test_run.returncode != 0:
 
 ### Method 1: EDA
 
-The focal country is Australia. The broad reference contains countries in the
-supplied extract with the same exact endpoints; it is not labelled “OECD”
-because the extract includes non-members. Canada, New Zealand, the United
-Kingdom and the United States are a separate English-speaking sensitivity group.
+The four primary outcomes were fixed after the coverage audit and before the
+common-endpoint comparison. For each observed period, Australia is plotted in
+native units against the median and interquartile range of all other supplied
+countries reporting that outcome in the same period. Australia is excluded from
+the reference summaries; no values are interpolated and no composite score is
+constructed. Reference coverage is 31--36 countries for income, 44--46 for
+employment and 46 for each social outcome.
 
-Economic indicators are annual. Lack of social support and negative affect are
-six independent three-year Gallup windows. For lower-is-better outcomes, the
-report uses direction-oriented changes for ranks while preserving native-unit
-changes for interpretation.
+Income and employment are annual. Lack of social support and negative affect
+are six independent three-year Gallup windows labelled by their full periods.
+The per-period reference composition may change with reporting availability, so
+Method 1 establishes patterns and coverage rather than a fixed-panel estimate.
+The supplied extract includes non-members and is therefore described as the
+*supplied-country reference*, not as an OECD ranking.
+
+### Method 2: Primary common-endpoint comparison
+
+For each outcome, a country is eligible only if it reports both of Australia's
+exact endpoints. The native change is
+$\Delta_c = y_{c,\mathrm{end}}-y_{c,\mathrm{start}}$. The primary comparative
+estimand is $G=s(\Delta_{AUS}-\operatorname{median}(\Delta_c))$, where
+$s=1$ for higher-is-better outcomes and $s=-1$ for lower-is-better outcomes.
+Thus, positive $G$ always indicates a more favourable Australian change. The
+median limits sensitivity to extreme country changes, while native units retain
+substantive meaning.
+
+The scorecard also reports the eligible-country count and Australia's
+direction-aware percentile, using average ranks for ties. Percentiles describe
+relative position; they are not probabilities or significance tests. Rendering
+stops if these results differ from the independently generated Method 2 table.
+Methods 3--4 assess uncertainty and trend robustness separately.
 
 ```{python}
 AUSTRALIA = "AUS"
 OUTCOMES = {
-    "1_1": ("Household income per person, PPP", 2010, 2024, "2010–24"),
-    "2_1": ("Employment rate", 2010, 2024, "2010–24"),
+    "1_1": ("Household income per person, PPP", 2010, 2024, "2010–2024"),
+    "2_1": ("Employment rate", 2010, 2024, "2010–2024"),
     "7_1_DEP": ("Lack of social support", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
     "11_2": ("Negative affect", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
 }
@@ -325,22 +365,72 @@ def common_endpoint_scorecard() -> pd.DataFrame:
     for code, (label, start, end, period) in OUTCOMES.items():
         changes = endpoint_changes(code, start, end, references)
         au, peers = changes.loc[AUSTRALIA], changes.drop(index=AUSTRALIA)
+        comparator_median = peers.native_change.median()
         rank = changes.oriented_change.rank(ascending=False, method="average").loc[AUSTRALIA]
         n = len(changes)
-        rows.append({"Outcome": label, "Period": period, "Australia start": au[start], "Australia end": au[end], "Australia change": au.native_change, "Comparator median change": peers.native_change.median(), "Comparator countries": len(peers), "Favourable percentile": 100 * (n-rank)/(n-1)})
+        sign = 1 if INDICATOR_SPECS[code].direction == "higher" else -1
+        rows.append({
+            "Indicator code": code,
+            "Outcome": label,
+            "Period": period,
+            "Australia start": au[start],
+            "Australia end": au[end],
+            "Australia change": au.native_change,
+            "Comparator median change": comparator_median,
+            "Australia-minus-median favourable gap": sign * (au.native_change - comparator_median),
+            "Comparator countries": len(peers),
+            "Favourable percentile": 100 * (n-rank)/(n-1),
+        })
     return pd.DataFrame(rows)
 
 
 results = common_endpoint_scorecard()
-display(results.round(2))
-```
-### Method 2: Primary common-endpoint comparison
 
-Australia is compared only with countries reporting both exact endpoints for
-each outcome, and each eligible comparator count is reported. Changes retain
-their original units; direction-oriented values are used only for gaps and
-percentiles so positive consistently means favourable, including for the two
-lower-is-better social outcomes. The comparison is descriptive, not causal.
+# Stop rendering if the report diverges from the independently generated Method 2 table.
+frozen_path = ROOT / "reports" / "tables" / "material_social_primary_results.csv"
+if not frozen_path.exists():
+    raise FileNotFoundError("Run notebooks/02_analysis.ipynb before rendering the report.")
+frozen = pd.read_csv(frozen_path).set_index("indicator_code")
+for _, row in results.iterrows():
+    stored = frozen.loc[row["Indicator code"]]
+    checks = {
+        "Australia start": "australia_start_value",
+        "Australia end": "australia_end_value",
+        "Australia change": "australia_native_change",
+        "Comparator median change": "comparator_median_native_change",
+        "Australia-minus-median favourable gap": "australia_minus_comparator_median_oriented",
+        "Favourable percentile": "australia_favourable_percentile",
+    }
+    for report_column, stored_column in checks.items():
+        assert abs(row[report_column] - stored[stored_column]) < 1e-10
+    assert row["Comparator countries"] == stored["eligible_comparator_country_count"]
+
+scorecard = results[[
+    "Outcome", "Australia change", "Comparator median change",
+    "Australia-minus-median favourable gap", "Favourable percentile",
+    "Comparator countries",
+]].copy()
+scorecard.columns = [
+    "Outcome", "AU change", "Median change", "Favourable gap",
+    "Favourable percentile", "Comparators",
+]
+```
+
+::: {.primary-scorecard}
+```{python}
+display(
+    scorecard.round(2).style
+    .hide(axis="index")
+    .format({
+        "AU change": "{:,.2f}",
+        "Median change": "{:,.2f}",
+        "Favourable gap": "{:,.2f}",
+        "Favourable percentile": "{:.2f}",
+    })
+    .set_caption("Primary common-endpoint scorecard (changes in native units)")
+)
+```
+:::
 
 ### Method 3: Bootstrap uncertainty and placebo ranking
 
@@ -354,10 +444,11 @@ lower-is-better social outcomes. The comparison is descriptive, not causal.
 #### Material conditions improved, but broad outperformance is not supported
 
 - Household income per person rose **USD 6,004** from 2010 to 2024. This is a
-  substantial domestic gain, but below the broad-reference median rise of USD
-  6,960 among 31 common-endpoint countries.
+  substantial domestic gain, but **USD 956 below** the median rise of USD 6,960
+  among 31 eligible comparators (about the **45th favourable percentile**).
 - Employment increased **4.82 percentage points**, below the broad-reference
-  median rise of 5.68 points among 43 common-endpoint countries.
+  median rise of 5.68 points by **0.86 points** among 43 eligible comparators
+  (about the **37th favourable percentile**).
 - Long paid hours fell **3.81 points** (14.0% to 10.2%), outperforming the
   broad-reference median reduction of 2.01 points. Australia's 2024 level still
   exceeded the English-speaking-peer median.
@@ -369,41 +460,34 @@ lower-is-better social outcomes. The comparison is descriptive, not causal.
 
 - Lack of social support rose from **4.93%** in 2008–10 to **10.04%** in the
   2023–25 pooled window: a **5.12-point adverse change**. The broad-reference
-  median improved by 0.83 points, placing Australia at about the 9th favourable
-  percentile of 47 common-endpoint countries.
+  median also worsened, but by only 0.83 points. Australia therefore
+  deteriorated **4.29 points more** and placed at about the **9th favourable
+  percentile** of 47 common-endpoint countries.
 - Negative affect rose from **12.24%** to **14.85%** across the same windows:
-  a **2.61-point adverse change**. The broad-reference median change was near
-  zero (+0.05 points), placing Australia at about the 20th favourable percentile.
+  a **2.61-point adverse change**. The broad-reference median slightly improved
+  by 0.05 points, so Australia deteriorated **2.66 points more** and placed at
+  about the **20th favourable percentile**.
 
 Australia improved materially, but less than the typical eligible comparator
 on the two primary material changes. Both social outcomes deteriorated more
 than their comparator medians. This supports a descriptive material--social
 tension, not a causal effect.
 
-::: {.trajectory-figure}
 ```{python}
-plot_specs = [("1_1", "Income per person", "USD"), ("2_1", "Employment", "%"),
-              ("7_1_DEP", "Lack of social support", "%"), ("11_2", "Negative affect", "%")]
-midpoints = {"2008-10": 2009, "2011-13": 2012, "2014-16": 2015, "2017-19": 2018, "2020-22": 2021, "2023-25": 2024}
-fig, axes = plt.subplots(2, 2, figsize=(12, 8), constrained_layout=True)
-for ax, (code, title, unit) in zip(axes.flat, plot_specs):
-    subset = data.loc[data.indicator_code.eq(code) & data.year.le(2024)].copy()
-    if code in {"7_1_DEP", "11_2"}:
-        subset = subset.sort_values("year").drop_duplicates(["country_code", "independent_period"], keep="last")
-        subset["plot_year"] = subset.independent_period.map(midpoints)
-    else:
-        subset["plot_year"] = subset.year
-    au = subset.loc[subset.country_code.eq(AUSTRALIA)]
-    ref = subset.loc[subset.country_code.ne(AUSTRALIA)].groupby("plot_year").agg(median=("value", "median"), q25=("value", lambda x: x.quantile(.25)), q75=("value", lambda x: x.quantile(.75))).reset_index()
-    ax.fill_between(ref["plot_year"], ref["q25"], ref["q75"], color="#b8c9dc", alpha=.6, label="Reference IQR")
-    ax.plot(ref["plot_year"], ref["median"], color="#365f8b", marker="o", label="Reference median")
-    ax.plot(au["plot_year"], au["value"], color="#d1495b", marker="o", linewidth=2.5, label="Australia")
-    ax.set(title=title, xlabel="Year" if code not in {"7_1_DEP", "11_2"} else "Pooled-window midpoint", ylabel=unit)
-    ax.grid(axis="y", alpha=.25)
-axes[0, 0].legend(frameon=False, fontsize=8)
-fig.suptitle("Australia and same-period supplied-country reference distributions", fontweight="bold")
-plt.show()
+#| output: false
+trajectory_figure = ROOT / "reports" / "figures" / "material_social_trajectories.png"
+coverage_path = ROOT / "reports" / "tables" / "material_social_trajectory_coverage.csv"
+if not trajectory_figure.exists() or not coverage_path.exists():
+    raise FileNotFoundError("Run notebooks/04_final_visuals.ipynb before rendering the report.")
+coverage = pd.read_csv(coverage_path)
+expected_periods = {"1_1": 15, "2_1": 15, "7_1_DEP": 6, "11_2": 6}
+assert coverage.groupby("indicator_code")["period"].nunique().to_dict() == expected_periods
 ```
+
+::: {.trajectory-figure}
+![Australia and same-period supplied-country distributions. The shaded band is
+the interquartile range; reference counts exclude Australia, and social points
+are independent three-year pooled windows.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
 :::
 
 ### Health is context, not the primary explanation
