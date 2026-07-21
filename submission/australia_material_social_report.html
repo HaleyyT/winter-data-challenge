@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -2330,7 +2330,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <p>The raw <code>OECD Data.csv</code> file was preserved unchanged. The data preparation section is performed using all functions in <strong>Audit</strong> section. The <code>data/processed</code> directory will include the cleaned and examined datasets.</p>
 <p>We checked the raw dataset for duplicate entries, missing observations, data types, and expected columns. We made sure that there were no missing values in the principal observation field, no entirely duplicate rows, and no duplicate country-indicator-year keys.</p>
 <p>This table summaries a simple data cleaning steps.</p>
-<div id="44bb8c03" class="cell" data-execution_count="1">
+<div id="4768cc8b" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2598,7 +2598,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <h3 data-number="5.1" class="anchored" data-anchor-id="method-1-eda"><span class="header-section-number">5.1</span> Method 1: EDA</h3>
 <p>The focal country is Australia. The broad reference contains countries in the supplied extract with the same exact endpoints; it is not labelled “OECD” because the extract includes non-members. Canada, New Zealand, the United Kingdom and the United States are a separate English-speaking sensitivity group.</p>
 <p>Economic indicators are annual. Lack of social support and negative affect are six independent three-year Gallup windows. For lower-is-better outcomes, the report uses direction-oriented changes for ranks while preserving native-unit changes for interpretation.</p>
-<div id="213d710b" class="cell" data-execution_count="3">
+<div id="ab005ba7" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2671,6 +2671,8 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </section>
 <section id="method-2-primary-common-endpoint-comparison" class="level3" data-number="5.2">
 <h3 data-number="5.2" class="anchored" data-anchor-id="method-2-primary-common-endpoint-comparison"><span class="header-section-number">5.2</span> Method 2: Primary common-endpoint comparison</h3>
+<p>For each primary outcome, Australia was compared only with countries reporting both of the same endpoints. This avoids attributing differences caused by unequal observation periods to country performance. Because data availability varies across outcomes, the eligible comparator set and its size are reported separately for every comparison.</p>
+<p>Changes are retained in their original units for interpretation. A direction-oriented version is used only for comparative gaps and percentiles, so that a positive value consistently represents a more favourable change. This distinction is essential for lack of social support and negative affect, where lower values indicate better outcomes. The analysis is descriptive and does not estimate a causal effect of material conditions on social or emotional well-being.</p>
 </section>
 <section id="method-3-bootstrap-uncertainty-and-placebo-ranking" class="level3" data-number="5.3">
 <h3 data-number="5.3" class="anchored" data-anchor-id="method-3-bootstrap-uncertainty-and-placebo-ranking"><span class="header-section-number">5.3</span> Method 3: Bootstrap uncertainty and placebo ranking</h3>
@@ -2698,7 +2700,8 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <li>Lack of social support rose from <strong>4.93%</strong> in 2008–10 to <strong>10.04%</strong> in the 2023–25 pooled window: a <strong>5.12-point adverse change</strong>. The broad-reference median improved by 0.83 points, placing Australia at about the 9th favourable percentile of 47 common-endpoint countries.</li>
 <li>Negative affect rose from <strong>12.24%</strong> to <strong>14.85%</strong> across the same windows: a <strong>2.61-point adverse change</strong>. The broad-reference median change was near zero (+0.05 points), placing Australia at about the 20th favourable percentile.</li>
 </ul>
-<div id="6c6b0aa0" class="cell" data-execution_count="4">
+<p>Together, these results indicate that Australia’s material conditions improved in absolute terms, but not more rapidly than the typical eligible comparator for the two primary material outcomes. Over the observed pooled windows, both social outcomes moved in an adverse direction and deteriorated more than their respective comparator medians. This pattern supports a descriptive material–social tension; it does not establish that material progress caused the changes in social support or emotional well-being.</p>
+<div id="2c8ae70e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2717,6 +2720,8 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </section>
 <section id="conclusion" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">7</span> Conclusion</h2>
+<p>Australia’s performance cannot be characterised adequately by a single economic measure. Household income and employment both increased over the study period, demonstrating meaningful domestic material progress. However, Australia’s gains in these outcomes were below the median changes among countries with the same observed endpoints.</p>
+<p>At the same time, perceived lack of social support and negative affect worsened across the six independent pooled survey windows. Australia’s adverse changes were larger than those of the typical eligible comparator. Within the scope of the supplied data, the evidence therefore supports a carefully bounded conclusion: Australia became materially better resourced while its measured social and emotional outcomes deteriorated comparatively. Further analysis may test the robustness of this pattern, but causal explanations require different data and a dedicated causal design.</p>
 </section>
 <section id="limitations" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="limitations"><span class="header-section-number">8</span> Limitations</h2>
@@ -2727,6 +2732,8 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <li>Perceived support is not a complete measure of social connection; the extract has no Australian time-use measure for social interaction.</li>
 <li>The 2023–25 social endpoint partly includes 2025; it is not an annual 2024 observation.</li>
 <li>PPP-adjusted household income is not household disposable cash income; employment alone does not measure job security or job quality.</li>
+<li>The eligible reference group changes across outcomes and plotted periods as reporting coverage changes. All comparisons are therefore conditional on the countries observed at the required endpoints, rather than a fixed OECD panel.</li>
+<li>Survey design, source systems and observation-status flags may differ across countries. These flags are retained for transparent sensitivity analysis, but they limit claims of perfect cross-country comparability.</li>
 <li>Results apply only to countries and periods available in the supplied extract.</li>
 </ul>
 </section>

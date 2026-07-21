@@ -268,6 +268,20 @@ display(results.round(2))
 ```
 ### Method 2: Primary common-endpoint comparison
 
+For each primary outcome, Australia was compared only with countries reporting
+both of the same endpoints. This avoids attributing differences caused by
+unequal observation periods to country performance. Because data availability
+varies across outcomes, the eligible comparator set and its size are reported
+separately for every comparison.
+
+Changes are retained in their original units for interpretation. A
+direction-oriented version is used only for comparative gaps and percentiles,
+so that a positive value consistently represents a more favourable change.
+This distinction is essential for lack of social support and negative affect,
+where lower values indicate better outcomes. The analysis is descriptive and
+does not estimate a causal effect of material conditions on social or emotional
+well-being.
+
 ### Method 3: Bootstrap uncertainty and placebo ranking
 
 ### Method 4: Theil–Sen and Kendall trend robustness
@@ -300,6 +314,14 @@ display(results.round(2))
 - Negative affect rose from **12.24%** to **14.85%** across the same windows:
   a **2.61-point adverse change**. The broad-reference median change was near
   zero (+0.05 points), placing Australia at about the 20th favourable percentile.
+
+Together, these results indicate that Australia's material conditions improved
+in absolute terms, but not more rapidly than the typical eligible comparator
+for the two primary material outcomes. Over the observed pooled windows, both
+social outcomes moved in an adverse direction and deteriorated more than their
+respective comparator medians. This pattern supports a descriptive
+material--social tension; it does not establish that material progress caused
+the changes in social support or emotional well-being.
 
 ```{python}
 plot_specs = [("1_1", "Income per person", "USD"), ("2_1", "Employment", "%"),
@@ -339,6 +361,21 @@ pooled-window midpoints and do not imply annual independent measurement.
 
 ## Conclusion
 
+Australia's performance cannot be characterised adequately by a single
+economic measure. Household income and employment both increased over the
+study period, demonstrating meaningful domestic material progress. However,
+Australia's gains in these outcomes were below the median changes among
+countries with the same observed endpoints.
+
+At the same time, perceived lack of social support and negative affect worsened
+across the six independent pooled survey windows. Australia's adverse changes
+were larger than those of the typical eligible comparator. Within the scope of
+the supplied data, the evidence therefore supports a carefully bounded
+conclusion: Australia became materially better resourced while its measured
+social and emotional outcomes deteriorated comparatively. Further analysis may
+test the robustness of this pattern, but causal explanations require different
+data and a dedicated causal design.
+
 ## Limitations
 
 ### Limitations and claim boundaries
@@ -350,6 +387,12 @@ pooled-window midpoints and do not imply annual independent measurement.
   observation.
 - PPP-adjusted household income is not household disposable cash income;
   employment alone does not measure job security or job quality.
+- The eligible reference group changes across outcomes and plotted periods as
+  reporting coverage changes. All comparisons are therefore conditional on the
+  countries observed at the required endpoints, rather than a fixed OECD panel.
+- Survey design, source systems and observation-status flags may differ across
+  countries. These flags are retained for transparent sensitivity analysis,
+  but they limit claims of perfect cross-country comparability.
 - Results apply only to countries and periods available in the supplied extract.
 
 ## Appendix
