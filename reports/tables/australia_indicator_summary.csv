@@ -1,0 +1,18 @@
+indicator_code,indicator,domain,frequency,first_year,last_year_through_2024,first_value,last_value,absolute_change,percent_change,change_is_favourable,independent_period_count,latest_same_year_country_count,latest_same_year_median,latest_favourable_percentile,latest_comparison_is_thin
+11_1,Life satisfaction,Subjective well-being,sparse survey years,2019,2020,7.5,7.2,-0.2999999999999998,-3.999999999999998,False,2,6,7.295,40.0,True
+11_2,Negative affect balance,Subjective well-being,3-year pooled survey windows,2010,2024,12.2440200303,14.8530429265,2.609022896200001,21.308548089136664,False,6,47,12.3919603935,26.08695652173913,False
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,annual,2010,2024,44625.0,50629.0,6004.0,13.454341736694678,True,15,32,42721.0,80.64516129032258,False
+1_2,Top average household disposable income quintile,Income and wealth,irregular/periodic,2012,2020,5.5211588883,5.5644570179,0.043298129600000124,0.784221763509724,False,5,39,5.1662025452,42.10526315789474,False
+1_3,Median net wealth,Income and wealth,irregular/periodic,2012,2020,347898.0,369820.0,21922.0,6.301272211970175,True,4,9,204476.0,87.5,True
+2_1,Employment rate,Work and job quality,annual,2010,2024,75.444,80.262,4.817999999999998,6.386193733100044,True,15,45,79.865,54.54545454545455,False
+2_2,Gender wage gap,Work and job quality,annual/irregular,2010,2024,14.04293381,10.671212968,-3.3717208419999984,-24.01008854431109,True,15,31,10.671212968,50.0,False
+2_7,Long hours in paid work,Work and job quality,annual,2010,2024,13.99,10.18,-3.8100000000000005,-27.233738384560404,True,15,41,3.86,20.0,False
+3_2,Housing affordability,Housing,annual,2010,2024,80.7645895608,80.7481379976,-0.016451563200007513,-0.020369772556848926,False,15,33,80.7481379976,50.0,False
+5_1,Life expectancy at birth,Health,annual,2010,2023,81.7,83.0,1.2999999999999972,1.5911872705018324,True,14,46,81.5,78.88888888888889,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,annual,2010,2024,14.8816227157,22.1581886962,7.276565980499999,48.896320781088455,False,15,18,22.05027554465,47.05882352941177,True
+6_2,Student mathematics skills,Knowledge and skills,PISA cycle,2012,2022,504.1507662695,487.08,-17.07076626950004,-3.3860439002833234,False,4,37,479.07,66.66666666666667,False
+7_1_DEP,Lack of social support,Social connections,3-year pooled survey windows,2010,2024,4.9265433236,10.0431932573,5.116649933700001,103.85882347140475,False,6,47,9.4099065555,47.82608695652174,False
+8_1_DEP,Not having a say in government,Civic engagement,survey waves,2021,2023,46.815718,35.585077,-11.230640999999999,-23.989039322220794,True,2,30,54.199028999999996,96.55172413793103,False
+8_2,Voter turnout,Civic engagement,election-based,2010,2022,93.22,89.74,-3.480000000000004,-3.7331044840163097,False,5,16,70.11,100.0,True
+9_2,Exposed to air pollution,Environmental quality,annual to 2020,2010,2020,99.109207,98.969398,-0.13980899999999963,-0.1410656025125896,True,11,46,99.743233,80.0,False
+9_3,Exposure to extreme temperature,Environmental quality,annual,2010,2024,9.9062495613,11.1892323848,1.2829828235000011,12.951246741371564,False,15,47,0.0,34.78260869565217,False

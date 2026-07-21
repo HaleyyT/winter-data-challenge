@@ -1,0 +1,11 @@
+coverage_rank,domain_code,domain,indicators,indicator_codes,indicator_count,observation_count,country_count,first_year,last_year,independent_observation_count,share_of_displayed_rows_pct
+1,HSL_2,Work and job quality,Employment rate | Gender wage gap | Long hours in paid work,2_1 | 2_2 | 2_7,3,1772,47,2010,2024,1772,20.66
+2,HSL_5,Health,"Deaths from suicide, alcohol, drugs | Life expectancy at birth",5_1 | 5_3,2,1283,47,2010,2024,1283,14.96
+3,HSL_9,Environmental quality,Exposed to air pollution | Exposure to extreme temperature,9_2 | 9_3,2,1211,47,2010,2024,1211,14.12
+4,HSL_1,Income and wealth,Households and NPISHs net adjusted disposable income per capita | Median net wealth | Top average household disposable income quintile,1_1 | 1_2 | 1_3,3,1138,42,2010,2024,1138,13.27
+5,HSL_3,Housing,Households living in overcrowded conditions | Housing affordability,3_1 | 3_2,2,1062,40,2010,2024,1062,12.38
+6,HSL_11,Subjective well-being,Life satisfaction | Negative affect balance,11_1 | 11_2,2,929,47,2010,2024,506,10.83
+7,HSL_7,Social connections,Lack of social support | Time spent in social interactions,7_1_DEP | 7_2,2,728,47,2010,2024,305,8.49
+8,HSL_8,Civic engagement,Not having a say in government | Voter turnout,8_1_DEP | 8_2,2,247,47,2010,2024,247,2.88
+9,HSL_6,Knowledge and skills,Student mathematics skills,6_2,1,154,39,2012,2022,154,1.8
+10,HSL_4,Work-life balance,Gender gap in working hours | Time off,4_1 | 4_3,2,51,16,2010,2022,51,0.59
