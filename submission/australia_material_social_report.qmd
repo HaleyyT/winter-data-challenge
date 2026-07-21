@@ -1026,6 +1026,68 @@ pooled window. Negative affect has weak monotonic ordering (favourable tau
 -0.33; Holm-adjusted p=0.4694). These results strengthen the descriptive
 material--social tension while preserving the null and non-causal boundaries.
 
+### Exploratory material-social associations are strongest for negative affect
+
+Method 5 asks whether countries with stronger material improvement also tended
+to show more favourable social change. For each of the four pre-specified
+material-social pairs, Australia is excluded from estimating Spearman's rho,
+paired country bootstraps, and permutation p-values. Holm adjustment is applied
+across the four tests. This remains ecological and exploratory; it does not
+identify a causal pathway.
+
+```{python}
+#| label: tbl-method5-spearman
+spearman_path = ROOT / "reports" / "tables" / "material_social_spearman_results.csv"
+if not spearman_path.exists():
+    raise FileNotFoundError("Run notebooks/method5_spearman_association.ipynb before rendering the report.")
+spearman = pd.read_csv(spearman_path)
+expected_pairs = [
+    "income_social_support",
+    "income_negative_affect",
+    "employment_social_support",
+    "employment_negative_affect",
+]
+assert spearman["pair_id"].tolist() == expected_pairs
+assert spearman["comparator_country_count"].tolist() == [31, 31, 43, 43]
+assert spearman["fixed_common_panel_count"].tolist() == [31, 31, 31, 31]
+assert spearman["spearman_rho"].between(-1, 1).all()
+assert spearman["bootstrap_ci_lower"].between(-1, 1).all()
+assert spearman["bootstrap_ci_upper"].between(-1, 1).all()
+assert (spearman["bootstrap_ci_lower"] <= spearman["bootstrap_ci_upper"]).all()
+assert spearman["permutation_p_holm"].between(0, 1).all()
+
+spearman_table = pd.DataFrame({
+    "Pair": spearman["material_outcome"] + "–" + spearman["social_outcome"].str.lower(),
+    "Comparators": spearman["comparator_country_count"].astype(int),
+    "Spearman rho": spearman["spearman_rho"],
+    "95% bootstrap CI": spearman.apply(
+        lambda row: f"[{row['bootstrap_ci_lower']:.3f}, {row['bootstrap_ci_upper']:.3f}]",
+        axis=1,
+    ),
+    "Holm p": spearman["permutation_p_holm"],
+})
+
+display(
+    spearman_table.style
+    .set_uuid("method5-spearman")
+    .hide(axis="index")
+    .format({"Spearman rho": "{:.3f}", "Holm p": "{:.4f}"})
+    .set_caption("Exploratory Method 5 material-social rank associations")
+)
+```
+
+Stronger material improvement generally ranked alongside more favourable social
+change, particularly for negative affect. The income-negative-affect and
+employment-negative-affect associations remain supported after Holm adjustment.
+The social-support associations are positive, but their Holm-adjusted p-values
+are 0.0819, so they are statistically less certain. This exploratory evidence
+therefore does not support claiming that all four associations are significant.
+
+![Exploratory cross-country associations between material and social change.
+Positive values indicate improvement. Australia is shown separately and is
+excluded from each Spearman rho, bootstrap interval and permutation
+p-value.](../reports/figures/material_social_spearman_associations.png){#fig-method5-spearman width=100%}
+
 ### Health is context, not the primary explanation
 
 Life expectancy rose from 81.7 years in 2010 to 83.0 in 2023. The combined
