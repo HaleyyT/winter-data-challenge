@@ -55,12 +55,8 @@ Suggested notebook names are `00_data_audit.ipynb`, `01_eda.ipynb`, `02_analysis
 ```bash
 .venv/bin/jupyter nbconvert --to notebook --execute notebooks/02_analysis.ipynb \
   --output /tmp/02_analysis.executed.ipynb --ExecutePreprocessor.timeout=300
-.venv/bin/jupyter nbconvert --to notebook --execute notebooks/03_robustness.ipynb \
-  --output /tmp/03_robustness.executed.ipynb --ExecutePreprocessor.timeout=300
 .venv/bin/jupyter nbconvert --to notebook --execute notebooks/04_final_visuals.ipynb \
   --output /tmp/04_final_visuals.executed.ipynb --ExecutePreprocessor.timeout=300
-.venv/bin/jupyter nbconvert --to notebook --execute notebooks/05_health_social_wellbeing.ipynb \
-  --output /tmp/05_health_social_wellbeing.executed.ipynb --ExecutePreprocessor.timeout=300
 quarto render submission/australia_material_social_report.qmd
 ```
 
