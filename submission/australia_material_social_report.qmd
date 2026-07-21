@@ -89,22 +89,42 @@ execute:
 
 .primary-scorecard th:not(:first-child),
 .primary-scorecard td:not(:first-child) { text-align: right; }
+
+.trend-agreement table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.80rem;
+}
+
+.trend-agreement th,
+.trend-agreement td {
+  padding: 0.45rem 0.4rem;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.trend-agreement th:first-child,
+.trend-agreement td:first-child { width: 22%; text-align: left; }
+
+.trend-agreement th:not(:first-child),
+.trend-agreement td:not(:first-child) { text-align: right; }
 </style>
 
 ## Executive summary
 
 **Research question:** As Australia's material conditions improved, did
 perceived social support and emotional well-being deteriorate relative to
-comparable countries?
+eligible supplied-country comparators?
 
 The evidence supports a **material--social tension**, but not a causal claim.
 Australia's income and employment increased from 2010 to 2024, while perceived
 lack of social support more than doubled and negative affect rose across the
 independent pooled survey windows. Australia deteriorated more than the typical
-supplied-country comparator on both social outcomes.
+eligible supplied-country comparator on both social outcomes.
 
 > **Australia became materially better resourced, while perceived social
-> support and emotional well-being worsened relative to comparable countries.**
+> support and emotional well-being worsened relative to eligible
+> supplied-country comparators.**
 
 ## Introduction
 ### Background
@@ -127,6 +147,7 @@ We checked the raw dataset for duplicate entries, missing observations, data typ
 This table summaries a simple data cleaning steps. 
 
 ```{python}
+#| label: setup-audit-summary
 from __future__ import annotations
 
 import subprocess
@@ -218,7 +239,9 @@ The economic investigation took into the aspects of household income, enployment
 
 There are the significant improvements of Australia's living standards and the labor market. Between 2010 and 2024, per capita household income increased by $6,004, while the employment rate rose by 4.82 percentage points. The proportion of employees working long hours decreased by 3.81 percentage points, and the gender wage gap also narrowed.
 
-However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.
+However, Australia's improvements in income and employment did not consistently
+exceed the median across eligible supplied-country comparators. Only the
+available S80/S20 income ratio slightly changed between 2010 and 2024.
 
 ::: {.economic-comparison}
 | Indicator | Australia’s change | English-speaking reference | Broad supplied-country reference | Interpretation |
@@ -297,6 +320,7 @@ support and emotional well-being. The question is deliberately descriptive and
 does not assume a causal pathway between the two domains.
 
 ```{python}
+#| label: test-repository
 #| output: false
 test_run = subprocess.run([sys.executable, "-m", "pytest", "-q"], cwd=ROOT, capture_output=True, text=True)
 if test_run.returncode != 0:
@@ -340,6 +364,7 @@ stops if these results differ from the independently generated Method 2 table.
 Methods 3--4 assess uncertainty and trend robustness separately.
 
 ```{python}
+#| label: method2-common-endpoints
 AUSTRALIA = "AUS"
 OUTCOMES = {
     "1_1": ("Household income per person, PPP", 2010, 2024, "2010–2024"),
@@ -418,8 +443,10 @@ scorecard.columns = [
 
 ::: {.primary-scorecard}
 ```{python}
+#| label: tbl-method2-scorecard
 display(
     scorecard.round(2).style
+    .set_uuid("method2-scorecard")
     .hide(axis="index")
     .format({
         "AU change": "{:,.2f}",
@@ -436,6 +463,29 @@ display(
 
 ### Method 4: Theil–Sen and Kendall trend robustness
 
+For each primary outcome, the Theil--Sen estimator summarises Australia's
+median pairwise rate of change across the full trajectory. Annual material
+series use 2010--2024; the social series use six independent pooled-window
+midpoints. Country slope comparisons require Australia's start and endpoint
+and at least 80% of its independent periods. Slopes and Kendall's tau are
+oriented so positive is favourable, and Holm adjustment is applied across the
+four pre-specified Australian tau tests.
+
+Tau describes monotonic ordering, while its p-value tests the null of no
+ordinal association. Standard Kendall p-values and Theil--Sen intervals do not
+model temporal dependence, so they are exploratory diagnostics rather than
+decisive significance tests. The primary robustness evidence is the slope's
+magnitude, direction, coverage, international position and agreement with the
+common-endpoint result.
+
+### Method 5: Exploratory material-social rank association
+
+Method 5 asks whether countries with stronger material improvement also tended
+to show more favourable social change. For each of the four pre-specified
+material-social pairs, Australia is excluded from estimating Spearman's rho,
+paired country bootstraps, and permutation p-values. Holm adjustment is applied
+across the four tests. This remains ecological and exploratory; it does not
+identify a causal pathway.
 
 ## Analysis and results
 
@@ -474,6 +524,7 @@ than their comparator medians. This supports a descriptive material--social
 tension, not a causal effect.
 
 ```{python}
+#| label: check-method1-trajectory-output
 #| output: false
 trajectory_figure = ROOT / "reports" / "figures" / "material_social_trajectories.png"
 coverage_path = ROOT / "reports" / "tables" / "material_social_trajectory_coverage.csv"
@@ -489,6 +540,121 @@ assert coverage.groupby("indicator_code")["period"].nunique().to_dict() == expec
 the interquartile range; reference counts exclude Australia, and social points
 are independent three-year pooled windows.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
 :::
+
+### Robustness: endpoint and full-trajectory directions agree
+
+```{python}
+#| label: load-method4-trend-output
+trend_path = ROOT / "reports" / "tables" / "material_social_trend_results.csv"
+if not trend_path.exists():
+    raise FileNotFoundError("Run notebooks/method4_theilsen_kendall.ipynb before rendering the report.")
+
+trend = pd.read_csv(trend_path)
+required_trend_columns = {
+    "indicator_code", "short_name", "native_slope_per_year", "n_independent",
+    "favourable_direction", "kendall_tau_favourable", "kendall_p_holm",
+    "n_comparator_countries", "australia_favourable_slope_percentile",
+    "slope_endpoint_agree",
+}
+if missing_trend_columns := required_trend_columns.difference(trend.columns):
+    raise ValueError(f"Method 4 output is missing columns: {sorted(missing_trend_columns)}")
+trend_order = {"1_1": 0, "2_1": 1, "7_1_DEP": 2, "11_2": 3}
+trend = trend.sort_values("indicator_code", key=lambda values: values.map(trend_order))
+
+def report_p_value(value: float) -> str:
+    return "<0.0001" if value < 0.0001 else f"{value:.4f}"
+
+def report_slope(row: pd.Series) -> str:
+    if row["short_name"] == "Household income":
+        return f"{row['native_slope_per_year']:+,.0f} USD/year"
+    return f"{row['native_slope_per_year']:+.3f} pp/year"
+
+trend_table = pd.DataFrame({
+    "Outcome": trend["short_name"],
+    "Native slope": trend.apply(report_slope, axis=1),
+    "Favourable tau": trend["kendall_tau_favourable"].map(lambda x: f"{x:+.2f}"),
+    "Holm p": trend["kendall_p_holm"].map(report_p_value),
+    "Slope percentile rank": trend["australia_favourable_slope_percentile"].map(lambda x: f"{x:.0f}"),
+    "Comparators": trend["n_comparator_countries"].astype(int),
+    "Endpoint agreement": trend["slope_endpoint_agree"].map({True: "Yes", False: "No"}),
+})
+```
+
+::: {.trend-agreement}
+```{python}
+#| label: tbl-method4-trend-agreement
+display(
+    trend_table.style
+    .set_uuid("method4-trend-agreement")
+    .hide(axis="index")
+    .set_caption("Endpoint-versus-trend robustness for the four primary outcomes")
+)
+```
+:::
+
+The robust slopes agree with every endpoint direction. Income rose by about
+**USD 458 per person per year** and employment by **0.358 percentage points per
+year**, but their favourable slopes rank only around the 39th and 33rd
+percentiles. Lack of social support and negative affect have adverse native
+slopes of **0.186** and **0.174 points per year**, respectively, and both remain
+below their comparator medians on the favourable scale.
+
+The full-trajectory social-support slope is around the 28th percentile, whereas
+its endpoint change is around the 9th. Thus, the deterioration's direction is
+robust, but the unusually poor endpoint rank is partly driven by the latest
+pooled window. Negative affect has weak monotonic ordering (favourable tau
+-0.33; Holm-adjusted p=0.4694). These results strengthen the descriptive
+material--social tension while preserving the null and non-causal boundaries.
+
+### Exploratory material-social associations are strongest for negative affect
+
+```{python}
+#| label: tbl-method5-spearman
+spearman_path = ROOT / "reports" / "tables" / "material_social_spearman_results.csv"
+if not spearman_path.exists():
+    raise FileNotFoundError("Run notebooks/method5_spearman_association.ipynb before rendering the report.")
+spearman = pd.read_csv(spearman_path)
+expected_pairs = [
+    "income_social_support",
+    "income_negative_affect",
+    "employment_social_support",
+    "employment_negative_affect",
+]
+assert spearman["pair_id"].tolist() == expected_pairs
+assert spearman["comparator_country_count"].tolist() == [31, 31, 43, 43]
+assert spearman["fixed_common_panel_count"].tolist() == [31, 31, 31, 31]
+assert spearman["spearman_rho"].between(-1, 1).all()
+assert spearman["bootstrap_ci_lower"].between(-1, 1).all()
+assert spearman["bootstrap_ci_upper"].between(-1, 1).all()
+assert (spearman["bootstrap_ci_lower"] <= spearman["bootstrap_ci_upper"]).all()
+assert spearman["permutation_p_holm"].between(0, 1).all()
+
+spearman_table = pd.DataFrame({
+    "Pair": spearman["material_outcome"] + "–" + spearman["social_outcome"].str.lower(),
+    "n": spearman["comparator_country_count"].astype(int),
+    "Spearman rho": spearman["spearman_rho"],
+    "95% bootstrap CI": spearman.apply(
+        lambda row: f"[{row['bootstrap_ci_lower']:.3f}, {row['bootstrap_ci_upper']:.3f}]",
+        axis=1,
+    ),
+    "Holm p": spearman["permutation_p_holm"],
+})
+
+display(
+    spearman_table.style
+    .set_uuid("method5-spearman")
+    .hide(axis="index")
+    .format({"Spearman rho": "{:.3f}", "Holm p": "{:.4f}"})
+    .set_caption("Exploratory Method 5 material-social rank associations")
+)
+```
+
+Stronger material improvement generally ranked alongside more favourable social
+change, particularly for negative affect. The income-negative-affect and
+employment-negative-affect associations remain supported after Holm adjustment.
+The social-support associations are positive, but their Holm-adjusted p-values
+are 0.0819, so they are statistically less certain. This exploratory evidence
+therefore does not support claiming that all four associations are significant.
 
 ### Health is context, not the primary explanation
 
@@ -507,10 +673,22 @@ pooled-window midpoints and do not imply annual independent measurement.
 Household income and employment increased, but by less than the median changes
 among countries with the same endpoints. Meanwhile, perceived lack of social
 support and negative affect worsened more than their typical eligible
-comparators. Within the supplied data, Australia therefore became materially
-better resourced while its measured social and emotional outcomes deteriorated
-comparatively. This is a descriptive conclusion; causal explanations require a
-different design.
+supplied-country comparators. Within the supplied data, Australia therefore
+became materially better resourced while its measured social and emotional
+outcomes deteriorated comparatively. Stronger material improvement generally
+ranked alongside more favourable social change, particularly for negative
+affect. Australia nevertheless experienced material improvement alongside
+adverse social change. This is exploratory ecological evidence and does not
+identify a causal explanation.
+
+::: {.trend-agreement}
+| Claim | Classification | Basis |
+|---|---|---|
+| Australia improved materially while social support and negative affect deteriorated | Robust | Endpoint changes and Theil--Sen slopes agree for all four primary outcomes |
+| Australia's social deterioration was worse than the typical eligible supplied-country comparator | Robust | Method 2 endpoint ranks place social support near the 9th favourable percentile and negative affect near the 20th |
+| Australia materially outperformed the broad supplied-country reference | Unsupported | Income and employment improved domestically but were below their eligible comparator medians |
+| Material improvement across countries always predicts social improvement | Comparator-sensitive | Method 5 associations are positive, but only the negative-affect pairs remain supported after Holm adjustment |
+:::
 
 ## Limitations
 
@@ -552,14 +730,36 @@ complete social-connection measure. Australian rows have normal OECD status;
 peer flags remain visible for sensitivity analysis. Indicator-specific caveats
 are documented in `docs/analysis/oecd_data_quality_notes.md`.
 
+### Method 5 diagnostic figure
+
+The material-improved/social-worsened quadrant is not unique to Australia. It
+contains about 58%, 39%, 49% and 40% of the respective eligible comparator
+samples for the four Method 5 pairs. Australia is notable mainly for the
+severity and low comparative ranking of its social deterioration, especially
+social support.
+
+![Exploratory country-level material-social rank associations. Australia is
+shown separately and is excluded from each Spearman rho, bootstrap interval and
+permutation p-value.](../reports/figures/material_social_spearman_associations.png){#fig-method5-spearman width=100%}
+
 ### Reproduce this report
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+.venv/bin/jupyter nbconvert --to notebook --execute notebooks/02_analysis.ipynb \
+  --output /tmp/02_analysis.executed.ipynb --ExecutePreprocessor.timeout=300
+.venv/bin/jupyter nbconvert --to notebook --execute notebooks/04_final_visuals.ipynb \
+  --output /tmp/04_final_visuals.executed.ipynb --ExecutePreprocessor.timeout=300
+.venv/bin/jupyter nbconvert --to notebook --execute notebooks/method4_theilsen_kendall.ipynb \
+  --output /tmp/method4_theilsen_kendall.executed.ipynb --ExecutePreprocessor.timeout=300
+.venv/bin/jupyter nbconvert --to notebook --execute notebooks/method5_spearman_association.ipynb \
+  --output /tmp/method5_spearman_association.executed.ipynb --ExecutePreprocessor.timeout=300
+python -m pytest
 quarto render submission/australia_material_social_report.qmd
 ```
 
-The HTML output is ignored by Git. A successful render verifies the raw input,
-audit, report calculations, chart generation, and repository tests in one run.
+The HTML output is currently tracked for final submission review. A successful
+render verifies the raw input, audit, report calculations, chart generation,
+and repository tests in one run.

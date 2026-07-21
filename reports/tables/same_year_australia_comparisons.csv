@@ -1,0 +1,188 @@
+indicator_code,indicator,domain,year,independent_period,australia_value,australia_status_code,better_direction,same_year_country_count,same_year_median,same_year_q25,same_year_q75,australia_favourable_rank,australia_favourable_percentile,comparison_is_thin,any_peer_flagged
+11_1,Life satisfaction,Subjective well-being,2019,2019,7.5,A,higher,6,7.58,6.375,7.99,4.0,40.0,True,True
+11_1,Life satisfaction,Subjective well-being,2020,2020,7.2,A,higher,6,7.295,6.3,7.844575675,4.0,40.0,True,False
+11_2,Negative affect balance,Subjective well-being,2010,2008-10,12.2440200303,A,lower,47,12.2440200303,9.105123662899999,16.69201016345,24.0,50.0,False,False
+11_2,Negative affect balance,Subjective well-being,2011,2011-13,10.6348925558,A,lower,47,12.4091260044,10.21123775725,18.5512026659,16.0,67.3913043478261,False,False
+11_2,Negative affect balance,Subjective well-being,2012,2011-13,10.6348925558,A,lower,47,12.4091260044,10.21123775725,18.5512026659,16.0,67.3913043478261,False,False
+11_2,Negative affect balance,Subjective well-being,2013,2011-13,10.6348925558,A,lower,47,12.4091260044,10.21123775725,18.5512026659,16.0,67.3913043478261,False,False
+11_2,Negative affect balance,Subjective well-being,2014,2014-16,12.0890789187,A,lower,47,12.6010063629,9.94460664345,17.7642931946,21.0,56.52173913043478,False,False
+11_2,Negative affect balance,Subjective well-being,2015,2014-16,12.0890789187,A,lower,47,12.6010063629,9.94460664345,17.7642931946,21.0,56.52173913043478,False,False
+11_2,Negative affect balance,Subjective well-being,2016,2014-16,12.0890789187,A,lower,47,12.6010063629,9.94460664345,17.7642931946,21.0,56.52173913043478,False,False
+11_2,Negative affect balance,Subjective well-being,2017,2017-19,12.7330695414,A,lower,47,13.1701114402,9.50392711265,17.122541321699998,22.0,54.34782608695652,False,False
+11_2,Negative affect balance,Subjective well-being,2018,2017-19,12.7330695414,A,lower,47,13.1701114402,9.50392711265,17.122541321699998,22.0,54.34782608695652,False,False
+11_2,Negative affect balance,Subjective well-being,2019,2017-19,12.7330695414,A,lower,47,13.1701114402,9.50392711265,17.122541321699998,22.0,54.34782608695652,False,False
+11_2,Negative affect balance,Subjective well-being,2020,2020-22,12.0148292553,A,lower,47,12.7990710926,10.5089822245,15.13479350675,21.0,56.52173913043478,False,False
+11_2,Negative affect balance,Subjective well-being,2021,2020-22,12.0148292553,A,lower,47,12.7990710926,10.5089822245,15.13479350675,21.0,56.52173913043478,False,False
+11_2,Negative affect balance,Subjective well-being,2022,2020-22,12.0148292553,A,lower,47,12.7990710926,10.5089822245,15.13479350675,21.0,56.52173913043478,False,False
+11_2,Negative affect balance,Subjective well-being,2023,2023-25,14.8530429265,A,lower,47,12.3919603935,9.83394084605,14.8933397828,35.0,26.08695652173913,False,False
+11_2,Negative affect balance,Subjective well-being,2024,2023-25,14.8530429265,A,lower,47,12.3919603935,9.83394084605,14.8933397828,35.0,26.08695652173913,False,False
+11_2,Negative affect balance,Subjective well-being,2025,2023-25,14.8530429265,A,lower,47,12.3919603935,9.83394084605,14.8933397828,35.0,26.08695652173913,False,False
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2010,2010,44625.0,A,higher,36,34823.0,25063.75,43286.25,9.0,77.14285714285714,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2011,2011,45369.0,A,higher,36,35157.5,24919.75,43939.75,8.0,80.0,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2012,2012,44830.0,A,higher,37,34998.0,24624.0,44697.0,8.0,80.55555555555556,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2013,2013,45377.0,A,higher,37,34861.0,24368.0,44273.0,8.0,80.55555555555556,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2014,2014,46031.0,A,higher,37,34627.0,24948.0,44691.0,8.0,80.55555555555556,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2015,2015,46089.0,A,higher,37,35487.0,26378.0,44966.0,9.0,77.77777777777777,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2016,2016,46473.0,A,higher,37,36532.0,27143.0,45514.0,9.0,77.77777777777777,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2017,2017,46831.0,A,higher,37,38019.0,27881.0,46077.0,9.0,77.77777777777777,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2018,2018,47430.0,A,higher,37,38650.0,30038.0,46234.0,7.0,83.33333333333333,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2019,2019,48749.0,A,higher,37,40048.0,30890.0,46994.0,6.0,86.11111111111111,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2020,2020,50667.0,A,higher,37,40594.0,31810.0,46085.0,4.0,91.66666666666667,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2021,2021,52430.0,A,higher,37,41879.0,33131.0,47949.0,4.0,91.66666666666667,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2022,2022,50439.0,A,higher,36,41824.0,33330.5,47663.0,6.0,85.71428571428571,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2023,2023,49503.0,A,higher,34,42271.5,35220.25,48269.25,7.0,81.81818181818181,False,True
+1_1,Households and NPISHs net adjusted disposable income per capita,Income and wealth,2024,2024,50629.0,A,higher,32,42721.0,36412.25,48936.5,7.0,80.64516129032258,False,True
+1_2,Top average household disposable income quintile,Income and wealth,2012,2012,5.5211588883,A,lower,32,5.4313115261,4.239449739425,6.200597047775,17.0,48.38709677419355,False,False
+1_2,Top average household disposable income quintile,Income and wealth,2014,2014,5.662882075,A,lower,35,5.662882075,4.2003455162000005,6.8565449715,18.0,50.0,False,False
+1_2,Top average household disposable income quintile,Income and wealth,2016,2016,5.4861176031,A,lower,36,5.199795367,4.372790875874999,6.491326928125,20.0,45.714285714285715,False,False
+1_2,Top average household disposable income quintile,Income and wealth,2018,2018,5.5994794024,A,lower,39,5.1158409119,4.20081223675,6.48162846305,23.0,42.10526315789474,False,False
+1_2,Top average household disposable income quintile,Income and wealth,2020,2020,5.5644570179,A,lower,39,5.1662025452,4.11700210085,6.2086620330999995,23.0,42.10526315789474,False,False
+1_3,Median net wealth,Income and wealth,2012,2012,347898.0,A,higher,4,277555.5,203849.25,336166.5,1.0,100.0,True,False
+1_3,Median net wealth,Income and wealth,2014,2014,344999.0,A,higher,17,173949.0,128856.0,251367.0,3.0,87.5,True,True
+1_3,Median net wealth,Income and wealth,2018,2018,368870.0,A,higher,7,239172.0,202848.5,323989.0,2.0,83.33333333333333,True,False
+1_3,Median net wealth,Income and wealth,2020,2020,369820.0,A,higher,9,204476.0,165528.0,293118.0,2.0,87.5,True,True
+2_1,Employment rate,Work and job quality,2010,2010,75.444,A,higher,45,71.871,67.435,75.444,12.0,75.0,False,False
+2_1,Employment rate,Work and job quality,2011,2011,75.799,A,higher,46,72.2985,67.2735,75.739,12.0,75.55555555555556,False,False
+2_1,Employment rate,Work and job quality,2012,2012,75.589,A,higher,46,72.63,68.10325,75.8005,13.0,73.33333333333333,False,False
+2_1,Employment rate,Work and job quality,2013,2013,75.335,A,higher,46,73.446,68.21375,76.0875,16.0,66.66666666666667,False,False
+2_1,Employment rate,Work and job quality,2014,2014,75.049,A,higher,46,73.82849999999999,69.20125,76.655,19.0,60.0,False,False
+2_1,Employment rate,Work and job quality,2015,2015,75.58,A,higher,46,74.059,70.32,77.632,18.0,62.22222222222222,False,False
+2_1,Employment rate,Work and job quality,2016,2016,75.888,A,higher,47,73.94,71.22,78.211,19.0,60.869565217391305,False,False
+2_1,Employment rate,Work and job quality,2017,2017,76.38,A,higher,47,75.018,72.906,79.116,21.0,56.52173913043478,False,False
+2_1,Employment rate,Work and job quality,2018,2018,76.917,A,higher,47,76.917,72.856,80.3965,24.0,50.0,False,False
+2_1,Employment rate,Work and job quality,2019,2019,77.597,A,higher,47,77.654,73.681,80.8535,25.0,47.82608695652174,False,False
+2_1,Employment rate,Work and job quality,2020,2020,76.128,A,higher,46,76.006,70.3655,79.61725,23.0,51.111111111111114,False,False
+2_1,Employment rate,Work and job quality,2021,2021,77.851,A,higher,46,77.24000000000001,71.62575,80.79875,22.0,53.333333333333336,False,False
+2_1,Employment rate,Work and job quality,2022,2022,79.58,A,higher,46,79.1605,73.05075,81.9545,22.0,53.333333333333336,False,False
+2_1,Employment rate,Work and job quality,2023,2023,80.103,A,higher,46,79.78399999999999,74.01724999999999,81.57725,19.0,60.0,False,False
+2_1,Employment rate,Work and job quality,2024,2024,80.262,A,higher,45,79.865,75.825,81.75,21.0,54.54545454545455,False,False
+2_1,Employment rate,Work and job quality,2025,2025,80.427,A,higher,42,80.0575,76.32175,82.22200000000001,20.0,53.65853658536585,False,False
+2_2,Gender wage gap,Work and job quality,2010,2010,14.04293381,A,lower,41,13.504464286,7.2360953462,18.810679612,22.0,47.5,False,False
+2_2,Gender wage gap,Work and job quality,2011,2011,15.966386555,A,lower,23,16.0,9.44029303975,18.398279660500002,11.0,54.54545454545455,False,False
+2_2,Gender wage gap,Work and job quality,2012,2012,13.75,A,lower,25,15.262979875,10.620155274,19.086651054,10.0,62.5,False,False
+2_2,Gender wage gap,Work and job quality,2013,2013,18.0,A,lower,24,15.406119560499999,9.635416667474999,18.01330285275,18.0,26.08695652173913,False,False
+2_2,Gender wage gap,Work and job quality,2014,2014,15.773353752,A,lower,42,14.0954389895,6.659190354474999,17.333931928250003,26.0,39.02439024390244,False,False
+2_2,Gender wage gap,Work and job quality,2015,2015,13.307692308,A,lower,24,15.600470957999999,9.415584415575001,17.489625149250003,8.0,69.56521739130434,False,False
+2_2,Gender wage gap,Work and job quality,2016,2016,13.728432108,A,lower,25,14.762372073,9.3643171806,17.447447447,10.0,62.5,False,False
+2_2,Gender wage gap,Work and job quality,2017,2017,13.000948217,A,lower,25,13.333333333,7.3482428115,16.88155922,12.0,54.166666666666664,False,False
+2_2,Gender wage gap,Work and job quality,2018,2018,13.448567435,A,lower,43,11.665004985,7.892375224,15.688182923500001,27.0,38.095238095238095,False,False
+2_2,Gender wage gap,Work and job quality,2019,2019,15.311653117,A,lower,22,13.9407953785,6.893939393975,16.286650761,15.0,33.333333333333336,False,False
+2_2,Gender wage gap,Work and job quality,2020,2020,10.533333333,A,lower,26,10.8037938145,6.25,13.4472950925,12.0,56.0,False,False
+2_2,Gender wage gap,Work and job quality,2021,2021,10.64603381,A,lower,26,11.9287899235,6.811594202925001,15.4915505315,10.0,64.0,False,False
+2_2,Gender wage gap,Work and job quality,2022,2022,10.125,A,lower,44,10.147987289,6.2208045317,14.556048307,22.0,51.16279069767442,False,False
+2_2,Gender wage gap,Work and job quality,2023,2023,11.764705882,A,lower,33,11.764705882,5.8012319759,14.241161051,17.0,50.0,False,False
+2_2,Gender wage gap,Work and job quality,2024,2024,10.671212968,A,lower,31,10.671212968,6.4602794986,13.5105218515,16.0,50.0,False,False
+2_7,Long hours in paid work,Work and job quality,2010,2010,13.99,A,lower,41,5.15,3.5,13.58,32.0,22.5,False,False
+2_7,Long hours in paid work,Work and job quality,2011,2011,14.14,A,lower,42,5.83,3.25,12.805,33.0,21.951219512195124,False,False
+2_7,Long hours in paid work,Work and job quality,2012,2012,14.18,A,lower,42,5.8149999999999995,3.085,12.8675,33.0,21.951219512195124,False,False
+2_7,Long hours in paid work,Work and job quality,2013,2013,14.0,A,lower,42,6.0,3.215,13.23,34.0,19.51219512195122,False,False
+2_7,Long hours in paid work,Work and job quality,2014,2014,13.36,A,lower,42,5.795,3.2525,13.0425,33.0,21.951219512195124,False,False
+2_7,Long hours in paid work,Work and job quality,2015,2015,13.48,A,lower,42,5.465,3.7025,12.51,34.0,19.51219512195122,False,False
+2_7,Long hours in paid work,Work and job quality,2016,2016,13.09,A,lower,43,5.02,3.465,12.925,33.0,23.80952380952381,False,False
+2_7,Long hours in paid work,Work and job quality,2017,2017,13.0,A,lower,43,5.09,3.335,12.684999999999999,33.0,23.80952380952381,False,False
+2_7,Long hours in paid work,Work and job quality,2018,2018,12.49,A,lower,42,4.975,2.8449999999999998,11.795,33.0,21.951219512195124,False,False
+2_7,Long hours in paid work,Work and job quality,2019,2019,11.97,A,lower,42,4.85,2.5975,11.5975,33.0,21.951219512195124,False,False
+2_7,Long hours in paid work,Work and job quality,2020,2020,11.15,A,lower,41,4.2,2.14,10.4,33.0,20.0,False,False
+2_7,Long hours in paid work,Work and job quality,2021,2021,11.26,A,lower,41,4.42,2.9,10.29,34.0,17.5,False,False
+2_7,Long hours in paid work,Work and job quality,2022,2022,11.15,A,lower,41,4.11,2.98,10.22,34.0,17.5,False,False
+2_7,Long hours in paid work,Work and job quality,2023,2023,10.7,A,lower,41,4.14,2.63,9.46,34.0,17.5,False,False
+2_7,Long hours in paid work,Work and job quality,2024,2024,10.18,A,lower,41,3.86,2.71,9.17,33.0,20.0,False,False
+2_7,Long hours in paid work,Work and job quality,2025,2025,9.68,A,lower,40,3.875,2.3725,8.940000000000001,33.0,17.94871794871795,False,False
+3_2,Housing affordability,Housing,2010,2010,80.7645895608,A,higher,37,78.7050678664,77.4590655722,80.6746560142,9.0,77.77777777777777,False,True
+3_2,Housing affordability,Housing,2011,2011,80.4438665326,A,higher,37,78.825200326,77.7280460981,80.4438665326,10.0,75.0,False,True
+3_2,Housing affordability,Housing,2012,2012,79.9062196913,A,higher,38,78.71519330320001,76.687912277,79.9410410978,11.0,72.97297297297297,False,True
+3_2,Housing affordability,Housing,2013,2013,80.015705226,A,higher,38,79.00940257575,76.55277082069999,80.13305294169999,12.0,70.27027027027027,False,True
+3_2,Housing affordability,Housing,2014,2014,80.0945453535,A,higher,38,79.1849962319,76.67623489895,80.11401672642499,12.0,70.27027027027027,False,True
+3_2,Housing affordability,Housing,2015,2015,79.9746383414,A,higher,38,79.06953207355,76.91379162745,80.451051961875,12.0,70.27027027027027,False,True
+3_2,Housing affordability,Housing,2016,2016,79.9752334649,A,higher,38,79.2024079395,76.9618339564,80.599262711025,16.0,59.45945945945946,False,True
+3_2,Housing affordability,Housing,2017,2017,79.9418444437,A,higher,38,79.1684526538,76.897658765925,80.45289665512499,17.0,56.75675675675676,False,True
+3_2,Housing affordability,Housing,2018,2018,80.1071872,A,higher,39,79.3418907548,77.0313007229,81.024758057,15.0,63.1578947368421,False,True
+3_2,Housing affordability,Housing,2019,2019,80.5378791222,A,higher,39,79.8777780076,77.09488178195,80.79306182959999,14.0,65.78947368421052,False,True
+3_2,Housing affordability,Housing,2020,2020,80.9217395527,A,higher,40,80.04148947735001,77.25265124,81.110262386925,12.0,71.7948717948718,False,True
+3_2,Housing affordability,Housing,2021,2021,81.5251581426,A,higher,40,79.86243629685,77.42452211749999,81.14787502605,10.0,76.92307692307692,False,True
+3_2,Housing affordability,Housing,2022,2022,81.1049031349,A,higher,39,79.2680017629,76.7330171525,81.04815565005,9.0,78.94736842105263,False,True
+3_2,Housing affordability,Housing,2023,2023,80.5751307401,A,higher,35,80.537430739,77.55738904020001,81.8079866409,17.0,52.94117647058823,False,True
+3_2,Housing affordability,Housing,2024,2024,80.7481379976,A,higher,33,80.7481379976,77.9713617891,81.9505868895,17.0,50.0,False,True
+5_1,Life expectancy at birth,Health,2010,2010,81.7,A,higher,47,79.8,74.85,80.9,7.5,85.8695652173913,False,True
+5_1,Life expectancy at birth,Health,2011,2011,81.9,A,higher,47,80.1,75.19999999999999,81.19999999999999,7.5,85.8695652173913,False,True
+5_1,Life expectancy at birth,Health,2012,2012,82.0,A,higher,47,80.3,75.44999999999999,81.35,7.0,86.95652173913044,False,True
+5_1,Life expectancy at birth,Health,2013,2013,82.1,A,higher,47,80.5,75.9,81.6,7.0,86.95652173913044,False,True
+5_1,Life expectancy at birth,Health,2014,2014,82.3,A,higher,47,81.1,76.3,81.85,8.0,84.78260869565217,False,True
+5_1,Life expectancy at birth,Health,2015,2015,82.4,A,higher,47,80.8,76.6,82.0,7.5,85.8695652173913,False,True
+5_1,Life expectancy at birth,Health,2016,2016,82.4,A,higher,47,81.0,76.5,82.1,10.0,80.43478260869566,False,True
+5_1,Life expectancy at birth,Health,2017,2017,82.5,A,higher,47,81.1,76.75,82.15,10.5,79.34782608695652,False,True
+5_1,Life expectancy at birth,Health,2018,2018,82.8,A,higher,47,81.0,77.0,82.25,8.0,84.78260869565217,False,True
+5_1,Life expectancy at birth,Health,2019,2019,82.9,A,higher,47,81.4,77.0,82.75,10.5,79.34782608695652,False,True
+5_1,Life expectancy at birth,Health,2020,2020,83.2,A,higher,47,80.8,76.80000000000001,82.3,4.0,93.47826086956522,False,True
+5_1,Life expectancy at birth,Health,2021,2021,83.3,A,higher,47,80.8,75.9,82.35,4.5,92.3913043478261,False,True
+5_1,Life expectancy at birth,Health,2022,2022,83.2,A,higher,47,80.9,76.95,82.19999999999999,3.5,94.56521739130434,False,True
+5_1,Life expectancy at birth,Health,2023,2023,83.0,A,higher,46,81.5,77.45,82.80000000000001,10.5,78.88888888888889,False,True
+5_3,"Deaths from suicide, alcohol, drugs",Health,2010,2010,14.8816227157,A,lower,44,18.4748386369,14.2734091427,26.7086277999,13.0,72.09302325581395,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2011,2011,14.9895317007,A,lower,43,17.8409017647,13.5659687332,25.8743612559,15.0,66.66666666666667,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2012,2012,15.207908362,A,lower,44,18.005665425049997,14.21473206925,25.0735334535,15.0,67.44186046511628,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2013,2013,15.9446715149,A,lower,44,18.60418501885,14.24868994505,25.999456612125,20.0,55.81395348837209,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2014,2014,17.3366202811,A,lower,45,18.0515406589,14.6852321401,25.6291133219,21.0,54.54545454545455,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2015,2015,18.1572231888,A,lower,44,17.7183349159,13.710459794225,26.153713412875,24.0,46.51162790697674,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2016,2016,20.9625912504,A,lower,46,18.838188378349997,14.518786428975,26.171824086824998,30.0,35.55555555555556,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2017,2017,22.5552116727,A,lower,45,18.486546019,14.1016431357,26.5564577093,31.0,31.818181818181817,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2018,2018,22.4345075408,A,lower,45,18.2363806325,13.9620596979,25.4289115554,30.0,34.09090909090909,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2019,2019,22.7991387802,A,lower,44,18.46992679025,13.83749575905,24.128705478475,31.0,30.232558139534884,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2020,2020,22.1839675841,A,lower,42,19.32664879715,14.4487314758,26.792753646325,29.0,31.70731707317073,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2021,2021,21.8427625967,A,lower,41,19.9219462022,14.8337764039,28.7676756185,28.0,32.5,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2022,2022,22.5855062467,A,lower,41,20.0754771635,14.8538306247,27.2801510029,28.0,32.5,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2023,2023,21.6852462561,A,lower,36,20.2885895481,14.964322602425,27.989073435625002,22.0,40.0,False,False
+5_3,"Deaths from suicide, alcohol, drugs",Health,2024,2024,22.1581886962,A,lower,18,22.05027554465,17.718233972475,34.752438975225,10.0,47.05882352941177,True,False
+6_2,Student mathematics skills,Knowledge and skills,2012,2012,504.1507662695,A,higher,39,492.7956975083,478.54195666295004,509.53289936605,12.0,71.05263157894737,False,False
+6_2,Student mathematics skills,Knowledge and skills,2015,2015,493.8962312758,A,higher,39,492.4785306725,476.0304930671,506.4778223957,18.0,55.26315789473684,False,False
+6_2,Student mathematics skills,Knowledge and skills,2018,2018,491.3600252473,A,higher,39,495.4075793913,481.13691237725,507.6858340735,24.0,39.473684210526315,False,False
+6_2,Student mathematics skills,Knowledge and skills,2022,2022,487.08,A,higher,37,479.07,464.89,488.98,13.0,66.66666666666667,False,False
+7_1_DEP,Lack of social support,Social connections,2010,2008-10,4.9265433236,A,lower,47,8.1223930491,5.90350116005,12.5900777865,7.0,86.95652173913044,False,False
+7_1_DEP,Lack of social support,Social connections,2011,2011-13,5.3241850172,A,lower,47,8.4135261207,6.46637531855,13.30787791325,8.0,84.78260869565217,False,False
+7_1_DEP,Lack of social support,Social connections,2012,2011-13,5.3241850172,A,lower,47,8.4135261207,6.46637531855,13.30787791325,8.0,84.78260869565217,False,False
+7_1_DEP,Lack of social support,Social connections,2013,2011-13,5.3241850172,A,lower,47,8.4135261207,6.46637531855,13.30787791325,8.0,84.78260869565217,False,False
+7_1_DEP,Lack of social support,Social connections,2014,2014-16,6.0415962411,A,lower,47,9.1348514001,7.090397300699999,11.59344159765,9.0,82.6086956521739,False,False
+7_1_DEP,Lack of social support,Social connections,2015,2014-16,6.0415962411,A,lower,47,9.1348514001,7.090397300699999,11.59344159765,9.0,82.6086956521739,False,False
+7_1_DEP,Lack of social support,Social connections,2016,2014-16,6.0415962411,A,lower,47,9.1348514001,7.090397300699999,11.59344159765,9.0,82.6086956521739,False,False
+7_1_DEP,Lack of social support,Social connections,2017,2017-19,5.550077771,A,lower,47,8.4022661214,6.300593543350001,11.61485902345,6.0,89.1304347826087,False,False
+7_1_DEP,Lack of social support,Social connections,2018,2017-19,5.550077771,A,lower,47,8.4022661214,6.300593543350001,11.61485902345,6.0,89.1304347826087,False,False
+7_1_DEP,Lack of social support,Social connections,2019,2017-19,5.550077771,A,lower,47,8.4022661214,6.300593543350001,11.61485902345,6.0,89.1304347826087,False,False
+7_1_DEP,Lack of social support,Social connections,2020,2020-22,6.7136780167,A,lower,47,8.5784272563,5.901851500199999,12.1768504085,15.0,69.56521739130434,False,False
+7_1_DEP,Lack of social support,Social connections,2021,2020-22,6.7136780167,A,lower,47,8.5784272563,5.901851500199999,12.1768504085,15.0,69.56521739130434,False,False
+7_1_DEP,Lack of social support,Social connections,2022,2020-22,6.7136780167,A,lower,47,8.5784272563,5.901851500199999,12.1768504085,15.0,69.56521739130434,False,False
+7_1_DEP,Lack of social support,Social connections,2023,2023-25,10.0431932573,A,lower,47,9.4099065555,7.0347591207,12.9471990016,25.0,47.82608695652174,False,False
+7_1_DEP,Lack of social support,Social connections,2024,2023-25,10.0431932573,A,lower,47,9.4099065555,7.0347591207,12.9471990016,25.0,47.82608695652174,False,False
+7_1_DEP,Lack of social support,Social connections,2025,2023-25,10.0431932573,A,lower,47,9.4099065555,7.0347591207,12.9471990016,25.0,47.82608695652174,False,False
+8_1_DEP,Not having a say in government,Civic engagement,2021,2021,46.815718,A,lower,21,51.773581,40.636953,58.392958,10.0,55.0,False,False
+8_1_DEP,Not having a say in government,Civic engagement,2023,2023,35.585077,A,lower,30,54.199028999999996,43.960536499999996,62.133255500000004,2.0,96.55172413793103,False,False
+8_2,Voter turnout,Civic engagement,2010,2010,93.22,A,higher,13,69.11,64.38,84.63,1.0,100.0,True,False
+8_2,Voter turnout,Civic engagement,2013,2013,93.23,A,higher,10,73.22,62.895,77.47,1.0,100.0,True,False
+8_2,Voter turnout,Civic engagement,2016,2016,91.01,A,higher,8,67.64,63.7725,77.2025,1.0,100.0,True,False
+8_2,Voter turnout,Civic engagement,2019,2019,91.89,A,higher,19,67.65,59.74,78.005,1.0,100.0,True,False
+8_2,Voter turnout,Civic engagement,2022,2022,89.74,A,higher,16,70.11,59.115,77.66499999999999,1.0,100.0,True,False
+8_2,Voter turnout,Civic engagement,2025,2025,90.67,A,higher,9,79.38,68.7,82.54,1.0,100.0,True,False
+9_2,Exposed to air pollution,Environmental quality,2010,2010,99.109207,A,lower,46,99.8073195,99.317831,99.94385325,9.0,82.22222222222223,False,False
+9_2,Exposed to air pollution,Environmental quality,2011,2011,99.134483,A,lower,46,99.807636,99.3189335,99.944109,9.0,82.22222222222223,False,False
+9_2,Exposed to air pollution,Environmental quality,2012,2012,99.182411,A,lower,46,99.80794900000001,99.32003399999999,99.94436075,10.0,80.0,False,False
+9_2,Exposed to air pollution,Environmental quality,2013,2013,99.130447,A,lower,46,99.808258,99.3211405,99.939318,9.0,82.22222222222223,False,False
+9_2,Exposed to air pollution,Environmental quality,2014,2014,99.089287,A,lower,46,99.80856349999999,99.3222505,99.93944725,9.0,82.22222222222223,False,False
+9_2,Exposed to air pollution,Environmental quality,2015,2015,98.812508,A,lower,46,99.7919465,99.32108675,99.9395805,7.0,86.66666666666667,False,False
+9_2,Exposed to air pollution,Environmental quality,2016,2016,99.143822,A,lower,46,99.791214,99.2024215,99.9382875,11.0,77.77777777777777,False,False
+9_2,Exposed to air pollution,Environmental quality,2017,2017,99.146439,A,lower,46,99.7904815,99.20176125,99.93772125000001,11.0,77.77777777777777,False,False
+9_2,Exposed to air pollution,Environmental quality,2018,2018,99.203194,A,lower,46,99.8080365,99.30705449999999,99.93707825,11.0,77.77777777777777,False,False
+9_2,Exposed to air pollution,Environmental quality,2019,2019,99.206535,A,lower,46,99.779995,99.1758135,99.9364835,13.0,73.33333333333333,False,False
+9_2,Exposed to air pollution,Environmental quality,2020,2020,98.969398,A,lower,46,99.743233,99.103567,99.9358885,10.0,80.0,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2010,2010,9.9062495613,A,lower,47,0.0,0.0,8.992844953350001,37.0,21.73913043478261,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2011,2011,5.4412028424,A,lower,47,0.0,0.0,1.1751339104,39.0,17.391304347826086,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2012,2012,10.1838257059,A,lower,47,0.0,0.0,20.3877531944,34.0,28.26086956521739,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2013,2013,10.1279757602,A,lower,47,0.0,0.0,4.15894926905,40.0,15.217391304347826,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2014,2014,11.6107123947,A,lower,47,0.0,0.0,3.73972255785,38.0,19.565217391304348,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2015,2015,9.4387359026,A,lower,47,0.1474528105,0.0,8.7025743585,36.0,23.91304347826087,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2016,2016,9.6354348812,A,lower,47,0.0,0.0,4.9959706462,37.0,21.73913043478261,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2017,2017,11.7778057612,A,lower,47,0.0,0.0,8.5742258786,37.0,21.73913043478261,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2018,2018,8.2129054522,A,lower,47,0.0,0.0,6.8988405906,36.0,23.91304347826087,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2019,2019,28.2298576755,A,lower,47,0.0,0.0,8.0345580031,43.0,8.695652173913043,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2020,2020,5.7002783968,A,lower,47,0.0,0.0,5.74193127345,35.0,26.08695652173913,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2021,2021,4.4441402779,A,lower,47,0.0,0.0,7.82551709835,33.0,30.434782608695652,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2022,2022,8.9972657406,A,lower,47,0.0,0.0,5.5695225143,39.0,17.391304347826086,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2023,2023,5.1012345952,A,lower,47,0.0,0.0,13.46921585615,30.0,36.95652173913044,False,False
+9_3,Exposure to extreme temperature,Environmental quality,2024,2024,11.1892323848,A,lower,47,0.0,0.0,23.5170892543,31.0,34.78260869565217,False,False

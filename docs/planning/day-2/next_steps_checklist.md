@@ -168,44 +168,44 @@ crosses zero.
 
 ## Method 4 — Theil–Sen trend and Kendall's tau
 
-**Status:** Not implemented. Existing trajectory tables are descriptive and do
+**Status:** Implemented and independently verified on `code-review`. The
+notebook exports robust slopes, exploratory trend diagnostics, international
+slope positions and endpoint-agreement evidence used by the report.
 
-not yet contain robust slopes or trend tests.
-
-- [ ]  Estimate Australia's native-unit Theil–Sen slope for each primary
+- [x]  Estimate Australia's native-unit Theil–Sen slope for each primary
     
     outcome.
     
-- [ ]  Calculate an oriented slope where positive always means favourable.
-- [ ]  Use annual years from 2010 through 2024 for income and employment.
-- [ ]  Use the six independent pooled-window midpoints for social support and
+- [x]  Calculate an oriented slope where positive always means favourable.
+- [x]  Use annual years from 2010 through 2024 for income and employment.
+- [x]  Use the six independent pooled-window midpoints for social support and
     
     negative affect.
     
-- [ ]  Calculate Kendall's tau, raw p-value and independent-observation count for
+- [x]  Calculate Kendall's tau, raw p-value and independent-observation count for
     
     each Australian series.
     
-- [ ]  Apply Holm adjustment across the four pre-specified Kendall tests.
-- [ ]  For country-level slope comparisons, require the same start and endpoint
+- [x]  Apply Holm adjustment across the four pre-specified Kendall tests.
+- [x]  For country-level slope comparisons, require the same start and endpoint
     
     and at least 80% of the focal outcome's independent periods.
     
-- [ ]  Report Australia's favourable slope percentile among eligible countries
+- [x]  Report Australia's favourable slope percentile among eligible countries
     
     and the eligible-country count.
     
-- [ ]  Compare the sign of each robust slope with its common-endpoint result.
-- [ ]  Flag disagreement as sensitivity rather than selecting the preferred
+- [x]  Compare the sign of each robust slope with its common-endpoint result.
+- [x]  Flag disagreement as sensitivity rather than selecting the preferred
     
     result.
     
-- [ ]  Emphasise direction, magnitude and agreement for the social outcomes;
+- [x]  Emphasise direction, magnitude and agreement for the social outcomes;
     
     avoid strong significance claims from six periods.
     
-- [ ]  Write `reports/tables/material_social_trend_results.csv`.
-- [ ]  Add a concise endpoint-versus-trend agreement table to the robustness
+- [x]  Write `reports/tables/material_social_trend_results.csv`.
+- [x]  Add a concise endpoint-versus-trend agreement table to the robustness
     
     section of the report.
     
