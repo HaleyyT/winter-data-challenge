@@ -218,7 +218,11 @@ agreement or disagreement statement.
 
 ## Method 5 — Optional Spearman material–social association
 
-**Status:** Not implemented and not required for the main research question.
+**Status:** Provisionally implemented in
+`notebooks/method5_spearman_association.ipynb`, but not complete and not
+eligible for report integration. Methods 3 and 4 remain outstanding, so this
+secondary analysis must be rechecked only after the primary definitions,
+figures and robustness results are frozen.
 
 **Start rule:** begin only after Methods 1–4, both final figures and the report's
 
