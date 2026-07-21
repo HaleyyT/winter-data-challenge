@@ -739,14 +739,26 @@ method3_display = method3_bootstrap.merge(
     method3_placebo[["indicator_code", "australia_favourable_percentile"]],
     on="indicator_code", validate="one_to_one"
 )[[
-    "indicator", "observed_oriented_gap", "bootstrap_ci_lower", "bootstrap_ci_upper",
+    "indicator", "unit", "observed_oriented_gap", "bootstrap_gap_median",
+    "bootstrap_ci_lower", "bootstrap_ci_upper",
     "australia_favourable_percentile", "eligible_comparator_country_count", "sensitivity_label",
 ]].copy()
+method3_display["bootstrap_summary"] = method3_display.apply(
+    lambda row: (
+        f"{row.bootstrap_gap_median:.2f} "
+        f"[{row.bootstrap_ci_lower:.2f}, {row.bootstrap_ci_upper:.2f}]"
+    ),
+    axis=1,
+)
+method3_display = method3_display[[
+    "indicator", "unit", "observed_oriented_gap", "bootstrap_summary",
+    "australia_favourable_percentile", "eligible_comparator_country_count", "sensitivity_label",
+]]
 method3_display.columns = [
-    "Outcome", "Oriented gap", "Bootstrap 2.5%", "Bootstrap 97.5%",
+    "Outcome", "Unit", "Oriented gap", "Bootstrap median [2.5%, 97.5%]",
     "Favourable percentile", "Comparators", "Sensitivity",
 ]
-display(method3_display.round(2))
+display(method3_display)
 display(Image(filename=str(method3_figure_path)))
 ```
 

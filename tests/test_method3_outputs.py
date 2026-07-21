@@ -58,6 +58,17 @@ def test_bootstrap_design_and_oriented_gaps_reconcile_with_method2():
 
 def test_bootstrap_intervals_and_sensitivity_labels_follow_the_prespecified_rule():
     bootstrap, _, _ = load_outputs()
+    expected_bootstrap = np.array([
+        [-956.000000, -2610.000000, 1164.000000],
+        [-0.864000, -2.065000, 0.173000],
+        [-4.290870, -5.435042, -2.787553],
+        [-2.662420, -3.772186, -1.249916],
+    ])
+    np.testing.assert_allclose(
+        bootstrap[["bootstrap_gap_median", "bootstrap_ci_lower", "bootstrap_ci_upper"]],
+        expected_bootstrap,
+        atol=1e-6,
+    )
     assert (bootstrap["bootstrap_ci_lower"] <= bootstrap["bootstrap_gap_median"]).all()
     assert (bootstrap["bootstrap_gap_median"] <= bootstrap["bootstrap_ci_upper"]).all()
     expected_crosses_zero = (
