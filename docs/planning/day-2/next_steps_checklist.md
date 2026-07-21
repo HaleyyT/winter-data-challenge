@@ -64,21 +64,20 @@ period labels and coverage information, and contains no manually entered data.
 
 ## Method 2 — Common-endpoint comparative change
 
-**Status:** Partly complete. Economic and social endpoint calculations already
+**Status:** In progress. Steps 1–3 are complete and verified: one four-outcome
+workflow now enforces exact common displayed endpoints and reports Australia's
+start value, endpoint value, and native-unit change. Comparative gaps, ranks,
+uncertainty, and frozen-table export remain outstanding.
 
-exist in separate notebooks and in the Quarto report. A single four-outcome
-
-analysis table with oriented comparative gaps has not been generated.
-
-- [ ]  Add all four primary outcomes to one common-endpoint workflow in
+- [x]  Add all four primary outcomes to one common-endpoint workflow in
     
     `notebooks/02_analysis.ipynb`.
     
-- [ ]  For each outcome, require Australia and every comparator to share the
+- [x]  For each outcome, require Australia and every comparator to share the
     
     exact start and endpoint periods.
     
-- [ ]  Report Australia's start value, endpoint value and native-unit change.
+- [x]  Report Australia's start value, endpoint value and native-unit change.
 - [ ]  Report the comparator median native-unit change.
 - [ ]  Calculate an oriented Australia-minus-comparator-median gap where positive
     
