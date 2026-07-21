@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Yilin Li, Winnie Qiu, Haley Tran">
+<meta name="author" content="Yilin Li (530536402), Haley Tran (530002284), Winnie Qiu">
 <meta name="dcterms.date" content="2026-07-21">
 
 <title>Australia’s material progress and social well-being</title>
@@ -2219,74 +2219,118 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 
 <body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Australia’s material progress and social well-being</h1>
+            <p class="subtitle lead">Reproducible descriptive comparison using the supplied OECD Current Well-being extract</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Yilin Li (530536402), Haley Tran (530002284), Winnie Qiu </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 21, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
 <div id="quarto-sidebar-toc-left" class="sidebar toc-left">
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary">Executive summary</a></li>
-  <li><a href="#data-cleaning-and-preprocessing" id="toc-data-cleaning-and-preprocessing" class="nav-link" data-scroll-target="#data-cleaning-and-preprocessing">Data, cleaning and preprocessing</a></li>
-  <li><a href="#exploratory-analysis-and-question-selection" id="toc-exploratory-analysis-and-question-selection" class="nav-link" data-scroll-target="#exploratory-analysis-and-question-selection">Exploratory analysis and question selection</a></li>
-  <li><a href="#analytical-protocol" id="toc-analytical-protocol" class="nav-link" data-scroll-target="#analytical-protocol">Analytical protocol</a></li>
-  <li><a href="#findings" id="toc-findings" class="nav-link" data-scroll-target="#findings">Findings</a>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary"><span class="header-section-number">1</span> Executive summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">2</span> Introduction</a>
   <ul class="collapse">
-  <li><a href="#material-conditions-improved-but-broad-outperformance-is-not-supported" id="toc-material-conditions-improved-but-broad-outperformance-is-not-supported" class="nav-link" data-scroll-target="#material-conditions-improved-but-broad-outperformance-is-not-supported">Material conditions improved, but broad outperformance is not supported</a></li>
-  <li><a href="#social-support-and-emotional-well-being-deteriorated" id="toc-social-support-and-emotional-well-being-deteriorated" class="nav-link" data-scroll-target="#social-support-and-emotional-well-being-deteriorated">Social support and emotional well-being deteriorated</a></li>
-  <li><a href="#health-is-context-not-the-primary-explanation" id="toc-health-is-context-not-the-primary-explanation" class="nav-link" data-scroll-target="#health-is-context-not-the-primary-explanation">Health is context, not the primary explanation</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="header-section-number">2.1</span> Background</a></li>
   </ul></li>
-  <li><a href="#limitations-and-claim-boundaries" id="toc-limitations-and-claim-boundaries" class="nav-link" data-scroll-target="#limitations-and-claim-boundaries">Limitations and claim boundaries</a></li>
-  <li><a href="#reproduce-this-report" id="toc-reproduce-this-report" class="nav-link" data-scroll-target="#reproduce-this-report">Reproduce this report</a></li>
+  <li><a href="#data-cleaning-and-preprocessing" id="toc-data-cleaning-and-preprocessing" class="nav-link" data-scroll-target="#data-cleaning-and-preprocessing"><span class="header-section-number">3</span> Data cleaning and preprocessing</a>
+  <ul class="collapse">
+  <li><a href="#brief-workflow" id="toc-brief-workflow" class="nav-link" data-scroll-target="#brief-workflow"><span class="header-section-number">3.1</span> Brief Workflow</a></li>
+  <li><a href="#column-selection-and-standardisation" id="toc-column-selection-and-standardisation" class="nav-link" data-scroll-target="#column-selection-and-standardisation"><span class="header-section-number">3.2</span> Column selection and standardisation</a></li>
+  <li><a href="#data-quality-information" id="toc-data-quality-information" class="nav-link" data-scroll-target="#data-quality-information"><span class="header-section-number">3.3</span> Data quality information</a></li>
+  <li><a href="#scope-and-validation" id="toc-scope-and-validation" class="nav-link" data-scroll-target="#scope-and-validation"><span class="header-section-number">3.4</span> Scope and validation</a></li>
+  <li><a href="#processed-outputs" id="toc-processed-outputs" class="nav-link" data-scroll-target="#processed-outputs"><span class="header-section-number">3.5</span> Processed outputs</a></li>
+  </ul></li>
+  <li><a href="#exploratory-analysis-and-question-selection" id="toc-exploratory-analysis-and-question-selection" class="nav-link" data-scroll-target="#exploratory-analysis-and-question-selection"><span class="header-section-number">4</span> Exploratory analysis and question selection</a>
+  <ul class="collapse">
+  <li><a href="#candidate-research-domains" id="toc-candidate-research-domains" class="nav-link" data-scroll-target="#candidate-research-domains"><span class="header-section-number">4.1</span> Candidate research domains</a></li>
+  <li><a href="#selection-of-social-connections" id="toc-selection-of-social-connections" class="nav-link" data-scroll-target="#selection-of-social-connections"><span class="header-section-number">4.2</span> Selection of social connections</a></li>
+  <li><a href="#development-of-the-research-question" id="toc-development-of-the-research-question" class="nav-link" data-scroll-target="#development-of-the-research-question"><span class="header-section-number">4.3</span> Development of the research question</a></li>
+  </ul></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology"><span class="header-section-number">5</span> Methodology</a>
+  <ul class="collapse">
+  <li><a href="#method-1-eda" id="toc-method-1-eda" class="nav-link" data-scroll-target="#method-1-eda"><span class="header-section-number">5.1</span> Method 1: EDA</a></li>
+  <li><a href="#method-2-primary-common-endpoint-comparison" id="toc-method-2-primary-common-endpoint-comparison" class="nav-link" data-scroll-target="#method-2-primary-common-endpoint-comparison"><span class="header-section-number">5.2</span> Method 2: Primary common-endpoint comparison</a></li>
+  <li><a href="#method-3-bootstrap-uncertainty-and-placebo-ranking" id="toc-method-3-bootstrap-uncertainty-and-placebo-ranking" class="nav-link" data-scroll-target="#method-3-bootstrap-uncertainty-and-placebo-ranking"><span class="header-section-number">5.3</span> Method 3: Bootstrap uncertainty and placebo ranking</a></li>
+  <li><a href="#method-4-theilsen-and-kendall-trend-robustness" id="toc-method-4-theilsen-and-kendall-trend-robustness" class="nav-link" data-scroll-target="#method-4-theilsen-and-kendall-trend-robustness"><span class="header-section-number">5.4</span> Method 4: Theil–Sen and Kendall trend robustness</a></li>
+  </ul></li>
+  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results"><span class="header-section-number">6</span> Analysis and results</a>
+  <ul class="collapse">
+  <li><a href="#findings" id="toc-findings" class="nav-link" data-scroll-target="#findings"><span class="header-section-number">6.1</span> Findings</a></li>
+  <li><a href="#health-is-context-not-the-primary-explanation" id="toc-health-is-context-not-the-primary-explanation" class="nav-link" data-scroll-target="#health-is-context-not-the-primary-explanation"><span class="header-section-number">6.2</span> Health is context, not the primary explanation</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">7</span> Conclusion</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">8</span> Limitations</a>
+  <ul class="collapse">
+  <li><a href="#limitations-and-claim-boundaries" id="toc-limitations-and-claim-boundaries" class="nav-link" data-scroll-target="#limitations-and-claim-boundaries"><span class="header-section-number">8.1</span> Limitations and claim boundaries</a></li>
+  </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">9</span> Appendix</a>
+  <ul class="collapse">
+  <li><a href="#reproduce-this-report" id="toc-reproduce-this-report" class="nav-link" data-scroll-target="#reproduce-this-report"><span class="header-section-number">9.1</span> Reproduce this report</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Australia’s material progress and social well-being</h1>
-<p class="subtitle lead">Reproducible descriptive comparison using the supplied OECD Current Well-being extract</p>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Yilin Li, Winnie Qiu, Haley Tran </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">July 21, 2026</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
 
 
-</header>
-
-
-<section id="executive-summary" class="level2">
-<h2 class="anchored" data-anchor-id="executive-summary">Executive summary</h2>
+<section id="executive-summary" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="executive-summary"><span class="header-section-number">1</span> Executive summary</h2>
 <p><strong>Research question:</strong> As Australia’s material conditions improved, did perceived social support and emotional well-being deteriorate relative to comparable countries?</p>
 <p>The evidence supports a <strong>material–social tension</strong>, but not a causal claim. Australia’s income and employment increased from 2010 to 2024, while perceived lack of social support more than doubled and negative affect rose across the independent pooled survey windows. Australia deteriorated more than the typical supplied-country comparator on both social outcomes.</p>
 <blockquote class="blockquote">
 <p><strong>Australia became materially better resourced, while perceived social support and emotional well-being worsened relative to comparable countries.</strong></p>
 </blockquote>
 </section>
-<section id="data-cleaning-and-preprocessing" class="level2">
-<h2 class="anchored" data-anchor-id="data-cleaning-and-preprocessing">Data, cleaning and preprocessing</h2>
-<div id="004a3c21" class="cell" data-execution_count="1">
+<section id="introduction" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2</span> Introduction</h2>
+<section id="background" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="background"><span class="header-section-number">2.1</span> Background</h3>
+<p>Typically, a country’s success is measured mainly on economic indicators. However, looking exclusively at material wealth does not adequately reflect people’s true lives and experiences. In particular, income and employment may steadily improve as a country improves. The development in other areas like health, social relationships or well-being are difficult to foresee. So a larger assessment must take into consideration both material situations and people’s life experiences.</p>
+<p>This report is based on data from the Organisation for Economic Cooperation and Development’s <strong>How’s Life?</strong> database. It assesses the material wealth, quality of life, and community-related aspects of a nation’s well-being. Income and wealth, employment, housing, work-life balance, health, education, social connections, political involvement, environmental quality, and subjective well-being are all included.</p>
+<p>The <code>OECD Data.csv</code> raw dataset includes 8,806 observations from 47 countries, covering 21 indicators and 10 domains of well-being. And Australia is included alongside a range of international comparators. The data are arranged as a time series, which allows this study to assess changes in Australia over time and compare its performance with that of nations that reported the same indicators over the same period.</p>
+<p>The data’s major analysis period spans from 2010 to 2024. Instead of being considered as distinct annual measurements, these observations are labelled according to their entire survey window.</p>
+</section>
+</section>
+<section id="data-cleaning-and-preprocessing" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="data-cleaning-and-preprocessing"><span class="header-section-number">3</span> Data cleaning and preprocessing</h2>
+<section id="brief-workflow" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="brief-workflow"><span class="header-section-number">3.1</span> Brief Workflow</h3>
+<p>The raw <code>OECD Data.csv</code> file was preserved unchanged. The data preparation section is performed using all functions in <strong>Audit</strong> section. The <code>data/processed</code> directory will include the cleaned and examined datasets.</p>
+<p>We checked the raw dataset for duplicate entries, missing observations, data types, and expected columns. We made sure that there were no missing values in the principal observation field, no entirely duplicate rows, and no duplicate country-indicator-year keys.</p>
+<p>This table summaries a simple data cleaning steps.</p>
+<div id="44bb8c03" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2337,10 +2381,208 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </div>
 </div>
 </div>
-<p>The raw OECD file is never modified. Cleaning creates a tidy analysis copy with one observation per country, indicator and displayed year. We retain status flags rather than silently removing estimates, provisional observations or series breaks. This keeps the primary analysis transparent and allows a normal-status-only sensitivity check.</p>
 </section>
-<section id="exploratory-analysis-and-question-selection" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-analysis-and-question-selection">Exploratory analysis and question selection</h2>
+<section id="column-selection-and-standardisation" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="column-selection-and-standardisation"><span class="header-section-number">3.2</span> Column selection and standardisation</h3>
+<p>We chose and kept the fields required for the challenge after examining the raw data files. These consist of base periods, welfare domains, reference years, observed values, units, country and indicator codes and labels, and OECD observation status data. The retained columns were given the readable names to make reading and further analysis easier. Additionally, we standardised data formats, eliminated leading and trailing spaces from text fields, and substituted <code>NA</code> for <code>_Z</code>.</p>
+</section>
+<section id="data-quality-information" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="data-quality-information"><span class="header-section-number">3.3</span> Data quality information</h3>
+<p>In the 2010-2024 processing dataset, 8,321 of the 8,575 records were categorised as normal, with 254 receiving quality warnings. The flagged records consisted of 39 time-series breakdowns, 45 definition inconsistencies, 85 estimates, and 85 tentative values. To prevent utilising these missing values in later studies, we created a Boolean quality parameter to detect them during sensitivity checks.</p>
+<p>The audit workflow also gave each indicator a positive direction. Higher levels of employment and income, for instance, are viewed favourably, but higher levels of unpleasant emotions and a lack of social support are viewed unfavourably. This permits worldwide rankings and adjustments to be expressed uniformly while maintaining the original values of the indicators.</p>
+</section>
+<section id="scope-and-validation" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="scope-and-validation"><span class="header-section-number">3.4</span> Scope and validation</h3>
+<p>The cleaned dataset was restricted to the period of 2010-2014 and export as <code>OECD_cleaned_version.csv</code>. Finally, it contains 8,575 observations covering 47 countries, 21 indicators and 10 domains.</p>
+<p>The reusable audit workflow `` performs the validation of missing required columns, missing observation values, duplicate country–indicator–year keys or unrecognised indicators cause the workflow to stop with an error.</p>
+<p>Therefore, the tidy structure ensures that:</p>
+<ul>
+<li>each row represents one country, indicator and displayed year</li>
+<li>each country code corresponded to one country name</li>
+<li>each indicator had a consistent name, domain and unit</li>
+<li>the required analytical fields contained no missing values</li>
+<li>country–indicator–year keys were unique</li>
+</ul>
+</section>
+<section id="processed-outputs" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="processed-outputs"><span class="header-section-number">3.5</span> Processed outputs</h3>
+<p>Finally, the data cleaning and reprocessing conducts the following dataset: - <code>OECD_cleaned_version.csv</code>: the notebook’s tidy 2010–2024 dataset - <code>oecd_clean.csv</code>: the validated analysis dataset with indicator direction, quality flags and independent-period labels - <code>OECD_categories.csv</code>: a summary of indicators, units and coverage within each domain - <code>OECD_domain_counts.csv</code>: overall domain coverage ranked by observation count - <code>AU_domain_counts.csv</code>: the equivalent domain-coverage summary for Australia</p>
+</section>
+</section>
+<section id="exploratory-analysis-and-question-selection" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="exploratory-analysis-and-question-selection"><span class="header-section-number">4</span> Exploratory analysis and question selection</h2>
+<section id="candidate-research-domains" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="candidate-research-domains"><span class="header-section-number">4.1</span> Candidate research domains</h3>
+<p>After cleaning the data, we prioritised three areas based on topic coverage rankings: economic situations, health, and subjective well-being. We also evaluated the connections between social interactions, work and work quality, and other relevant domains. This phase was used to investigate specific concerns for which there was enough data to make international comparisons.</p>
+<section id="economic" class="level4" data-number="4.1.1">
+<h4 data-number="4.1.1" class="anchored" data-anchor-id="economic"><span class="header-section-number">4.1.1</span> Economic</h4>
+<p>The economic investigation took into the aspects of household income, enployment, gender wage gap, long working hours and income inequality.</p>
+<p>There are the significant improvements of Australia’s living standards and the labor market. Between 2010 and 2024, per capita household income increased by $6,004, while the employment rate rose by 4.82 percentage points. The proportion of employees working long hours decreased by 3.81 percentage points, and the gender wage gap also narrowed.</p>
+<p>However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Indicator</th>
+<th style="text-align: right;">Australia’s change</th>
+<th style="text-align: right;">English-speaking reference</th>
+<th style="text-align: right;">Broad supplied-country reference</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Household income per person, PPP</td>
+<td style="text-align: right;">+USD 6,004</td>
+<td style="text-align: right;">+USD 5,218 median (3 peers)</td>
+<td style="text-align: right;">+USD 6,960 median (31 countries)</td>
+<td>A substantial domestic gain. It exceeds the small-peer median but not the broad median; the small-peer result changes when individual peers are omitted.</td>
+</tr>
+<tr class="even">
+<td>Employment rate</td>
+<td style="text-align: right;">+4.82 pp</td>
+<td style="text-align: right;">+5.17 pp median (4 peers)</td>
+<td style="text-align: right;">+5.68 pp median (43 countries)</td>
+<td>Employment improved in Australia, but its improvement was not faster than either reference median.</td>
+</tr>
+<tr class="odd">
+<td>Gender wage gap</td>
+<td style="text-align: right;">-3.37 pp</td>
+<td style="text-align: right;">-2.60 pp median (4 peers)</td>
+<td style="text-align: right;">-3.23 pp median (29 countries)</td>
+<td>A favourable reduction, with broadly middle-of-the-distribution comparative change.</td>
+</tr>
+<tr class="even">
+<td>Long-hours share</td>
+<td style="text-align: right;">-3.81 pp</td>
+<td style="text-align: right;">-1.80 pp median (4 peers)</td>
+<td style="text-align: right;">-2.01 pp median (39 countries)</td>
+<td>Australia’s improvement is stronger than both benchmarks. Its 2024 level remains above the English-speaking-peer median: 10.18% versus 9.20%.</td>
+</tr>
+<tr class="odd">
+<td>S80/S20 income inequality, 2012–20</td>
+<td style="text-align: right;">+0.04</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td>Essentially flat to slightly worse; the supplied data do not show that average gains were more equally shared.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="health" class="level4" data-number="4.1.2">
+<h4 data-number="4.1.2" class="anchored" data-anchor-id="health"><span class="header-section-number">4.1.2</span> Health</h4>
+<p>The health investigation took into the aspects of life expectancy and suicide, alcohol and drugs death.</p>
+<p>Australian life expectancy significantly increased and remained above the supplied-country median value. And the combined death increased from 14.9 to 22.2 per 100,000 by 2024.</p>
+<p>However, the overall mortality rate metric includes three separate causes of death (social support, subjective well-being and economic), and only 18 nations have supplied data for 2024. As a result, health is viewed as a valuable supporting background rather than the primary focus.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 28%">
+<col style="width: 26%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Measure</th>
+<th>Eearlier value</th>
+<th>Latest value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Life expectancy</td>
+<td>81.7 years (2010)</td>
+<td>83.0 years (2023)</td>
+<td>Increased</td>
+</tr>
+<tr class="even">
+<td>Suicide/alcohol/drug deaths</td>
+<td>14.9 per 100,000 (2010)</td>
+<td>22.2 per 100,000 (2024)</td>
+<td>Increased</td>
+</tr>
+<tr class="odd">
+<td>Life expectancy peer comparison</td>
+<td>-</td>
+<td>83.0 versus supplied-country median 81.5 (2023)</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>Harm-death comparison</td>
+<td>-</td>
+<td>21.7 versus median 20.3 (2023)</td>
+<td>Slightly worse</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="subjective-well-being" class="level4" data-number="4.1.3">
+<h4 data-number="4.1.3" class="anchored" data-anchor-id="subjective-well-being"><span class="header-section-number">4.1.3</span> Subjective Well-being</h4>
+<p>The subjective well-being investigation took into the aspects of negative emotions and life satisfaction.</p>
+<p>Overall, negative emotions increased from 12.24% between 2008 and 2010 to 14.85% between 2023 and 2025. Australia’s rate climbed in the most recent period and exceeded the median, indicating a decline in its relative standing. Life satisfaction decreased from 7.5 in 2019 to 7.2 in 2020. However, with only two data sets available for Australia, this indicator cannot demonstrate a consistent long-term trend.</p>
+<p>Negative emotions offer far better temporal and worldwide coverage. Thus, it was chosen as the key measure of emotional well-being.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 27%">
+<col style="width: 25%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Measure</th>
+<th>Earlier value</th>
+<th>Latest value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Negative affect balance</td>
+<td>12.24% (2008-10)</td>
+<td>14.85% (2023-25)</td>
+<td>Negative emotional experiences became more common</td>
+</tr>
+<tr class="even">
+<td>Life satisfaction</td>
+<td>7.5/10 (2019)</td>
+<td>7.2/10 (2020)</td>
+<td>Fell by 0.3 points, but only two Australian observations are available</td>
+</tr>
+<tr class="odd">
+<td>Negative affect peer comparison</td>
+<td>12.24% versus supplied-country median 12.24% (2008-10)</td>
+<td>14.85% versus median 12.39% (2023-25)</td>
+<td>Australia moved from the median to worse than the median</td>
+</tr>
+<tr class="even">
+<td>Life satisfaction peer comparison</td>
+<td>7.5 versus supplied-country median 7.58 (2019)</td>
+<td>7.2 versus median 7.30 (2020)</td>
+<td>Slightly below the median, but only six countries reported in each year</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cross-references-considered" class="level4" data-number="4.1.4">
+<h4 data-number="4.1.4" class="anchored" data-anchor-id="cross-references-considered"><span class="header-section-number">4.1.4</span> Cross-references considered</h4>
+<p>The research also examined several cross-domain relationships: - Economic and social connections - Economic and subjective well-being - Health and subjective well-being - Health and work and job quality - Subjective well-being and employment conditions - Subjective well-being and income and wealth - Subjective well-being and social connections</p>
+<p>The correlation between <strong>subjective well-being</strong> and <strong>social connections</strong> appeared to be the best fit. The absence of social support and negative feelings have in common six Gallup combined windows and are broadly represented in all 47 countries that belong to the database. It provides an opportunity to compare these two dependent variables without applying any interpolation techniques or finding equivalent time frames.</p>
+</section>
+</section>
+<section id="selection-of-social-connections" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="selection-of-social-connections"><span class="header-section-number">4.2</span> Selection of social connections</h3>
+<p>Low social support exhibited the most significant drop, increasing from 4.93% in 2008-10 to 10.04% in 2023-25. Negative affect grew from 12.24% to 14.85%, indicating an increase in problems related to social and emotional aspects. Social support was chosen due to clarity, similarity to negative affect, large change over time, and adequate international availability. Despite the fact that it fails to reflect all social contacts, it offered the best way for comparison. In general, conditions in Australia have become better while social and emotional conditions are worse.</p>
+</section>
+<section id="development-of-the-research-question" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="development-of-the-research-question"><span class="header-section-number">4.3</span> Development of the research question</h3>
 <p>We first audited coverage by country, indicator and year, separating genuine annual gaps from non-annual survey designs. We then examined Australia’s latest position and direction of change using only countries reporting the same indicator in the same period. This revealed a coherent tension:</p>
 <ul>
 <li>Material resources and employment improved, but income inequality did not clearly improve and long-hours work remained comparatively high despite a favourable decline.</li>
@@ -2349,11 +2591,14 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </ul>
 <p>These checks led to the report’s research question: whether Australia’s material progress coexisted with a relative deterioration in perceived social support and emotional well-being. The question is deliberately descriptive and does not assume a causal pathway between the two domains.</p>
 </section>
-<section id="analytical-protocol" class="level2">
-<h2 class="anchored" data-anchor-id="analytical-protocol">Analytical protocol</h2>
+</section>
+<section id="methodology" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="methodology"><span class="header-section-number">5</span> Methodology</h2>
+<section id="method-1-eda" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="method-1-eda"><span class="header-section-number">5.1</span> Method 1: EDA</h3>
 <p>The focal country is Australia. The broad reference contains countries in the supplied extract with the same exact endpoints; it is not labelled “OECD” because the extract includes non-members. Canada, New Zealand, the United Kingdom and the United States are a separate English-speaking sensitivity group.</p>
 <p>Economic indicators are annual. Lack of social support and negative affect are six independent three-year Gallup windows. For lower-is-better outcomes, the report uses direction-oriented changes for ranks while preserving native-unit changes for interpretation.</p>
-<div id="d4fc3aec" class="cell" data-execution_count="3">
+<div id="213d710b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2424,10 +2669,22 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </div>
 </div>
 </section>
-<section id="findings" class="level2">
-<h2 class="anchored" data-anchor-id="findings">Findings</h2>
-<section id="material-conditions-improved-but-broad-outperformance-is-not-supported" class="level3">
-<h3 class="anchored" data-anchor-id="material-conditions-improved-but-broad-outperformance-is-not-supported">Material conditions improved, but broad outperformance is not supported</h3>
+<section id="method-2-primary-common-endpoint-comparison" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="method-2-primary-common-endpoint-comparison"><span class="header-section-number">5.2</span> Method 2: Primary common-endpoint comparison</h3>
+</section>
+<section id="method-3-bootstrap-uncertainty-and-placebo-ranking" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="method-3-bootstrap-uncertainty-and-placebo-ranking"><span class="header-section-number">5.3</span> Method 3: Bootstrap uncertainty and placebo ranking</h3>
+</section>
+<section id="method-4-theilsen-and-kendall-trend-robustness" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="method-4-theilsen-and-kendall-trend-robustness"><span class="header-section-number">5.4</span> Method 4: Theil–Sen and Kendall trend robustness</h3>
+</section>
+</section>
+<section id="analysis-and-results" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="analysis-and-results"><span class="header-section-number">6</span> Analysis and results</h2>
+<section id="findings" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="findings"><span class="header-section-number">6.1</span> Findings</h3>
+<section id="material-conditions-improved-but-broad-outperformance-is-not-supported" class="level4" data-number="6.1.1">
+<h4 data-number="6.1.1" class="anchored" data-anchor-id="material-conditions-improved-but-broad-outperformance-is-not-supported"><span class="header-section-number">6.1.1</span> Material conditions improved, but broad outperformance is not supported</h4>
 <ul>
 <li>Household income per person rose <strong>USD 6,004</strong> from 2010 to 2024. This is a substantial domestic gain, but below the broad-reference median rise of USD 6,960 among 31 common-endpoint countries.</li>
 <li>Employment increased <strong>4.82 percentage points</strong>, below the broad-reference median rise of 5.68 points among 43 common-endpoint countries.</li>
@@ -2435,13 +2692,13 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <li>The S80/S20 income ratio changed only from <strong>5.52 in 2012 to 5.56 in 2020</strong>. The available distributional evidence does not show that average gains were broadly shared.</li>
 </ul>
 </section>
-<section id="social-support-and-emotional-well-being-deteriorated" class="level3">
-<h3 class="anchored" data-anchor-id="social-support-and-emotional-well-being-deteriorated">Social support and emotional well-being deteriorated</h3>
+<section id="social-support-and-emotional-well-being-deteriorated" class="level4" data-number="6.1.2">
+<h4 data-number="6.1.2" class="anchored" data-anchor-id="social-support-and-emotional-well-being-deteriorated"><span class="header-section-number">6.1.2</span> Social support and emotional well-being deteriorated</h4>
 <ul>
 <li>Lack of social support rose from <strong>4.93%</strong> in 2008–10 to <strong>10.04%</strong> in the 2023–25 pooled window: a <strong>5.12-point adverse change</strong>. The broad-reference median improved by 0.83 points, placing Australia at about the 9th favourable percentile of 47 common-endpoint countries.</li>
 <li>Negative affect rose from <strong>12.24%</strong> to <strong>14.85%</strong> across the same windows: a <strong>2.61-point adverse change</strong>. The broad-reference median change was near zero (+0.05 points), placing Australia at about the 20th favourable percentile.</li>
 </ul>
-<div id="607c02df" class="cell" data-execution_count="4">
+<div id="6c6b0aa0" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2450,15 +2707,21 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="health-is-context-not-the-primary-explanation" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="health-is-context-not-the-primary-explanation"><span class="header-section-number">6.2</span> Health is context, not the primary explanation</h3>
+<p>Life expectancy rose from 81.7 years in 2010 to 83.0 in 2023. The combined death rate from suicide, alcohol and drugs rose from 14.9 to 22.2 per 100,000 by 2024. This is a warning signal, but it cannot explain the material–social result: it combines distinct causes and only 18 countries share the 2024 endpoint.</p>
 <p>The figure illustrates the central tension: material measures improved while the two lived-experience outcomes moved adversely. The social panels use pooled-window midpoints and do not imply annual independent measurement.</p>
 </section>
-<section id="health-is-context-not-the-primary-explanation" class="level3">
-<h3 class="anchored" data-anchor-id="health-is-context-not-the-primary-explanation">Health is context, not the primary explanation</h3>
-<p>Life expectancy rose from 81.7 years in 2010 to 83.0 in 2023. The combined death rate from suicide, alcohol and drugs rose from 14.9 to 22.2 per 100,000 by 2024. This is a warning signal, but it cannot explain the material–social result: it combines distinct causes and only 18 countries share the 2024 endpoint.</p>
 </section>
+<section id="conclusion" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">7</span> Conclusion</h2>
 </section>
-<section id="limitations-and-claim-boundaries" class="level2">
-<h2 class="anchored" data-anchor-id="limitations-and-claim-boundaries">Limitations and claim boundaries</h2>
+<section id="limitations" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="limitations"><span class="header-section-number">8</span> Limitations</h2>
+<section id="limitations-and-claim-boundaries" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="limitations-and-claim-boundaries"><span class="header-section-number">8.1</span> Limitations and claim boundaries</h3>
 <ul>
 <li>This is a descriptive country-level comparison, not a causal design.</li>
 <li>Perceived support is not a complete measure of social connection; the extract has no Australian time-use measure for social interaction.</li>
@@ -2467,13 +2730,17 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <li>Results apply only to countries and periods available in the supplied extract.</li>
 </ul>
 </section>
-<section id="reproduce-this-report" class="level2">
-<h2 class="anchored" data-anchor-id="reproduce-this-report">Reproduce this report</h2>
+</section>
+<section id="appendix" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="appendix"><span class="header-section-number">9</span> Appendix</h2>
+<section id="reproduce-this-report" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="reproduce-this-report"><span class="header-section-number">9.1</span> Reproduce this report</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render submission/australia_material_social_report.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The HTML output is ignored by Git. A successful render verifies the raw input, audit, report calculations, chart generation, and repository tests in one run.</p>
+</section>
 </section>
 
 </main>

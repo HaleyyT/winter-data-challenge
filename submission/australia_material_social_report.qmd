@@ -1,12 +1,14 @@
 ---
 title: "Australia's material progress and social well-being"
 subtitle: "Reproducible descriptive comparison using the supplied OECD Current Well-being extract"
-author: "Yilin Li, Winnie Qiu, Haley Tran"
+author: "Yilin Li (530536402), Haley Tran (530002284), Winnie Qiu"
 date: last-modified
 format:
   html:
+    title-block-banner: true
     toc: true
     toc-location: left
+    number-sections: true
     code-fold: true
     embed-resources: true
 jupyter: python3
@@ -30,7 +32,25 @@ supplied-country comparator on both social outcomes.
 > **Australia became materially better resourced, while perceived social
 > support and emotional well-being worsened relative to comparable countries.**
 
-## Data, cleaning and preprocessing
+## Introduction
+### Background
+
+Typically, a country’s success is measured mainly on economic indicators. However, looking exclusively at material wealth does not adequately reflect people’s true lives and experiences. In particular, income and employment may steadily improve as a country improves. The development in other areas like health, social relationships or well-being are difficult to foresee. So a larger assessment must take into consideration both material situations and people's life experiences.
+
+This report is based on data from the Organisation for Economic Cooperation and Development’s **How’s Life?** database. It assesses the material wealth, quality of life, and community-related aspects of a nation's well-being. Income and wealth, employment, housing, work-life balance, health, education, social connections, political involvement, environmental quality, and subjective well-being are all included. 
+
+The `OECD Data.csv` raw dataset includes 8,806 observations from 47 countries, covering 21 indicators and 10 domains of well-being. And Australia is included alongside a range of international comparators. The data are arranged as a time series, which allows this study to assess changes in Australia over time and compare its performance with that of nations that reported the same indicators over the same period.
+
+The data's major analysis period spans from 2010 to 2024. Instead of being considered as distinct annual measurements, these observations are labelled according to their entire survey window.
+
+## Data cleaning and preprocessing
+
+### Brief Workflow
+The raw `OECD Data.csv` file was preserved unchanged. The data preparation section is performed using all functions in **Audit** section. The `data/processed` directory will include the cleaned and examined datasets.
+
+We checked the raw dataset for duplicate entries, missing observations, data types, and expected columns. We made sure that there were no missing values in the principal observation field, no entirely duplicate rows, and no duplicate country-indicator-year keys.
+
+This table summaries a simple data cleaning steps. 
 
 ```{python}
 from __future__ import annotations
@@ -72,13 +92,103 @@ cleaning_summary = pd.DataFrame(
 display(cleaning_summary)
 ```
 
-The raw OECD file is never modified. Cleaning creates a tidy analysis copy with
-one observation per country, indicator and displayed year. We retain status
-flags rather than silently removing estimates, provisional observations or
-series breaks. This keeps the primary analysis transparent and allows a
-normal-status-only sensitivity check.
+### Column selection and standardisation
+We chose and kept the fields required for the challenge after examining the raw data files. These consist of base periods, welfare domains, reference years, observed values, units, country and indicator codes and labels, and OECD observation status data. The retained columns were given the readable names to make reading and further analysis easier. Additionally, we standardised data formats, eliminated leading and trailing spaces from text fields, and substituted `NA` for `_Z`.
+
+### Data quality information
+In the 2010-2024 processing dataset, 8,321 of the 8,575 records were categorised as normal, with 254 receiving quality warnings. The flagged records consisted of 39 time-series breakdowns, 45 definition inconsistencies, 85 estimates, and 85 tentative values. To prevent utilising these missing values in later studies, we created a Boolean quality parameter to detect them during sensitivity checks.
+
+The audit workflow also gave each indicator a positive direction. Higher levels of employment and income, for instance, are viewed favourably, but higher levels of unpleasant emotions and a lack of social support are viewed unfavourably. This permits worldwide rankings and adjustments to be expressed uniformly while maintaining the original values of the indicators.
+
+### Scope and validation
+The cleaned dataset was restricted to the period of 2010-2014 and export as `OECD_cleaned_version.csv`. Finally, it contains 8,575 observations covering 47 countries, 21 indicators and 10 domains.
+
+The reusable audit workflow `` performs the validation of missing required columns, missing observation values, duplicate country–indicator–year keys or unrecognised indicators cause the workflow to stop with an error.
+
+Therefore, the tidy structure ensures that:
+
+- each row represents one country, indicator and displayed year
+- each country code corresponded to one country name
+- each indicator had a consistent name, domain and unit
+- the required analytical fields contained no missing values
+- country–indicator–year keys were unique
+
+
+### Processed outputs
+
+Finally, the data cleaning and reprocessing conducts the following dataset:
+- `OECD_cleaned_version.csv`: the notebook’s tidy 2010–2024 dataset
+- `oecd_clean.csv`: the validated analysis dataset with indicator direction, quality flags and independent-period labels
+- `OECD_categories.csv`: a summary of indicators, units and coverage within each domain
+- `OECD_domain_counts.csv`: overall domain coverage ranked by observation count
+- `AU_domain_counts.csv`: the equivalent domain-coverage summary for Australia
+
 
 ## Exploratory analysis and question selection
+
+### Candidate research domains
+After cleaning the data, we prioritised three areas based on topic coverage rankings: economic situations, health, and subjective well-being. We also evaluated the connections between social interactions, work and work quality, and other relevant domains. This phase was used to investigate specific concerns for which there was enough data to make international comparisons.
+
+#### Economic
+The economic investigation took into the aspects of household income, enployment, gender wage gap, long working hours and income inequality.
+
+There are the significant improvements of Australia's living standards and the labor market. Between 2010 and 2024, per capita household income increased by $6,004, while the employment rate rose by 4.82 percentage points. The proportion of employees working long hours decreased by 3.81 percentage points, and the gender wage gap also narrowed.
+
+However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.
+
+| Indicator | Australia’s change | English-speaking reference | Broad supplied-country reference | Interpretation |
+|---|---:|---:|---:|---|
+| Household income per person, PPP | +USD 6,004 | +USD 5,218 median (3 peers) | +USD 6,960 median (31 countries) | A substantial domestic gain. It exceeds the small-peer median but not the broad median; the small-peer result changes when individual peers are omitted. |
+| Employment rate | +4.82 pp | +5.17 pp median (4 peers) | +5.68 pp median (43 countries) | Employment improved in Australia, but its improvement was not faster than either reference median. |
+| Gender wage gap | -3.37 pp | -2.60 pp median (4 peers) | -3.23 pp median (29 countries) | A favourable reduction, with broadly middle-of-the-distribution comparative change. |
+| Long-hours share | -3.81 pp | -1.80 pp median (4 peers) | -2.01 pp median (39 countries) | Australia’s improvement is stronger than both benchmarks. Its 2024 level remains above the English-speaking-peer median: 10.18% versus 9.20%. |
+| S80/S20 income inequality, 2012–20 | +0.04 | — | — | Essentially flat to slightly worse; the supplied data do not show that average gains were more equally shared. |
+
+#### Health
+The health investigation took into the aspects of life expectancy and suicide, alcohol and drugs death.
+
+Australian life expectancy significantly increased and remained above the supplied-country median value. And the combined death increased from 14.9 to 22.2 per 100,000 by 2024.
+
+However, the overall mortality rate metric includes three separate causes of death (social support, subjective well-being and economic), and only 18 nations have supplied data for 2024. As a result, health is viewed as a valuable supporting background rather than the primary focus.
+
+| Measure | Eearlier value | Latest value | Interpretation |
+|---------|----------------|---------------|----------------|
+| Life expectancy | 81.7 years (2010) | 83.0 years (2023) | Increased |
+| Suicide/alcohol/drug deaths | 14.9 per 100,000 (2010) | 22.2 per 100,000 (2024) | Increased |
+| Life expectancy peer comparison | - | 83.0 versus supplied-country median 81.5 (2023) | - |
+| Harm-death comparison | - | 21.7 versus median 20.3 (2023) | Slightly worse |
+
+#### Subjective Well-being
+The subjective well-being investigation took into the aspects of negative emotions and life satisfaction.
+
+Overall, negative emotions increased from 12.24% between 2008 and 2010 to 14.85% between 2023 and 2025. Australia's rate climbed in the most recent period and exceeded the median, indicating a decline in its relative standing. Life satisfaction decreased from 7.5 in 2019 to 7.2 in 2020. However, with only two data sets available for Australia, this indicator cannot demonstrate a consistent long-term trend.
+
+Negative emotions offer far better temporal and worldwide coverage. Thus, it was chosen as the key measure of emotional well-being.
+
+| Measure | Earlier value | Latest value | Interpretation |
+|---------|---------------|--------------|----------------|
+| Negative affect balance | 12.24% (2008-10) | 14.85% (2023-25) | Negative emotional experiences became more common |
+| Life satisfaction | 7.5/10 (2019) | 7.2/10 (2020) | Fell by 0.3 points, but only two Australian observations are available |
+| Negative affect peer comparison | 12.24% versus supplied-country median 12.24% (2008-10) | 14.85% versus median 12.39% (2023-25) | Australia moved from the median to worse than the median |
+| Life satisfaction peer comparison | 7.5 versus supplied-country median 7.58 (2019) | 7.2 versus median 7.30 (2020) | Slightly below the median, but only six countries reported in each year |
+
+#### Cross-references considered
+
+The research also examined several cross-domain relationships:
+- Economic and social connections
+- Economic and subjective well-being
+- Health and subjective well-being
+- Health and work and job quality
+- Subjective well-being and employment conditions
+- Subjective well-being and income and wealth
+- Subjective well-being and social connections
+
+The correlation between **subjective well-being** and **social connections** appeared to be the best fit. The absence of social support and negative feelings have in common six Gallup combined windows and are broadly represented in all 47 countries that belong to the database. It provides an opportunity to compare these two dependent variables without applying any interpolation techniques or finding equivalent time frames.
+
+### Selection of social connections
+Low social support exhibited the most significant drop, increasing from 4.93% in 2008-10 to 10.04% in 2023-25. Negative affect grew from 12.24% to 14.85%, indicating an increase in problems related to social and emotional aspects. Social support was chosen due to clarity, similarity to negative affect, large change over time, and adequate international availability. Despite the fact that it fails to reflect all social contacts, it offered the best way for comparison. In general, conditions in Australia have become better while social and emotional conditions are worse.
+
+### Development of the research question
 
 We first audited coverage by country, indicator and year, separating genuine
 annual gaps from non-annual survey designs. We then examined Australia's latest
@@ -107,7 +217,9 @@ if test_run.returncode != 0:
     raise RuntimeError("Repository tests failed.")
 ```
 
-## Analytical protocol
+## Methodology
+
+### Method 1: EDA
 
 The focal country is Australia. The broad reference contains countries in the
 supplied extract with the same exact endpoints; it is not labelled “OECD”
@@ -154,10 +266,18 @@ def common_endpoint_scorecard() -> pd.DataFrame:
 results = common_endpoint_scorecard()
 display(results.round(2))
 ```
+### Method 2: Primary common-endpoint comparison
 
-## Findings
+### Method 3: Bootstrap uncertainty and placebo ranking
 
-### Material conditions improved, but broad outperformance is not supported
+### Method 4: Theil–Sen and Kendall trend robustness
+
+
+## Analysis and results
+
+### Findings
+
+#### Material conditions improved, but broad outperformance is not supported
 
 - Household income per person rose **USD 6,004** from 2010 to 2024. This is a
   substantial domestic gain, but below the broad-reference median rise of USD
@@ -171,7 +291,7 @@ display(results.round(2))
   The available distributional evidence does not show that average gains were
   broadly shared.
 
-### Social support and emotional well-being deteriorated
+#### Social support and emotional well-being deteriorated
 
 - Lack of social support rose from **4.93%** in 2008–10 to **10.04%** in the
   2023–25 pooled window: a **5.12-point adverse change**. The broad-reference
@@ -205,10 +325,6 @@ fig.suptitle("Australia and same-period supplied-country reference distributions
 plt.show()
 ```
 
-The figure illustrates the central tension: material measures improved while
-the two lived-experience outcomes moved adversely. The social panels use
-pooled-window midpoints and do not imply annual independent measurement.
-
 ### Health is context, not the primary explanation
 
 Life expectancy rose from 81.7 years in 2010 to 83.0 in 2023. The combined
@@ -217,7 +333,15 @@ by 2024. This is a warning signal, but it cannot explain the material--social
 result: it combines distinct causes and only 18 countries share the 2024
 endpoint.
 
-## Limitations and claim boundaries
+The figure illustrates the central tension: material measures improved while
+the two lived-experience outcomes moved adversely. The social panels use
+pooled-window midpoints and do not imply annual independent measurement.
+
+## Conclusion
+
+## Limitations
+
+### Limitations and claim boundaries
 
 - This is a descriptive country-level comparison, not a causal design.
 - Perceived support is not a complete measure of social connection; the extract
@@ -228,7 +352,9 @@ endpoint.
   employment alone does not measure job security or job quality.
 - Results apply only to countries and periods available in the supplied extract.
 
-## Reproduce this report
+## Appendix
+
+### Reproduce this report
 
 ```bash
 python3 -m venv .venv
