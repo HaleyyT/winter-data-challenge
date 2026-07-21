@@ -1,7 +1,7 @@
 ---
 title: "Australia's material progress and social well-being"
 subtitle: "Reproducible descriptive comparison using the supplied OECD Current Well-being extract"
-author: "Yilin Li (530536402), Haley Tran (530002284), Winnie Qiu"
+author: "Yilin Li (530536402), Haley Tran (530002284), Winnie Qiu (550720773)"
 date: last-modified
 format:
   html:
@@ -681,6 +681,19 @@ display(
 :::
 
 ### Method 3: Bootstrap uncertainty and placebo ranking
+
+The common-endpoint comparison in Method 2 provides Australia's change and its position relative to comparator countries. However, the ranking may depend on which comparator countries are included. Two sensitivity checks are therefore applied.
+
+Bootstrap resampling evaluates the stability of Australia's percentile ranking. For each indicator, comparator-country changes are repeatedly sampled with replacement 10,000 times while keeping the same number of countries as the original comparator group. Australia's percentile is recalculated for each resampled comparison. The resulting distribution shows how much Australia's ranking changes under alternative comparator compositions.
+
+Placebo ranking provides an additional benchmark by treating each comparator country as the focal country in turn. Each country's change is ranked against the remaining comparator countries, creating a distribution of typical country rankings. Australia's actual percentile can then be compared with this placebo distribution to assess whether its performance is unusual.
+
+Results: Australia's raw changes were +6,004 USD (income), +4.82 percentage points (employment), +5.12 percentage points (lack of social support), and +2.61 percentage points (negative affect). Comparator groups contained between 36 and 46 countries depending on indicator availability.
+
+Bootstrap sensitivity results showed that income and employment were close to the centre of the comparator distribution, with median percentiles of approximately 47 and 39. Their wider percentile ranges indicate that Australia's ranking is sensitive to comparator composition. In contrast, lack of social support and negative affect remained consistently high, with median percentiles of approximately 91 and 80, suggesting that Australia's deterioration in these outcomes is robust across alternative comparator samples.
+
+The placebo analysis showed that comparator countries generally produced rankings centred around the middle of the distribution. Australia's economic indicators were close to typical country outcomes, while social and emotional indicators were positioned near the adverse end of the distribution. This supports the conclusion that Australia's deterioration in perceived social support and negative affect was relatively unusual compared with the supplied-country reference group.
+
 
 ### Method 4: Theil–Sen and Kendall trend robustness
 
