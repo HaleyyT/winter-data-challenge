@@ -59,12 +59,17 @@ Suggested notebook names are `00_data_audit.ipynb`, `01_eda.ipynb`, `02_analysis
   --output /tmp/04_final_visuals.executed.ipynb --ExecutePreprocessor.timeout=300
 .venv/bin/jupyter nbconvert --to notebook --execute notebooks/method4_theilsen_kendall.ipynb \
   --output /tmp/method4_theilsen_kendall.executed.ipynb --ExecutePreprocessor.timeout=300
+.venv/bin/jupyter nbconvert --to notebook --execute notebooks/method5_spearman_association.ipynb \
+  --output /tmp/method5_spearman_association.executed.ipynb --ExecutePreprocessor.timeout=300
 QUARTO_PYTHON="$PWD/.venv/bin/python" quarto render submission/australia_material_social_report.qmd
+
+# command to open the report 
+open submission/australia_material_social_report.html
 ```
 
-The notebooks regenerate the reviewable primary, trajectory and robust-trend
-outputs before Quarto checks and embeds them. Run the commands from the
-repository root.
+The notebooks regenerate the reviewable primary, trajectory, robust-trend and
+exploratory material-social association outputs before Quarto checks and embeds
+them. Run the commands from the repository root.
 
 ## Team workflow
 
