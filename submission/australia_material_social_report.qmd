@@ -165,23 +165,72 @@ def project_root() -> Path:
 
 ROOT = project_root()
 sys.path.insert(0, str(ROOT))
+
 from src.oecd_audit import INDICATOR_SPECS, load_clean  # noqa: E402
+
 
 RAW_FILE = ROOT / "data" / "raw" / "OECD Data.csv"
 data = load_clean(RAW_FILE)
-assert not data.duplicated(["country_code", "indicator_code", "year"]).any()
+
+assert not data.duplicated(
+    ["country_code", "indicator_code", "year"]
+).any()
 assert data.value.notna().all()
+
 
 cleaning_summary = pd.DataFrame(
     [
-        ("Raw input", f"{len(data):,} country-indicator-year observations across {data.country_code.nunique()} countries and {data.indicator_code.nunique()} indicators", "Preserved unchanged"),
-        ("Structure check", "Country-indicator-year keys are unique; observed values are complete", "Validated before analysis"),
-        ("Analysis-ready data", "Selected required fields, renamed columns, and converted year and value to numeric types", "No observations imputed or dropped"),
-        ("Quality metadata", f"Retained OECD observation-status flags ({int(data.is_flagged.sum())} flagged observations) and indicator directions", "Used in sensitivity checks"),
-        ("Time handling", "Annual outcomes analysed through 2024; pooled Gallup outcomes collapsed to independent three-year windows", "Avoids false annual precision"),
-    ], columns=["Stage", "What we did", "Why it matters"]
+        {
+            "Stage": "Raw input",
+            "What we did": (
+                f"{len(data):,} country-indicator-year observations across "
+                f"{data.country_code.nunique()} countries and "
+                f"{data.indicator_code.nunique()} indicators"
+            ),
+            "Why it matters": "Preserved unchanged",
+        },
+        {
+            "Stage": "Structure check",
+            "What we did": (
+                "Country-indicator-year keys are unique; "
+                "observed values are complete"
+            ),
+            "Why it matters": "Validated before analysis",
+        },
+        {
+            "Stage": "Analysis-ready data",
+            "What we did": (
+                "Selected required fields, renamed columns, and converted "
+                "year and value to numeric types"
+            ),
+            "Why it matters": "No observations imputed or dropped",
+        },
+        {
+            "Stage": "Quality metadata",
+            "What we did": (
+                "Retained OECD observation-status flags "
+                f"({int(data.is_flagged.sum())} flagged observations) "
+                "and indicator directions"
+            ),
+            "Why it matters": "Used in sensitivity checks",
+        },
+        {
+            "Stage": "Time handling",
+            "What we did": (
+                "Annual outcomes analysed through 2024; pooled Gallup "
+                "outcomes collapsed to independent three-year windows"
+            ),
+            "Why it matters": "Avoids false annual precision",
+        },
+    ]
 )
-display(cleaning_summary)
+
+
+display(
+    cleaning_summary.style
+    .hide(axis="index")
+    .set_caption("Data cleaning and preparation summary")
+)
 ```
 
 ### Column selection and standardisation
@@ -240,13 +289,68 @@ There are the significant improvements of Australia's living standards and the l
 However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.
 
 ::: {.economic-comparison}
-| Indicator | Australia’s change | English-speaking reference | Broad supplied-country reference | Interpretation |
-|---|---:|---:|---:|---|
-| Household income per person, PPP | +USD 6,004 | +USD 5,218 median (3 peers) | +USD 6,960 median (31 countries) | A substantial domestic gain. It exceeds the small-peer median but not the broad median; the small-peer result changes when individual peers are omitted. |
-| Employment rate | +4.82 pp | +5.17 pp median (4 peers) | +5.68 pp median (43 countries) | Employment improved in Australia, but its improvement was not faster than either reference median. |
-| Gender wage gap | -3.37 pp | -2.60 pp median (4 peers) | -3.23 pp median (29 countries) | A favourable reduction, with broadly middle-of-the-distribution comparative change. |
-| Long-hours share | -3.81 pp | -1.80 pp median (4 peers) | -2.01 pp median (39 countries) | Australia’s improvement is stronger than both benchmarks. Its 2024 level remains above the English-speaking-peer median: 10.18% versus 9.20%. |
-| S80/S20 income inequality, 2012–20 | +0.04 | — | — | Essentially flat to slightly worse; the supplied data do not show that average gains were more equally shared. |
+```{python}
+economic_comparison = pd.DataFrame([
+    {
+        "Indicator": "Household income per person, PPP",
+        "Australia’s change": "+USD 6,004",
+        "English-speaking reference": "+USD 5,218 median (3 peers)",
+        "Broad supplied-country reference": "+USD 6,960 median (31 countries)",
+        "Interpretation": (
+            "A substantial domestic gain. It exceeds the small-peer median "
+            "but not the broad median; the small-peer result changes when "
+            "individual peers are omitted."
+        ),
+    },
+    {
+        "Indicator": "Employment rate",
+        "Australia’s change": "+4.82 pp",
+        "English-speaking reference": "+5.17 pp median (4 peers)",
+        "Broad supplied-country reference": "+5.68 pp median (43 countries)",
+        "Interpretation": (
+            "Employment improved in Australia, but its improvement was not "
+            "faster than either reference median."
+        ),
+    },
+    {
+        "Indicator": "Gender wage gap",
+        "Australia’s change": "−3.37 pp",
+        "English-speaking reference": "−2.60 pp median (4 peers)",
+        "Broad supplied-country reference": "−3.23 pp median (29 countries)",
+        "Interpretation": (
+            "A favourable reduction, with broadly middle-of-the-distribution "
+            "comparative change."
+        ),
+    },
+    {
+        "Indicator": "Long-hours share",
+        "Australia’s change": "−3.81 pp",
+        "English-speaking reference": "−1.80 pp median (4 peers)",
+        "Broad supplied-country reference": "−2.01 pp median (39 countries)",
+        "Interpretation": (
+            "Australia’s improvement is stronger than both benchmarks. Its "
+            "2024 level remains above the English-speaking-peer median: "
+            "10.18% versus 9.20%."
+        ),
+    },
+    {
+        "Indicator": "S80/S20 income inequality, 2012–20",
+        "Australia’s change": "+0.04",
+        "English-speaking reference": "—",
+        "Broad supplied-country reference": "—",
+        "Interpretation": (
+            "Essentially flat to slightly worse; the supplied data do not "
+            "show that average gains were more equally shared."
+        ),
+    },
+])
+
+display(
+    economic_comparison.style
+    .hide(axis="index")
+    .set_caption("Economic outcomes compared with reference groups")
+)
+```
 :::
 
 #### Health
@@ -256,12 +360,42 @@ Australian life expectancy significantly increased and remained above the suppli
 
 However, the overall mortality rate metric includes three separate causes of death (social support, subjective well-being and economic), and only 18 nations have supplied data for 2024. As a result, health is viewed as a valuable supporting background rather than the primary focus.
 
-| Measure | Eearlier value | Latest value | Interpretation |
-|---------|----------------|---------------|----------------|
-| Life expectancy | 81.7 years (2010) | 83.0 years (2023) | Increased |
-| Suicide/alcohol/drug deaths | 14.9 per 100,000 (2010) | 22.2 per 100,000 (2024) | Increased |
-| Life expectancy peer comparison | - | 83.0 versus supplied-country median 81.5 (2023) | - |
-| Harm-death comparison | - | 21.7 versus median 20.3 (2023) | Slightly worse |
+```{python}
+health_comparison = pd.DataFrame([
+    {
+        "Measure": "Life expectancy",
+        "Earlier value": "81.7 years (2010)",
+        "Latest value": "83.0 years (2023)",
+        "Interpretation": "Increased",
+    },
+    {
+        "Measure": "Suicide/alcohol/drug deaths",
+        "Earlier value": "14.9 per 100,000 (2010)",
+        "Latest value": "22.2 per 100,000 (2024)",
+        "Interpretation": "Increased",
+    },
+    {
+        "Measure": "Life expectancy peer comparison",
+        "Earlier value": "—",
+        "Latest value": (
+            "83.0 versus supplied-country median 81.5 (2023)"
+        ),
+        "Interpretation": "—",
+    },
+    {
+        "Measure": "Harm-death comparison",
+        "Earlier value": "—",
+        "Latest value": "21.7 versus median 20.3 (2023)",
+        "Interpretation": "Slightly worse",
+    },
+])
+
+display(
+    health_comparison.style
+    .hide(axis="index")
+    .set_caption("Health outcomes and peer comparisons")
+)
+```
 
 #### Subjective Well-being
 The subjective well-being investigation took into the aspects of negative emotions and life satisfaction.
@@ -270,12 +404,58 @@ Overall, negative emotions increased from 12.24% between 2008 and 2010 to 14.85%
 
 Negative emotions offer far better temporal and worldwide coverage. Thus, it was chosen as the key measure of emotional well-being.
 
-| Measure | Earlier value | Latest value | Interpretation |
-|---------|---------------|--------------|----------------|
-| Negative affect balance | 12.24% (2008-10) | 14.85% (2023-25) | Negative emotional experiences became more common |
-| Life satisfaction | 7.5/10 (2019) | 7.2/10 (2020) | Fell by 0.3 points, but only two Australian observations are available |
-| Negative affect peer comparison | 12.24% versus supplied-country median 12.24% (2008-10) | 14.85% versus median 12.39% (2023-25) | Australia moved from the median to worse than the median |
-| Life satisfaction peer comparison | 7.5 versus supplied-country median 7.58 (2019) | 7.2 versus median 7.30 (2020) | Slightly below the median, but only six countries reported in each year |
+```{python}
+wellbeing_comparison = pd.DataFrame([
+    {
+        "Measure": "Negative affect balance",
+        "Earlier value": "12.24% (2008–10)",
+        "Latest value": "14.85% (2023–25)",
+        "Interpretation": (
+            "Negative emotional experiences became more common"
+        ),
+    },
+    {
+        "Measure": "Life satisfaction",
+        "Earlier value": "7.5/10 (2019)",
+        "Latest value": "7.2/10 (2020)",
+        "Interpretation": (
+            "Fell by 0.3 points, but only two Australian observations "
+            "are available"
+        ),
+    },
+    {
+        "Measure": "Negative affect peer comparison",
+        "Earlier value": (
+            "12.24% versus supplied-country median 12.24% (2008–10)"
+        ),
+        "Latest value": (
+            "14.85% versus supplied-country median 12.39% (2023–25)"
+        ),
+        "Interpretation": (
+            "Australia moved from the median to worse than the median"
+        ),
+    },
+    {
+        "Measure": "Life satisfaction peer comparison",
+        "Earlier value": (
+            "7.5 versus supplied-country median 7.58 (2019)"
+        ),
+        "Latest value": (
+            "7.2 versus supplied-country median 7.30 (2020)"
+        ),
+        "Interpretation": (
+            "Slightly below the median, but only six countries reported "
+            "in each year"
+        ),
+    },
+])
+
+display(
+    wellbeing_comparison.style
+    .hide(axis="index")
+    .set_caption("Subjective wellbeing outcomes and peer comparisons")
+)
+```
 
 #### Cross-references considered
 
@@ -469,6 +649,69 @@ model temporal dependence, so they are exploratory diagnostics rather than
 decisive significance tests. The primary robustness evidence is the slope's
 magnitude, direction, coverage, international position and agreement with the
 common-endpoint result.
+
+#### Endpoint-versus-trend results
+::: {.primary-scorecard}
+```{python}
+trend_scorecard = pd.DataFrame([
+    {
+        "Outcome": "Household income",
+        "Native Theil–Sen slope": "+USD 458 per person/year",
+        "Direction": "Favourable",
+        "Favourable Kendall’s tau": "+0.85",
+        "Raw p-value": "<0.0001",
+        "Holm-adjusted p-value": "<0.0001",
+        "Independent observations": 15,
+        "Comparator slope percentile": "38.7th",
+        "Eligible comparators": 31,
+        "Endpoint agreement": "Yes",
+    },
+    {
+        "Outcome": "Employment rate",
+        "Native Theil–Sen slope": "+0.358 pp/year",
+        "Direction": "Favourable",
+        "Favourable Kendall’s tau": "+0.75",
+        "Raw p-value": "<0.0001",
+        "Holm-adjusted p-value": "<0.0001",
+        "Independent observations": 15,
+        "Comparator slope percentile": "32.6th",
+        "Eligible comparators": 43,
+        "Endpoint agreement": "Yes",
+    },
+    {
+        "Outcome": "Lack of social support",
+        "Native Theil–Sen slope": "+0.186 pp/year",
+        "Direction": "Unfavourable",
+        "Favourable Kendall’s tau": "−0.87",
+        "Raw p-value": "0.0167",
+        "Holm-adjusted p-value": "0.0333",
+        "Independent observations": 6,
+        "Comparator slope percentile": "28.3rd",
+        "Eligible comparators": 46,
+        "Endpoint agreement": "Yes",
+    },
+    {
+        "Outcome": "Negative affect",
+        "Native Theil–Sen slope": "+0.174 pp/year",
+        "Direction": "Unfavourable",
+        "Favourable Kendall’s tau": "−0.33",
+        "Raw p-value": "0.4694",
+        "Holm-adjusted p-value": "0.4694",
+        "Independent observations": 6,
+        "Comparator slope percentile": "23.9th",
+        "Eligible comparators": 46,
+        "Endpoint agreement": "Yes",
+    },
+])
+
+display(
+    trend_scorecard.style
+    .hide(axis="index")
+    .set_caption("Primary trend scorecard")
+)
+```
+:::
+
 
 ## Analysis and results
 
