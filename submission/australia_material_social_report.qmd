@@ -17,6 +17,150 @@ execute:
   warning: false
 ---
 
+<<<<<<< HEAD
+<style>
+.economic-comparison {
+  margin: 1.25rem 0 1.75rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.economic-comparison table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.88rem;
+}
+
+.economic-comparison th,
+.economic-comparison td {
+  padding: 0.8rem 0.7rem;
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+.economic-comparison th {
+  border-bottom: 2px solid #6c757d;
+  font-weight: 650;
+}
+
+.economic-comparison tbody tr:nth-child(even) {
+  background-color: #f6f8fa;
+}
+
+.economic-comparison th:nth-child(1),
+.economic-comparison td:nth-child(1) { width: 16%; }
+.economic-comparison th:nth-child(2),
+.economic-comparison td:nth-child(2) { width: 11%; text-align: right; }
+.economic-comparison th:nth-child(3),
+.economic-comparison td:nth-child(3) { width: 16%; text-align: right; }
+.economic-comparison th:nth-child(4),
+.economic-comparison td:nth-child(4) { width: 17%; text-align: right; }
+.economic-comparison th:nth-child(5),
+.economic-comparison td:nth-child(5) { width: 40%; text-align: left; }
+
+.economic-comparison col:nth-child(1) { width: 15% !important; }
+.economic-comparison col:nth-child(2) { width: 12% !important; }
+.economic-comparison col:nth-child(3) { width: 15% !important; }
+.economic-comparison col:nth-child(4) { width: 16% !important; }
+.economic-comparison col:nth-child(5) { width: 42% !important; }
+
+.trajectory-figure img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.primary-scorecard table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.82rem;
+}
+
+.primary-scorecard th,
+.primary-scorecard td {
+  padding: 0.5rem 0.45rem;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.primary-scorecard th:first-child,
+.primary-scorecard td:first-child { width: 24%; text-align: left; }
+
+.primary-scorecard th:not(:first-child),
+.primary-scorecard td:not(:first-child) { text-align: right; }
+
+.trend-scorecard table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.66rem;
+}
+
+.trend-scorecard th,
+.trend-scorecard td {
+  padding: 0.38rem 0.22rem;
+  vertical-align: top;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.trend-scorecard th:first-child,
+.trend-scorecard td:first-child {
+  width: 19%;
+  text-align: left;
+}
+
+.trend-scorecard th:not(:first-child),
+.trend-scorecard td:not(:first-child) { text-align: right; }
+
+.trend-scorecard th:nth-child(2),
+.trend-scorecard td:nth-child(2) { width: 15%; }
+
+.trend-scorecard th:nth-child(3),
+.trend-scorecard td:nth-child(3) { width: 10%; }
+
+.trend-scorecard th:nth-child(4),
+.trend-scorecard td:nth-child(4) { width: 9%; }
+
+.trend-scorecard th:nth-child(5),
+.trend-scorecard td:nth-child(5),
+.trend-scorecard th:nth-child(6),
+.trend-scorecard td:nth-child(6) { width: 7%; }
+
+.trend-scorecard th:nth-child(7),
+.trend-scorecard td:nth-child(7) { width: 5%; }
+
+.trend-scorecard th:nth-child(8),
+.trend-scorecard td:nth-child(8) { width: 10%; }
+
+.trend-scorecard th:nth-child(9),
+.trend-scorecard td:nth-child(9) { width: 8%; }
+
+.trend-scorecard th:nth-child(10),
+.trend-scorecard td:nth-child(10) { width: 10%; }
+
+.trend-agreement table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 0.80rem;
+}
+
+.trend-agreement th,
+.trend-agreement td {
+  padding: 0.45rem 0.4rem;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.trend-agreement th:first-child,
+.trend-agreement td:first-child { width: 22%; text-align: left; }
+
+.trend-agreement th:not(:first-child),
+.trend-agreement td:not(:first-child) { text-align: right; }
+</style>
+
+
 ## Executive summary
 
 **Research question:** As Australia's material conditions improved, did
@@ -250,6 +394,144 @@ The placebo analysis showed that comparator countries generally produced ranking
 
 ### Method 4: Theil–Sen and Kendall trend robustness
 
+<<<<<<< HEAD
+For each primary outcome, the Theil--Sen estimator summarises Australia's
+median pairwise rate of change across the full trajectory. Annual material
+series use 2010--2024; the social series use six independent pooled-window
+midpoints. Country slope comparisons require Australia's start and endpoint
+and at least 80% of its independent periods. Slopes and Kendall's tau are
+oriented so positive is favourable, and Holm adjustment is applied across the
+four pre-specified Australian tau tests.
+
+Tau describes monotonic ordering, while its p-value tests the null of no
+ordinal association. Standard Kendall p-values and Theil--Sen intervals do not
+model temporal dependence, so they are exploratory diagnostics rather than
+decisive significance tests. The primary robustness evidence is the slope's
+magnitude, direction, coverage, international position and agreement with the
+common-endpoint result.
+
+#### Endpoint-versus-trend results
+::: {.trend-scorecard}
+```{python}
+trend_scorecard = pd.DataFrame([
+    {
+        "Outcome": "Household income",
+        "Native Theil–Sen slope": "+USD 458 per person/year",
+        "Direction": "Favourable",
+        "Favourable Kendall’s tau": "+0.85",
+        "Raw p-value": "<0.0001",
+        "Holm-adjusted p-value": "<0.0001",
+        "Independent observations": 15,
+        "Comparator slope percentile": "38.7th",
+        "Eligible comparators": 31,
+        "Endpoint agreement": "Yes",
+    },
+    {
+        "Outcome": "Employment rate",
+        "Native Theil–Sen slope": "+0.358 pp/year",
+        "Direction": "Favourable",
+        "Favourable Kendall’s tau": "+0.75",
+        "Raw p-value": "<0.0001",
+        "Holm-adjusted p-value": "<0.0001",
+        "Independent observations": 15,
+        "Comparator slope percentile": "32.6th",
+        "Eligible comparators": 43,
+        "Endpoint agreement": "Yes",
+    },
+    {
+        "Outcome": "Lack of social support",
+        "Native Theil–Sen slope": "+0.186 pp/year",
+        "Direction": "Unfavourable",
+        "Favourable Kendall’s tau": "−0.87",
+        "Raw p-value": "0.0167",
+        "Holm-adjusted p-value": "0.0333",
+        "Independent observations": 6,
+        "Comparator slope percentile": "28.3rd",
+        "Eligible comparators": 46,
+        "Endpoint agreement": "Yes",
+    },
+    {
+        "Outcome": "Negative affect",
+        "Native Theil–Sen slope": "+0.174 pp/year",
+        "Direction": "Unfavourable",
+        "Favourable Kendall’s tau": "−0.33",
+        "Raw p-value": "0.4694",
+        "Holm-adjusted p-value": "0.4694",
+        "Independent observations": 6,
+        "Comparator slope percentile": "23.9th",
+        "Eligible comparators": 46,
+        "Endpoint agreement": "Yes",
+    },
+])
+
+trend_scorecard_display = trend_scorecard.rename(columns={
+    "Native Theil–Sen slope": "Theil–Sen slope",
+    "Favourable Kendall’s tau": "Kendall’s tau",
+    "Raw p-value": "Raw p",
+    "Holm-adjusted p-value": "Holm p",
+    "Independent observations": "n",
+    "Comparator slope percentile": "Slope percentile",
+    "Eligible comparators": "Comparators",
+    "Endpoint agreement": "Endpoint agrees",
+})
+
+display(
+    trend_scorecard_display.style
+    .hide(axis="index")
+    .set_caption("Primary trend scorecard")
+)
+```
+:::
+
+*Notes: Native positive slopes mean increases in the original indicators. Due to lower values are represented to the lack of social support and negative affect, thus native positive slopes refer to deterioration. "Comparator slope percentile" is calculated after aligning all slopes so that greater values are preferable. pp = percentage points.*
+
+
+#### Australia’s robust trend trajectories
+::: {.trajectory-figure}
+![Australian outcome trajectories and fitted Theil–Sen trends.](../reports/figures/method4_australia_theilsen_trends.png){#fig-method4-australia-trends width=100%}
+:::
+
+This figure shows the observed trajectories and fitted Theil–Sen trends for four key outcomes in Australia. The solid lines connect the individual observations, and dash lines represent robust trend estimates.
+
+Positive tendencies can be observed in the two upper graphs. The average income of households increased by about $458 annually, showing a strong positive monotonic trend (\(\tau=0.85\)). The employment rate increased by approximately 0.358% per year, reflecting a strong positive trend (\(\tau=0.75\)). Both trends had identical p-values, which were less than 0.0001.
+
+Income went down since having reached its maximum value in 2021, whereas employment showed strong recovery after its decline in 2020. Gradients of both fitted lines remained positive and reflect good developments at their endpoints. Consequently, Australia's successful development cannot be solely attributed to the comparison of initial and the last point.
+
+Two lower graphs show a deterioration of the social impact. Lack of social support increases by approximately 0.186% per year. Since smaller values indicate more positive influence on society, the Kendall's coefficient calculated on the scale of improvement will be (\(-0.87\)). It means strong negative monotonic order across six independent aggregation windows. Unadjusted p-value is equal to 0.0167, while p-value after Holm correction is 0.0333. However, the estimation of the pooling effect is extremely important in 2023-25.
+
+In terms of the negative side of the scale, the negative emotions increase by about 0.174 percentage points annually. For the positive side, the value of tau equals to (\(-0.33\)) which means that there is a smaller monotonically increasing trend. But what can be seen from the trend graph is the decrease in negative emotions in some middle periods and their rapid increase between 2023 and 2025. The values of p are 0.4694 both for the unadjusted version and Holm’s correction.
+
+#### Australia relative to country trend distributions
+::: {.trajectory-figure}
+![Australia’s favourable-oriented trend slopes relative to the same-span supplied-country distributions. Diamonds identify Australia, points show eligible comparator countries, and boxplots summarise their slope distributions.](../reports/figures/method4_country_slope_distributions.png){#fig-method4-country-slopes width=100%}
+:::
+
+This figure depicts the comparison between the Theil–Sen slope for Australia and the distribution of slopes in other countries meeting the same criteria of endpoints and 80% coverage. All of the slopes are shifted to the right, which implies favorable changes. Gray dots denote eligible comparison countries; box plots provide the distributions of the countries, while orange diamonds denote Australia.
+
+According to the upper plots, material trends in Australia are favorable but inferior to those in other eligible comparison countries. The slope of household income in Australia lies on the 39th percentile out of 31 comparison countries, whereas the employment slope of the country is on the 33rd percentile out of 43 comparison countries. It means that Australia has achieved good results, but the slope distribution among the countries shows that it is not one of the best performers on many indicators.
+
+According to the lower plots, Australia also underperforms other comparison countries on these two social measures. Slope for lack of social support is on the 28th percentile of favorable slope among the 46 comparison countries, while the slope for negative emotions is on the 24th percentile out of the same number of comparison countries. As the x-axis corresponds to favorable outcomes, Australia’s position to the left from zero point indicates degradation.
+
+The trend percentile for lack of social support is more favorable than the endpoint result at about the 9th percentile. This implies that the very poor endpoint result that Australia had in lack of social support could be attributed to the rise in the most recent consolidation period. However, both trend approaches reveal that there is worsening in lack of social support. The Kendall’s coefficient for the negative emotions indicator, despite being low, still exhibits consistency in slope and endpoint results.
+
+The two figures clearly shows that the trend percentiles are consistent with endpoint measures of all the four robust indicators. There is improvement in income and employment trends, but the trends are below median slopes of eligible comparators. There is worsening in lack of social support and negative emotions, and the trends are below median comparator trends. Hence, the trajectory results prove material progress without social progress.
+
+#### International slope distributions
+
+The national slopes graph depicts each result in such a way that a move towards the right shows an improvement. The slope of material well-being in Australia is positive but lower than the median slope of the eligible comparators.  The country’s household income is placed at the 39th percentile among 31 eligible comparators, whereas its employment rate is placed at the 33rd percentile among 43 eligible comparators. Therefore, even though the country has certainly made significant progress, there is no strong trend comparison that would prove its international leadership.
+
+Australia has also scored lower than the median of its comparators on both of these social indicators. The lack of support slope is placed at the 28th percentile, whereas the negative emotions slope is placed at the 24th percentile among 46 eligible comparators. It should be noted that the percentile ranking of the social support trend is significantly better than the final outcome ranking at the approximately 9th percentile. This means that the bad ranking on the final outcome is caused by the latest aggregation period.
+
+#### Conclusion
+
+The slopes for all four Theil-Sen directions match those for common endpoint methods. There were gains in household income and employment, although less steep compared with the slope for typical eligible comparator countries. Lack of social support and negative emotions became worse during this period, while the positive trend slope for Australia was also below the median value of its comparison group.
+
+In other words, this method reveals that there is some real progress made by Australia, but no gain in terms of perceived social support and happiness. The trends in household income, employment and lack of social support show this most clearly. The negative emotions do go with negative outcomes, but they have a less pronounced monotonic trend, making them more affected by recent consolidation window.
+
+#### Limitations
+
+
+
 
 ## Analysis and results
 
@@ -318,6 +600,10 @@ pooled-window midpoints and do not imply annual independent measurement.
 ## Conclusion
 
 ## Limitations
+
+However, there are some problems with both Theil-Sen and Kendall trend approaches. Both analyses consider just six independent pooled observation windows. Hence, their slope values and Kendall scores should be used mainly as validation tools regarding direction, intensity, and consistency of the relationship compared with the endpoint analysis.
+
+Moreover, traditional p-values from the Kendall approach and Theil-Sen confidence intervals ignore any temporal dependency in the data. Their p-values provide a test of whether there is any ordinal association based on the assumptions of standard test. It shows that they cannot prove causality, independence of time, and mechanisms of connection between material and social conditions.
 
 ### Limitations and claim boundaries
 
