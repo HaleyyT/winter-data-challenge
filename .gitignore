@@ -32,6 +32,9 @@ reports/tables/*
 !reports/figures/.gitkeep
 !reports/tables/.gitkeep
 
+# Rendered analysis documents; Markdown sources are the reviewable originals.
+docs/analysis/*.html
+
 # Generated submission exports (keep source files and instructions)
 submission/*.pdf
 submission/*.html
