@@ -20,16 +20,14 @@ execute:
 <style>
 .economic-comparison {
   margin: 1.25rem 0 1.75rem;
-  width: min(1180px, calc(100vw - 330px));
-  max-width: none;
-  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
 }
 
 .economic-comparison table {
   width: 100%;
-  min-width: 900px;
   table-layout: fixed;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .economic-comparison th,
@@ -49,20 +47,28 @@ execute:
 }
 
 .economic-comparison th:nth-child(1),
-.economic-comparison td:nth-child(1) { width: 17%; }
+.economic-comparison td:nth-child(1) { width: 16%; }
 .economic-comparison th:nth-child(2),
-.economic-comparison td:nth-child(2) { width: 13%; text-align: right; }
+.economic-comparison td:nth-child(2) { width: 11%; text-align: right; }
 .economic-comparison th:nth-child(3),
-.economic-comparison td:nth-child(3) { width: 18%; text-align: right; }
+.economic-comparison td:nth-child(3) { width: 16%; text-align: right; }
 .economic-comparison th:nth-child(4),
-.economic-comparison td:nth-child(4) { width: 19%; text-align: right; }
+.economic-comparison td:nth-child(4) { width: 17%; text-align: right; }
 .economic-comparison th:nth-child(5),
-.economic-comparison td:nth-child(5) { width: 33%; text-align: left; }
+.economic-comparison td:nth-child(5) { width: 40%; text-align: left; }
 
-@media (max-width: 900px) {
-  .economic-comparison {
-    width: 100%;
-  }
+.economic-comparison col:nth-child(1) { width: 15% !important; }
+.economic-comparison col:nth-child(2) { width: 12% !important; }
+.economic-comparison col:nth-child(3) { width: 15% !important; }
+.economic-comparison col:nth-child(4) { width: 16% !important; }
+.economic-comparison col:nth-child(5) { width: 42% !important; }
+
+.trajectory-figure .cell-output-display img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
 }
 </style>
 
@@ -412,6 +418,7 @@ respective comparator medians. This pattern supports a descriptive
 material--social tension; it does not establish that material progress caused
 the changes in social support or emotional well-being.
 
+::: {.trajectory-figure}
 ```{python}
 plot_specs = [("1_1", "Income per person", "USD"), ("2_1", "Employment", "%"),
               ("7_1_DEP", "Lack of social support", "%"), ("11_2", "Negative affect", "%")]
@@ -435,6 +442,7 @@ axes[0, 0].legend(frameon=False, fontsize=8)
 fig.suptitle("Australia and same-period supplied-country reference distributions", fontweight="bold")
 plt.show()
 ```
+:::
 
 ### Health is context, not the primary explanation
 
