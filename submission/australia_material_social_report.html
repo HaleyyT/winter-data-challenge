@@ -2266,6 +2266,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
   <li><a href="#data-quality-information" id="toc-data-quality-information" class="nav-link" data-scroll-target="#data-quality-information"><span class="header-section-number">3.3</span> Data quality information</a></li>
   <li><a href="#scope-and-validation" id="toc-scope-and-validation" class="nav-link" data-scroll-target="#scope-and-validation"><span class="header-section-number">3.4</span> Scope and validation</a></li>
   <li><a href="#processed-outputs" id="toc-processed-outputs" class="nav-link" data-scroll-target="#processed-outputs"><span class="header-section-number">3.5</span> Processed outputs</a></li>
+  <li><a href="#independent-audit-supporting-the-research-question" id="toc-independent-audit-supporting-the-research-question" class="nav-link" data-scroll-target="#independent-audit-supporting-the-research-question"><span class="header-section-number">3.6</span> Independent audit supporting the research question</a></li>
   </ul></li>
   <li><a href="#exploratory-analysis-and-question-selection" id="toc-exploratory-analysis-and-question-selection" class="nav-link" data-scroll-target="#exploratory-analysis-and-question-selection"><span class="header-section-number">4</span> Exploratory analysis and question selection</a>
   <ul class="collapse">
@@ -2305,6 +2306,48 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 
 
 
+<style>
+.economic-comparison {
+margin: 1.25rem 0 1.75rem;
+width: min(1180px, calc(100vw - 330px));
+max-width: none;
+overflow-x: auto;
+}
+.economic-comparison table {
+width: 100%;
+min-width: 900px;
+table-layout: fixed;
+font-size: 0.92rem;
+}
+.economic-comparison th,
+.economic-comparison td {
+padding: 0.8rem 0.7rem;
+vertical-align: top;
+line-height: 1.45;
+}
+.economic-comparison th {
+border-bottom: 2px solid #6c757d;
+font-weight: 650;
+}
+.economic-comparison tbody tr:nth-child(even) {
+background-color: #f6f8fa;
+}
+.economic-comparison th:nth-child(1),
+.economic-comparison td:nth-child(1) { width: 17%; }
+.economic-comparison th:nth-child(2),
+.economic-comparison td:nth-child(2) { width: 13%; text-align: right; }
+.economic-comparison th:nth-child(3),
+.economic-comparison td:nth-child(3) { width: 18%; text-align: right; }
+.economic-comparison th:nth-child(4),
+.economic-comparison td:nth-child(4) { width: 19%; text-align: right; }
+.economic-comparison th:nth-child(5),
+.economic-comparison td:nth-child(5) { width: 33%; text-align: left; }
+@media (max-width: 900px) {
+.economic-comparison {
+width: 100%;
+}
+}
+</style>
 <section id="executive-summary" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="executive-summary"><span class="header-section-number">1</span> Executive summary</h2>
 <p><strong>Research question:</strong> As Australia’s material conditions improved, did perceived social support and emotional well-being deteriorate relative to comparable countries?</p>
@@ -2330,7 +2373,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <p>The raw <code>OECD Data.csv</code> file was preserved unchanged. The data preparation section is performed using all functions in <strong>Audit</strong> section. The <code>data/processed</code> directory will include the cleaned and examined datasets.</p>
 <p>We checked the raw dataset for duplicate entries, missing observations, data types, and expected columns. We made sure that there were no missing values in the principal observation field, no entirely duplicate rows, and no duplicate country-indicator-year keys.</p>
 <p>This table summaries a simple data cleaning steps.</p>
-<div id="4768cc8b" class="cell" data-execution_count="1">
+<div id="cbddedba" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2408,6 +2451,53 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <h3 data-number="3.5" class="anchored" data-anchor-id="processed-outputs"><span class="header-section-number">3.5</span> Processed outputs</h3>
 <p>Finally, the data cleaning and reprocessing conducts the following dataset: - <code>OECD_cleaned_version.csv</code>: the notebook’s tidy 2010–2024 dataset - <code>oecd_clean.csv</code>: the validated analysis dataset with indicator direction, quality flags and independent-period labels - <code>OECD_categories.csv</code>: a summary of indicators, units and coverage within each domain - <code>OECD_domain_counts.csv</code>: overall domain coverage ranked by observation count - <code>AU_domain_counts.csv</code>: the equivalent domain-coverage summary for Australia</p>
 </section>
+<section id="independent-audit-supporting-the-research-question" class="level3" data-number="3.6">
+<h3 data-number="3.6" class="anchored" data-anchor-id="independent-audit-supporting-the-research-question"><span class="header-section-number">3.6</span> Independent audit supporting the research question</h3>
+<p>An additional reproducible audit was implemented in <code>src/oecd_audit.py</code> and documented in <code>notebooks/00_data_audit.ipynb</code>. It begins from the unchanged raw file and stops if required columns or observation values are missing, if a country–indicator–year key is duplicated, or if an indicator lacks documented metadata. No observations are interpolated or imputed. The resulting <code>data/processed/oecd_clean.csv</code> retains all 8,806 supplied observations and adds quality flags, favourable directions and independent-period labels. Restricting this validated copy to the report’s 2010–2024 scope yields 8,575 observations, consistent with the team-prepared analysis dataset; later supplied rows are retained for auditability but excluded from the primary analysis.</p>
+<p>The audit outputs have distinct roles in protecting the analysis from common comparison errors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Audit output</th>
+<th>What and how</th>
+<th>Why it supports the research question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>time_series_gaps.csv</code>, <code>coverage_by_country_indicator.csv</code> and <code>coverage_by_country_year.csv</code></td>
+<td>Record observed years, independent periods, quality flags and country-year indicator availability</td>
+<td>Distinguish genuine annual gaps from intentionally periodic measurement and show where trend evidence is sufficiently complete</td>
+</tr>
+<tr class="even">
+<td><code>indicator_metadata.csv</code></td>
+<td>Records each indicator’s unit, favourable direction, frequency, definition pages and comparability caveat</td>
+<td>Prevents unlike constructs from being interpreted as equivalent and ensures adverse social changes are oriented correctly</td>
+</tr>
+<tr class="odd">
+<td><code>same_year_australia_comparisons.csv</code></td>
+<td>Compares Australia only with countries reporting the same indicator in the same displayed year and reports the contributing-country count</td>
+<td>Prevents a country measured in one period from being ranked against another measured in a different period</td>
+</tr>
+<tr class="even">
+<td><code>australia_indicator_summary.csv</code></td>
+<td>Summarises Australia’s independent-period change and latest same-year international position</td>
+<td>Supports transparent scouting of indicators before fixing the four primary outcomes</td>
+</tr>
+<tr class="odd">
+<td><code>domain_coverage_all.csv</code> and <code>domain_coverage_australia.csv</code></td>
+<td>Rank domains by unique country–indicator–period evidence rather than repeated displayed rows</td>
+<td>Guides question selection by evidential coverage; these ranks measure data availability, not substantive importance</td>
+</tr>
+</tbody>
+</table>
+<p>These checks directly shaped the final design. Australia’s income and employment series contain no internal annual gaps within their observed spans. In contrast, lack of social support and negative affect each contain 16 displayed Australian rows but only six independent three-year pooled windows; the repeated rows are therefore never treated as 16 independent observations. Australia reports 17 of the 21 indicators, with no observations for overcrowding, time off, the gender gap in working hours, or time spent in social interactions. Consequently, lack of social support is used as a focused proxy rather than a complete measure of social connection. All Australian rows carry normal OECD status, although flagged peer observations remain visible for sensitivity analysis. Detailed interpretations are provided in <code>docs/analysis/oecd_data_quality_notes.md</code>, and the exploratory rationale is recorded in <code>docs/analysis/oecd_exploration_and_questions.md</code>.</p>
+</section>
 </section>
 <section id="exploratory-analysis-and-question-selection" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="exploratory-analysis-and-question-selection"><span class="header-section-number">4</span> Exploratory analysis and question selection</h2>
@@ -2419,6 +2509,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <p>The economic investigation took into the aspects of household income, enployment, gender wage gap, long working hours and income inequality.</p>
 <p>There are the significant improvements of Australia’s living standards and the labor market. Between 2010 and 2024, per capita household income increased by $6,004, while the employment rate rose by 4.82 percentage points. The proportion of employees working long hours decreased by 3.81 percentage points, and the gender wage gap also narrowed.</p>
 <p>However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.</p>
+<div class="economic-comparison">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 16%">
@@ -2474,6 +2565,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="health" class="level4" data-number="4.1.2">
 <h4 data-number="4.1.2" class="anchored" data-anchor-id="health"><span class="header-section-number">4.1.2</span> Health</h4>
@@ -2598,7 +2690,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <h3 data-number="5.1" class="anchored" data-anchor-id="method-1-eda"><span class="header-section-number">5.1</span> Method 1: EDA</h3>
 <p>The focal country is Australia. The broad reference contains countries in the supplied extract with the same exact endpoints; it is not labelled “OECD” because the extract includes non-members. Canada, New Zealand, the United Kingdom and the United States are a separate English-speaking sensitivity group.</p>
 <p>Economic indicators are annual. Lack of social support and negative affect are six independent three-year Gallup windows. For lower-is-better outcomes, the report uses direction-oriented changes for ranks while preserving native-unit changes for interpretation.</p>
-<div id="ab005ba7" class="cell" data-execution_count="3">
+<div id="0f5169b2" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2701,7 +2793,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <li>Negative affect rose from <strong>12.24%</strong> to <strong>14.85%</strong> across the same windows: a <strong>2.61-point adverse change</strong>. The broad-reference median change was near zero (+0.05 points), placing Australia at about the 20th favourable percentile.</li>
 </ul>
 <p>Together, these results indicate that Australia’s material conditions improved in absolute terms, but not more rapidly than the typical eligible comparator for the two primary material outcomes. Over the observed pooled windows, both social outcomes moved in an adverse direction and deteriorated more than their respective comparator medians. This pattern supports a descriptive material–social tension; it does not establish that material progress caused the changes in social support or emotional well-being.</p>
-<div id="2c8ae70e" class="cell" data-execution_count="4">
+<div id="bd51efa7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
