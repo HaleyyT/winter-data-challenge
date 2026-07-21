@@ -64,13 +64,15 @@ period labels and coverage information, and contains no manually entered data.
 
 ## Method 2 — Common-endpoint comparative change
 
-**Status:** In progress. Steps 1–9 are complete and verified: the four-outcome
+**Status:** Complete and verified. The four-outcome
 workflow enforces exact common displayed endpoints and reports Australia’s
 native change, comparator median native change, direction-oriented comparative
 gap, favourable percentile, and eligible-country count. Native and oriented
 quantities are explicitly labelled, annual and pooled endpoints are verified,
-and a direct audited-data recalculation reconciles every Australian value.
-Frozen-table export and report integration remain outstanding.
+and a direct audited-data recalculation reconciles every Australian value. The
+validated table is exported to `reports/tables/material_social_primary_results.csv`;
+the Quarto report independently reproduces it from the immutable input and
+fails its render if the two tables diverge.
 
 - [x]  Add all four primary outcomes to one common-endpoint workflow in
     
@@ -99,14 +101,15 @@ Frozen-table export and report integration remain outstanding.
     
     tidy data and resolve any discrepancy.
     
-- [ ]  Write `reports/tables/material_social_primary_results.csv`.
-- [ ]  Update the report to read or reproduce exactly the frozen primary table.
+- [x]  Write `reports/tables/material_social_primary_results.csv`.
+- [x]  Update the report to read or reproduce exactly the frozen primary table.
 
 **Done when:** one traceable table directly answers the research question for
 
 all four outcomes with periods, units, comparator counts and favourable
 
-directions.
+directions. Verified by a clean-kernel notebook execution, a CSV round-trip
+comparison, a Quarto render-time table comparison, and `5 passed` tests.
 
 ## Method 3 — Country bootstrap and placebo-country ranking
 
