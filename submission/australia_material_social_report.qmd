@@ -17,7 +17,6 @@ execute:
   warning: false
 ---
 
-<<<<<<< HEAD
 <style>
 .economic-comparison {
   margin: 1.25rem 0 1.75rem;
@@ -160,7 +159,6 @@ execute:
 .trend-agreement td:not(:first-child) { text-align: right; }
 </style>
 
-
 ## Executive summary
 
 **Research question:** As Australia's material conditions improved, did
@@ -203,7 +201,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import pandas as pd
 from IPython.display import display
 
@@ -217,23 +214,72 @@ def project_root() -> Path:
 
 ROOT = project_root()
 sys.path.insert(0, str(ROOT))
+
 from src.oecd_audit import INDICATOR_SPECS, load_clean  # noqa: E402
+
 
 RAW_FILE = ROOT / "data" / "raw" / "OECD Data.csv"
 data = load_clean(RAW_FILE)
-assert not data.duplicated(["country_code", "indicator_code", "year"]).any()
+
+assert not data.duplicated(
+    ["country_code", "indicator_code", "year"]
+).any()
 assert data.value.notna().all()
+
 
 cleaning_summary = pd.DataFrame(
     [
-        ("Raw input", f"{len(data):,} country-indicator-year observations across {data.country_code.nunique()} countries and {data.indicator_code.nunique()} indicators", "Preserved unchanged"),
-        ("Structure check", "Country-indicator-year keys are unique; observed values are complete", "Validated before analysis"),
-        ("Analysis-ready data", "Selected required fields, renamed columns, and converted year and value to numeric types", "No observations imputed or dropped"),
-        ("Quality metadata", f"Retained OECD observation-status flags ({int(data.is_flagged.sum())} flagged observations) and indicator directions", "Used in sensitivity checks"),
-        ("Time handling", "Annual outcomes analysed through 2024; pooled Gallup outcomes collapsed to independent three-year windows", "Avoids false annual precision"),
-    ], columns=["Stage", "What we did", "Why it matters"]
+        {
+            "Stage": "Raw input",
+            "What we did": (
+                f"{len(data):,} country-indicator-year observations across "
+                f"{data.country_code.nunique()} countries and "
+                f"{data.indicator_code.nunique()} indicators"
+            ),
+            "Why it matters": "Preserved unchanged",
+        },
+        {
+            "Stage": "Structure check",
+            "What we did": (
+                "Country-indicator-year keys are unique; "
+                "observed values are complete"
+            ),
+            "Why it matters": "Validated before analysis",
+        },
+        {
+            "Stage": "Analysis-ready data",
+            "What we did": (
+                "Selected required fields, renamed columns, and converted "
+                "year and value to numeric types"
+            ),
+            "Why it matters": "No observations imputed or dropped",
+        },
+        {
+            "Stage": "Quality metadata",
+            "What we did": (
+                "Retained OECD observation-status flags "
+                f"({int(data.is_flagged.sum())} flagged observations) "
+                "and indicator directions"
+            ),
+            "Why it matters": "Used in sensitivity checks",
+        },
+        {
+            "Stage": "Time handling",
+            "What we did": (
+                "Annual outcomes analysed through 2024; pooled Gallup "
+                "outcomes collapsed to independent three-year windows"
+            ),
+            "Why it matters": "Avoids false annual precision",
+        },
+    ]
 )
-display(cleaning_summary)
+
+
+display(
+    cleaning_summary.style
+    .hide(axis="index")
+    .set_caption("Data cleaning and preparation summary")
+)
 ```
 
 ### Column selection and standardisation
@@ -267,6 +313,17 @@ Finally, the data cleaning and reprocessing conducts the following dataset:
 - `OECD_domain_counts.csv`: overall domain coverage ranked by observation count
 - `AU_domain_counts.csv`: the equivalent domain-coverage summary for Australia
 
+### Audit safeguards for the research question
+
+The reproducible audit in `src/oecd_audit.py` revalidates the unchanged raw
+file and rejects missing required values, duplicate keys and undocumented
+indicators; no values are imputed. It also prevents the two main comparison
+errors: countries are compared only within the same indicator and year, and 16
+displayed social rows are treated as six independent pooled windows. Income and
+employment have no internal Australian annual gaps. These safeguards support
+the four-outcome design; detailed audit outputs and coverage limitations are in
+the Appendix.
+
 
 ## Exploratory analysis and question selection
 
@@ -280,13 +337,70 @@ There are the significant improvements of Australia's living standards and the l
 
 However, Australia’s improvements in income and employment did not consisently exceed the median across a board range of comparable countries. Only the available S80/S20 income ratio slightly changed between 2010 and 2024.
 
-| Indicator | Australia’s change | English-speaking reference | Broad supplied-country reference | Interpretation |
-|---|---:|---:|---:|---|
-| Household income per person, PPP | +USD 6,004 | +USD 5,218 median (3 peers) | +USD 6,960 median (31 countries) | A substantial domestic gain. It exceeds the small-peer median but not the broad median; the small-peer result changes when individual peers are omitted. |
-| Employment rate | +4.82 pp | +5.17 pp median (4 peers) | +5.68 pp median (43 countries) | Employment improved in Australia, but its improvement was not faster than either reference median. |
-| Gender wage gap | -3.37 pp | -2.60 pp median (4 peers) | -3.23 pp median (29 countries) | A favourable reduction, with broadly middle-of-the-distribution comparative change. |
-| Long-hours share | -3.81 pp | -1.80 pp median (4 peers) | -2.01 pp median (39 countries) | Australia’s improvement is stronger than both benchmarks. Its 2024 level remains above the English-speaking-peer median: 10.18% versus 9.20%. |
-| S80/S20 income inequality, 2012–20 | +0.04 | — | — | Essentially flat to slightly worse; the supplied data do not show that average gains were more equally shared. |
+::: {.economic-comparison}
+```{python}
+economic_comparison = pd.DataFrame([
+    {
+        "Indicator": "Household income per person, PPP",
+        "Australia’s change": "+USD 6,004",
+        "English-speaking reference": "+USD 5,218 median (3 peers)",
+        "Broad supplied-country reference": "+USD 6,960 median (31 countries)",
+        "Interpretation": (
+            "A substantial domestic gain. It exceeds the small-peer median "
+            "but not the broad median; the small-peer result changes when "
+            "individual peers are omitted."
+        ),
+    },
+    {
+        "Indicator": "Employment rate",
+        "Australia’s change": "+4.82 pp",
+        "English-speaking reference": "+5.17 pp median (4 peers)",
+        "Broad supplied-country reference": "+5.68 pp median (43 countries)",
+        "Interpretation": (
+            "Employment improved in Australia, but its improvement was not "
+            "faster than either reference median."
+        ),
+    },
+    {
+        "Indicator": "Gender wage gap",
+        "Australia’s change": "−3.37 pp",
+        "English-speaking reference": "−2.60 pp median (4 peers)",
+        "Broad supplied-country reference": "−3.23 pp median (29 countries)",
+        "Interpretation": (
+            "A favourable reduction, with broadly middle-of-the-distribution "
+            "comparative change."
+        ),
+    },
+    {
+        "Indicator": "Long-hours share",
+        "Australia’s change": "−3.81 pp",
+        "English-speaking reference": "−1.80 pp median (4 peers)",
+        "Broad supplied-country reference": "−2.01 pp median (39 countries)",
+        "Interpretation": (
+            "Australia’s improvement is stronger than both benchmarks. Its "
+            "2024 level remains above the English-speaking-peer median: "
+            "10.18% versus 9.20%."
+        ),
+    },
+    {
+        "Indicator": "S80/S20 income inequality, 2012–20",
+        "Australia’s change": "+0.04",
+        "English-speaking reference": "—",
+        "Broad supplied-country reference": "—",
+        "Interpretation": (
+            "Essentially flat to slightly worse; the supplied data do not "
+            "show that average gains were more equally shared."
+        ),
+    },
+])
+
+display(
+    economic_comparison.style
+    .hide(axis="index")
+    .set_caption("Economic outcomes compared with reference groups")
+)
+```
+:::
 
 #### Health
 The health investigation took into the aspects of life expectancy and suicide, alcohol and drugs death.
@@ -295,12 +409,42 @@ Australian life expectancy significantly increased and remained above the suppli
 
 However, the overall mortality rate metric includes three separate causes of death (social support, subjective well-being and economic), and only 18 nations have supplied data for 2024. As a result, health is viewed as a valuable supporting background rather than the primary focus.
 
-| Measure | Eearlier value | Latest value | Interpretation |
-|---------|----------------|---------------|----------------|
-| Life expectancy | 81.7 years (2010) | 83.0 years (2023) | Increased |
-| Suicide/alcohol/drug deaths | 14.9 per 100,000 (2010) | 22.2 per 100,000 (2024) | Increased |
-| Life expectancy peer comparison | - | 83.0 versus supplied-country median 81.5 (2023) | - |
-| Harm-death comparison | - | 21.7 versus median 20.3 (2023) | Slightly worse |
+```{python}
+health_comparison = pd.DataFrame([
+    {
+        "Measure": "Life expectancy",
+        "Earlier value": "81.7 years (2010)",
+        "Latest value": "83.0 years (2023)",
+        "Interpretation": "Increased",
+    },
+    {
+        "Measure": "Suicide/alcohol/drug deaths",
+        "Earlier value": "14.9 per 100,000 (2010)",
+        "Latest value": "22.2 per 100,000 (2024)",
+        "Interpretation": "Increased",
+    },
+    {
+        "Measure": "Life expectancy peer comparison",
+        "Earlier value": "—",
+        "Latest value": (
+            "83.0 versus supplied-country median 81.5 (2023)"
+        ),
+        "Interpretation": "—",
+    },
+    {
+        "Measure": "Harm-death comparison",
+        "Earlier value": "—",
+        "Latest value": "21.7 versus median 20.3 (2023)",
+        "Interpretation": "Slightly worse",
+    },
+])
+
+display(
+    health_comparison.style
+    .hide(axis="index")
+    .set_caption("Health outcomes and peer comparisons")
+)
+```
 
 #### Subjective Well-being
 The subjective well-being investigation took into the aspects of negative emotions and life satisfaction.
@@ -309,12 +453,58 @@ Overall, negative emotions increased from 12.24% between 2008 and 2010 to 14.85%
 
 Negative emotions offer far better temporal and worldwide coverage. Thus, it was chosen as the key measure of emotional well-being.
 
-| Measure | Earlier value | Latest value | Interpretation |
-|---------|---------------|--------------|----------------|
-| Negative affect balance | 12.24% (2008-10) | 14.85% (2023-25) | Negative emotional experiences became more common |
-| Life satisfaction | 7.5/10 (2019) | 7.2/10 (2020) | Fell by 0.3 points, but only two Australian observations are available |
-| Negative affect peer comparison | 12.24% versus supplied-country median 12.24% (2008-10) | 14.85% versus median 12.39% (2023-25) | Australia moved from the median to worse than the median |
-| Life satisfaction peer comparison | 7.5 versus supplied-country median 7.58 (2019) | 7.2 versus median 7.30 (2020) | Slightly below the median, but only six countries reported in each year |
+```{python}
+wellbeing_comparison = pd.DataFrame([
+    {
+        "Measure": "Negative affect balance",
+        "Earlier value": "12.24% (2008–10)",
+        "Latest value": "14.85% (2023–25)",
+        "Interpretation": (
+            "Negative emotional experiences became more common"
+        ),
+    },
+    {
+        "Measure": "Life satisfaction",
+        "Earlier value": "7.5/10 (2019)",
+        "Latest value": "7.2/10 (2020)",
+        "Interpretation": (
+            "Fell by 0.3 points, but only two Australian observations "
+            "are available"
+        ),
+    },
+    {
+        "Measure": "Negative affect peer comparison",
+        "Earlier value": (
+            "12.24% versus supplied-country median 12.24% (2008–10)"
+        ),
+        "Latest value": (
+            "14.85% versus supplied-country median 12.39% (2023–25)"
+        ),
+        "Interpretation": (
+            "Australia moved from the median to worse than the median"
+        ),
+    },
+    {
+        "Measure": "Life satisfaction peer comparison",
+        "Earlier value": (
+            "7.5 versus supplied-country median 7.58 (2019)"
+        ),
+        "Latest value": (
+            "7.2 versus supplied-country median 7.30 (2020)"
+        ),
+        "Interpretation": (
+            "Slightly below the median, but only six countries reported "
+            "in each year"
+        ),
+    },
+])
+
+display(
+    wellbeing_comparison.style
+    .hide(axis="index")
+    .set_caption("Subjective wellbeing outcomes and peer comparisons")
+)
+```
 
 #### Cross-references considered
 
@@ -365,36 +555,135 @@ if test_run.returncode != 0:
 
 ### Method 1: EDA
 
-The focal country is Australia. The broad reference contains countries in the
-supplied extract with the same exact endpoints; it is not labelled “OECD”
-because the extract includes non-members. Canada, New Zealand, the United
-Kingdom and the United States are a separate English-speaking sensitivity group.
+The four primary outcomes were fixed after the coverage audit and before the
+common-endpoint comparison. For each observed period, Australia is plotted in
+native units against the median and interquartile range of all other supplied
+countries reporting that outcome in the same period. Australia is excluded from
+the reference summaries; no values are interpolated and no composite score is
+constructed. Reference coverage is 31--36 countries for income, 44--46 for
+employment and 46 for each social outcome.
 
-Economic indicators are annual. Lack of social support and negative affect are
-six independent three-year Gallup windows. For lower-is-better outcomes, the
-report uses direction-oriented changes for ranks while preserving native-unit
-changes for interpretation.
+Income and employment are annual. Lack of social support and negative affect
+are six independent three-year Gallup windows labelled by their full periods.
+The per-period reference composition may change with reporting availability, so
+Method 1 establishes patterns and coverage rather than a fixed-panel estimate.
+The supplied extract includes non-members and is therefore described as the
+*supplied-country reference*, not as an OECD ranking.
+
+### Method 2: Primary common-endpoint comparison
+
+For each outcome, a country is eligible only if it reports both of Australia's
+exact endpoints. The native change is
+$\Delta_c = y_{c,\mathrm{end}}-y_{c,\mathrm{start}}$. The primary comparative
+estimand is $G=s(\Delta_{AUS}-\operatorname{median}(\Delta_c))$, where
+$s=1$ for higher-is-better outcomes and $s=-1$ for lower-is-better outcomes.
+Thus, positive $G$ always indicates a more favourable Australian change. The
+median limits sensitivity to extreme country changes, while native units retain
+substantive meaning.
+
+The scorecard also reports the eligible-country count and Australia's
+direction-aware percentile, using average ranks for ties. Percentiles describe
+relative position; they are not probabilities or significance tests. Rendering
+stops if these results differ from the independently generated Method 2 table.
+Methods 3--4 assess uncertainty and trend robustness separately.
 
 ```{python}
+AUSTRALIA = "AUS"
+OUTCOMES = {
+    "1_1": ("Household income per person, PPP", 2010, 2024, "2010–2024"),
+    "2_1": ("Employment rate", 2010, 2024, "2010–2024"),
+    "7_1_DEP": ("Lack of social support", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
+    "11_2": ("Negative affect", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
+}
 
+
+def endpoint_changes(code: str, start: int, end: int, countries: list[str]) -> pd.DataFrame:
+    subset = data.loc[data.indicator_code.eq(code) & data.country_code.isin([AUSTRALIA, *countries]) & data.year.isin([start, end])].copy()
+    subset = subset.sort_values("year").drop_duplicates(["country_code", "independent_period"], keep="last")
+    wide = subset.pivot(index="country_code", columns="year", values="value").reindex(columns=[start, end]).dropna()
+    wide["native_change"] = wide[end] - wide[start]
+    sign = 1 if INDICATOR_SPECS[code].direction == "higher" else -1
+    wide["oriented_change"] = sign * wide["native_change"]
+    return wide
+
+
+def common_endpoint_scorecard() -> pd.DataFrame:
+    references = sorted(set(data.country_code) - {AUSTRALIA})
+    rows = []
+    for code, (label, start, end, period) in OUTCOMES.items():
+        changes = endpoint_changes(code, start, end, references)
+        au, peers = changes.loc[AUSTRALIA], changes.drop(index=AUSTRALIA)
+        comparator_median = peers.native_change.median()
+        rank = changes.oriented_change.rank(ascending=False, method="average").loc[AUSTRALIA]
+        n = len(changes)
+        sign = 1 if INDICATOR_SPECS[code].direction == "higher" else -1
+        rows.append({
+            "Indicator code": code,
+            "Outcome": label,
+            "Period": period,
+            "Australia start": au[start],
+            "Australia end": au[end],
+            "Australia change": au.native_change,
+            "Comparator median change": comparator_median,
+            "Australia-minus-median favourable gap": sign * (au.native_change - comparator_median),
+            "Comparator countries": len(peers),
+            "Favourable percentile": 100 * (n-rank)/(n-1),
+        })
+    return pd.DataFrame(rows)
+
+
+results = common_endpoint_scorecard()
+
+# Stop rendering if the report diverges from the independently generated Method 2 table.
+frozen_path = ROOT / "reports" / "tables" / "material_social_primary_results.csv"
+if not frozen_path.exists():
+    raise FileNotFoundError("Run notebooks/02_analysis.ipynb before rendering the report.")
+frozen = pd.read_csv(frozen_path).set_index("indicator_code")
+for _, row in results.iterrows():
+    stored = frozen.loc[row["Indicator code"]]
+    checks = {
+        "Australia start": "australia_start_value",
+        "Australia end": "australia_end_value",
+        "Australia change": "australia_native_change",
+        "Comparator median change": "comparator_median_native_change",
+        "Australia-minus-median favourable gap": "australia_minus_comparator_median_oriented",
+        "Favourable percentile": "australia_favourable_percentile",
+    }
+    for report_column, stored_column in checks.items():
+        assert abs(row[report_column] - stored[stored_column]) < 1e-10
+    assert row["Comparator countries"] == stored["eligible_comparator_country_count"]
+
+scorecard = results[[
+    "Outcome", "Australia change", "Comparator median change",
+    "Australia-minus-median favourable gap", "Favourable percentile",
+    "Comparator countries",
+]].copy()
+scorecard.columns = [
+    "Outcome", "AU change", "Median change", "Favourable gap",
+    "Favourable percentile", "Comparators",
+]
 ```
-### Method 3: 
 
-The common-endpoint comparison in Method 2 provides Australia's change and its position relative to comparator countries. However, the ranking may depend on which comparator countries are included. Two sensitivity checks are therefore applied.
+::: {.primary-scorecard}
+```{python}
+display(
+    scorecard.round(2).style
+    .hide(axis="index")
+    .format({
+        "AU change": "{:,.2f}",
+        "Median change": "{:,.2f}",
+        "Favourable gap": "{:,.2f}",
+        "Favourable percentile": "{:.2f}",
+    })
+    .set_caption("Primary common-endpoint scorecard (changes in native units)")
+)
+```
+:::
 
-Bootstrap resampling evaluates the stability of Australia's percentile ranking. For each indicator, comparator-country changes are repeatedly sampled with replacement 10,000 times while keeping the same number of countries as the original comparator group. Australia's percentile is recalculated for each resampled comparison. The resulting distribution shows how much Australia's ranking changes under alternative comparator compositions.
-
-Placebo ranking provides an additional benchmark by treating each comparator country as the focal country in turn. Each country's change is ranked against the remaining comparator countries, creating a distribution of typical country rankings. Australia's actual percentile can then be compared with this placebo distribution to assess whether its performance is unusual.
-
-Results: Australia's raw changes were +6,004 USD (income), +4.82 percentage points (employment), +5.12 percentage points (lack of social support), and +2.61 percentage points (negative affect). Comparator groups contained between 36 and 46 countries depending on indicator availability.
-
-Bootstrap sensitivity results showed that income and employment were close to the centre of the comparator distribution, with median percentiles of approximately 47 and 39. Their wider percentile ranges indicate that Australia's ranking is sensitive to comparator composition. In contrast, lack of social support and negative affect remained consistently high, with median percentiles of approximately 91 and 80, suggesting that Australia's deterioration in these outcomes is robust across alternative comparator samples.
-
-The placebo analysis showed that comparator countries generally produced rankings centred around the middle of the distribution. Australia's economic indicators were close to typical country outcomes, while social and emotional indicators were positioned near the adverse end of the distribution. This supports the conclusion that Australia's deterioration in perceived social support and negative affect was relatively unusual compared with the supplied-country reference group.
+### Method 3: Bootstrap uncertainty and placebo ranking
 
 ### Method 4: Theil–Sen and Kendall trend robustness
 
-<<<<<<< HEAD
 For each primary outcome, the Theil--Sen estimator summarises Australia's
 median pairwise rate of change across the full trajectory. Annual material
 series use 2010--2024; the social series use six independent pooled-window
@@ -493,13 +782,13 @@ display(
 
 This figure shows the observed trajectories and fitted Theil–Sen trends for four key outcomes in Australia. The solid lines connect the individual observations, and dash lines represent robust trend estimates.
 
-Positive tendencies can be observed in the two upper graphs. The average income of households increased by about $458 annually, showing a strong positive monotonic trend (\(\tau=0.85\)). The employment rate increased by approximately 0.358% per year, reflecting a strong positive trend (\(\tau=0.75\)). Both trends had identical p-values, which were less than 0.0001.
+Positive tendencies can be observed in the two upper graphs. The average income of households increased by about $458 annually, showing a strong positive monotonic trend $\tau = 0.85$. The employment rate increased by approximately 0.358% per year, reflecting a strong positive trend $\tau=0.75$. Both trends had identical p-values, which were less than 0.0001.
 
 Income went down since having reached its maximum value in 2021, whereas employment showed strong recovery after its decline in 2020. Gradients of both fitted lines remained positive and reflect good developments at their endpoints. Consequently, Australia's successful development cannot be solely attributed to the comparison of initial and the last point.
 
-Two lower graphs show a deterioration of the social impact. Lack of social support increases by approximately 0.186% per year. Since smaller values indicate more positive influence on society, the Kendall's coefficient calculated on the scale of improvement will be (\(-0.87\)). It means strong negative monotonic order across six independent aggregation windows. Unadjusted p-value is equal to 0.0167, while p-value after Holm correction is 0.0333. However, the estimation of the pooling effect is extremely important in 2023-25.
+Two lower graphs show a deterioration of the social impact. Lack of social support increases by approximately 0.186% per year. Since smaller values indicate more positive influence on society, the Kendall's coefficient calculated on the scale of improvement will be -0.87. It means strong negative monotonic order across six independent aggregation windows. Unadjusted p-value is equal to 0.0167, while p-value after Holm correction is 0.0333. However, the estimation of the pooling effect is extremely important in 2023-25.
 
-In terms of the negative side of the scale, the negative emotions increase by about 0.174 percentage points annually. For the positive side, the value of tau equals to (\(-0.33\)) which means that there is a smaller monotonically increasing trend. But what can be seen from the trend graph is the decrease in negative emotions in some middle periods and their rapid increase between 2023 and 2025. The values of p are 0.4694 both for the unadjusted version and Holm’s correction.
+In terms of the negative side of the scale, the negative emotions increase by about 0.174 percentage points annually. For the positive side, the value of tau equals to -0.33 which means that there is a smaller monotonically increasing trend. But what can be seen from the trend graph is the decrease in negative emotions in some middle periods and their rapid increase between 2023 and 2025. The values of p are 0.4694 both for the unadjusted version and Holm’s correction.
 
 #### Australia relative to country trend distributions
 ::: {.trajectory-figure}
@@ -530,8 +819,9 @@ In other words, this method reveals that there is some real progress made by Aus
 
 #### Limitations
 
+However, there are some problems with both Theil-Sen and Kendall trend approaches. Both analyses consider just six independent pooled observation windows. Hence, their slope values and Kendall scores should be used mainly as validation tools regarding direction, intensity, and consistency of the relationship compared with the endpoint analysis.
 
-
+Moreover, traditional p-values from the Kendall approach and Theil-Sen confidence intervals ignore any temporal dependency in the data. Their p-values provide a test of whether there is any ordinal association based on the assumptions of standard test. It shows that they cannot prove causality, independence of time, and mechanisms of connection between material and social conditions.
 
 ## Analysis and results
 
@@ -540,10 +830,11 @@ In other words, this method reveals that there is some real progress made by Aus
 #### Material conditions improved, but broad outperformance is not supported
 
 - Household income per person rose **USD 6,004** from 2010 to 2024. This is a
-  substantial domestic gain, but below the broad-reference median rise of USD
-  6,960 among 31 common-endpoint countries.
+  substantial domestic gain, but **USD 956 below** the median rise of USD 6,960
+  among 31 eligible comparators (about the **45th favourable percentile**).
 - Employment increased **4.82 percentage points**, below the broad-reference
-  median rise of 5.68 points among 43 common-endpoint countries.
+  median rise of 5.68 points by **0.86 points** among 43 eligible comparators
+  (about the **37th favourable percentile**).
 - Long paid hours fell **3.81 points** (14.0% to 10.2%), outperforming the
   broad-reference median reduction of 2.01 points. Australia's 2024 level still
   exceeded the English-speaking-peer median.
@@ -555,35 +846,97 @@ In other words, this method reveals that there is some real progress made by Aus
 
 - Lack of social support rose from **4.93%** in 2008–10 to **10.04%** in the
   2023–25 pooled window: a **5.12-point adverse change**. The broad-reference
-  median improved by 0.83 points, placing Australia at about the 9th favourable
-  percentile of 47 common-endpoint countries.
+  median also worsened, but by only 0.83 points. Australia therefore
+  deteriorated **4.29 points more** and placed at about the **9th favourable
+  percentile** of 47 common-endpoint countries.
 - Negative affect rose from **12.24%** to **14.85%** across the same windows:
-  a **2.61-point adverse change**. The broad-reference median change was near
-  zero (+0.05 points), placing Australia at about the 20th favourable percentile.
+  a **2.61-point adverse change**. The broad-reference median slightly improved
+  by 0.05 points, so Australia deteriorated **2.66 points more** and placed at
+  about the **20th favourable percentile**.
+
+Australia improved materially, but less than the typical eligible comparator
+on the two primary material changes. Both social outcomes deteriorated more
+than their comparator medians. This supports a descriptive material--social
+tension, not a causal effect.
 
 ```{python}
-plot_specs = [("1_1", "Income per person", "USD"), ("2_1", "Employment", "%"),
-              ("7_1_DEP", "Lack of social support", "%"), ("11_2", "Negative affect", "%")]
-midpoints = {"2008-10": 2009, "2011-13": 2012, "2014-16": 2015, "2017-19": 2018, "2020-22": 2021, "2023-25": 2024}
-fig, axes = plt.subplots(2, 2, figsize=(12, 8), constrained_layout=True)
-for ax, (code, title, unit) in zip(axes.flat, plot_specs):
-    subset = data.loc[data.indicator_code.eq(code) & data.year.le(2024)].copy()
-    if code in {"7_1_DEP", "11_2"}:
-        subset = subset.sort_values("year").drop_duplicates(["country_code", "independent_period"], keep="last")
-        subset["plot_year"] = subset.independent_period.map(midpoints)
-    else:
-        subset["plot_year"] = subset.year
-    au = subset.loc[subset.country_code.eq(AUSTRALIA)]
-    ref = subset.loc[subset.country_code.ne(AUSTRALIA)].groupby("plot_year").agg(median=("value", "median"), q25=("value", lambda x: x.quantile(.25)), q75=("value", lambda x: x.quantile(.75))).reset_index()
-    ax.fill_between(ref["plot_year"], ref["q25"], ref["q75"], color="#b8c9dc", alpha=.6, label="Reference IQR")
-    ax.plot(ref["plot_year"], ref["median"], color="#365f8b", marker="o", label="Reference median")
-    ax.plot(au["plot_year"], au["value"], color="#d1495b", marker="o", linewidth=2.5, label="Australia")
-    ax.set(title=title, xlabel="Year" if code not in {"7_1_DEP", "11_2"} else "Pooled-window midpoint", ylabel=unit)
-    ax.grid(axis="y", alpha=.25)
-axes[0, 0].legend(frameon=False, fontsize=8)
-fig.suptitle("Australia and same-period supplied-country reference distributions", fontweight="bold")
-plt.show()
+#| output: false
+trajectory_figure = ROOT / "reports" / "figures" / "material_social_trajectories.png"
+coverage_path = ROOT / "reports" / "tables" / "material_social_trajectory_coverage.csv"
+if not trajectory_figure.exists() or not coverage_path.exists():
+    raise FileNotFoundError("Run notebooks/04_final_visuals.ipynb before rendering the report.")
+coverage = pd.read_csv(coverage_path)
+expected_periods = {"1_1": 15, "2_1": 15, "7_1_DEP": 6, "11_2": 6}
+assert coverage.groupby("indicator_code")["period"].nunique().to_dict() == expected_periods
 ```
+
+::: {.trajectory-figure}
+![Australia and same-period supplied-country distributions. The shaded band is
+the interquartile range; reference counts exclude Australia, and social points
+are independent three-year pooled windows.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
+:::
+
+### Robustness: endpoint and full-trajectory directions agree
+
+```{python}
+trend_path = ROOT / "reports" / "tables" / "material_social_trend_results.csv"
+if not trend_path.exists():
+    raise FileNotFoundError("Run notebooks/method4_theilsen_kendall.ipynb before rendering the report.")
+
+trend = pd.read_csv(trend_path)
+required_trend_columns = {
+    "indicator_code", "short_name", "native_slope_per_year", "n_independent",
+    "favourable_direction", "kendall_tau_favourable", "kendall_p_holm",
+    "n_comparator_countries", "australia_favourable_slope_percentile",
+    "slope_endpoint_agree",
+}
+if missing_trend_columns := required_trend_columns.difference(trend.columns):
+    raise ValueError(f"Method 4 output is missing columns: {sorted(missing_trend_columns)}")
+trend_order = {"1_1": 0, "2_1": 1, "7_1_DEP": 2, "11_2": 3}
+trend = trend.sort_values("indicator_code", key=lambda values: values.map(trend_order))
+
+def report_p_value(value: float) -> str:
+    return "<0.0001" if value < 0.0001 else f"{value:.4f}"
+
+def report_slope(row: pd.Series) -> str:
+    if row["short_name"] == "Household income":
+        return f"{row['native_slope_per_year']:+,.0f} USD/year"
+    return f"{row['native_slope_per_year']:+.3f} pp/year"
+
+trend_table = pd.DataFrame({
+    "Outcome": trend["short_name"],
+    "Native slope": trend.apply(report_slope, axis=1),
+    "Favourable tau": trend["kendall_tau_favourable"].map(lambda x: f"{x:+.2f}"),
+    "Holm p": trend["kendall_p_holm"].map(report_p_value),
+    "Slope percentile rank": trend["australia_favourable_slope_percentile"].map(lambda x: f"{x:.0f}"),
+    "Comparators": trend["n_comparator_countries"].astype(int),
+    "Endpoint agreement": trend["slope_endpoint_agree"].map({True: "Yes", False: "No"}),
+})
+```
+
+::: {.trend-agreement}
+```{python}
+display(
+    trend_table.style
+    .hide(axis="index")
+    .set_caption("Endpoint-versus-trend robustness for the four primary outcomes")
+)
+```
+:::
+
+The robust slopes agree with every endpoint direction. Income rose by about
+**USD 458 per person per year** and employment by **0.358 percentage points per
+year**, but their favourable slopes rank only around the 39th and 33rd
+percentiles. Lack of social support and negative affect have adverse native
+slopes of **0.186** and **0.174 points per year**, respectively, and both remain
+below their comparator medians on the favourable scale.
+
+The full-trajectory social-support slope is around the 28th percentile, whereas
+its endpoint change is around the 9th. Thus, the deterioration's direction is
+robust, but the unusually poor endpoint rank is partly driven by the latest
+pooled window. Negative affect has weak monotonic ordering (favourable tau
+-0.33; Holm-adjusted p=0.4694). These results strengthen the descriptive
+material--social tension while preserving the null and non-causal boundaries.
 
 ### Health is context, not the primary explanation
 
@@ -599,11 +952,17 @@ pooled-window midpoints and do not imply annual independent measurement.
 
 ## Conclusion
 
+Household income and employment increased, but by less than the median changes
+among countries with the same endpoints. Meanwhile, perceived lack of social
+support and negative affect worsened more than their typical eligible
+comparators. Within the supplied data, Australia therefore became materially
+better resourced while its measured social and emotional outcomes deteriorated
+comparatively. This is a descriptive conclusion; causal explanations require a
+different design.
+
 ## Limitations
 
-However, there are some problems with both Theil-Sen and Kendall trend approaches. Both analyses consider just six independent pooled observation windows. Hence, their slope values and Kendall scores should be used mainly as validation tools regarding direction, intensity, and consistency of the relationship compared with the endpoint analysis.
 
-Moreover, traditional p-values from the Kendall approach and Theil-Sen confidence intervals ignore any temporal dependency in the data. Their p-values provide a test of whether there is any ordinal association based on the assumptions of standard test. It shows that they cannot prove causality, independence of time, and mechanisms of connection between material and social conditions.
 
 ### Limitations and claim boundaries
 
@@ -614,9 +973,34 @@ Moreover, traditional p-values from the Kendall approach and Theil-Sen confidenc
   observation.
 - PPP-adjusted household income is not household disposable cash income;
   employment alone does not measure job security or job quality.
+- The eligible reference group changes across outcomes and plotted periods as
+  reporting coverage changes. All comparisons are therefore conditional on the
+  countries observed at the required endpoints, rather than a fixed OECD panel.
+- Survey design, source systems and observation-status flags may differ across
+  countries. These flags are retained for transparent sensitivity analysis,
+  but they limit claims of perfect cross-country comparability.
 - Results apply only to countries and periods available in the supplied extract.
 
 ## Appendix
+
+### Audit traceability
+
+The audit copy retains all 8,806 supplied observations and adds quality flags,
+favourable directions and independent-period labels. Applying the report's
+2010--2024 scope yields the same 8,575 observations used by the team analysis.
+
+| Audit control and output | How it protects the analysis |
+|---|---|
+| Gap and coverage tables: `time_series_gaps.csv`, `coverage_by_country_indicator.csv`, `coverage_by_country_year.csv` | Separate genuine annual gaps from scheduled non-annual measurement and report the evidence available for each series |
+| `indicator_metadata.csv` | Records units, direction, frequency and comparability caveats so unlike constructs are not treated as equivalent |
+| `same_year_australia_comparisons.csv` and `australia_indicator_summary.csv` | Compare Australia only with countries observed for the same indicator and year, report comparator counts and support transparent outcome selection |
+| `domain_coverage_all.csv` and `domain_coverage_australia.csv` | Count unique country--indicator--period evidence; ranks indicate availability, not substantive importance |
+
+Australia covers 17 of 21 indicators but lacks time spent in social
+interactions, so lack of social support is a focused proxy rather than a
+complete social-connection measure. Australian rows have normal OECD status;
+peer flags remain visible for sensitivity analysis. Indicator-specific caveats
+are documented in `docs/analysis/oecd_data_quality_notes.md`.
 
 ### Reproduce this report
 
