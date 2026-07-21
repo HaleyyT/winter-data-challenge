@@ -218,45 +218,46 @@ agreement or disagreement statement.
 
 ## Method 5 — Optional Spearman material–social association
 
-**Status:** Provisionally implemented in
-`notebooks/method5_spearman_association.ipynb`, but not complete and not
-eligible for report integration. Methods 3 and 4 remain outstanding, so this
-secondary analysis must be rechecked only after the primary definitions,
-figures and robustness results are frozen.
+**Status:** Implementation verified on 21 July 2026. The notebook passes a
+fresh-kernel run, creates the four-row table and 300 dpi diagnostic figure, and
+passes its coverage, orientation, bootstrap, permutation, sensitivity and
+round-trip assertions. It is **not final-method complete** and is not eligible
+for report integration: Methods 3 and 4, the final figures and the primary
+report must first be frozen, after which a non-owner must independently verify
+the four estimates and Australia’s plotted direction pattern.
 
 **Start rule:** begin only after Methods 1–4, both final figures and the report's
 
 primary results are stable. Drop this method first if time is limited.
 
-- [ ]  Confirm that each pre-specified pair has at least 25 countries with all
+- [x]  Confirm that each pre-specified pair has at least 25 countries with all
     
     required common-endpoint changes.
     
-- [ ]  Test only four pairs: income–social support, income–negative affect,
+- [x]  Test only four pairs: income–social support, income–negative affect,
     
     employment–social support and employment–negative affect.
     
-- [ ]  Use oriented changes so positive means improvement in every variable.
-- [ ]  Report Spearman's rho, eligible-country count and a country-bootstrap 95%
+- [x]  Use oriented changes so positive means improvement in every variable.
+- [x]  Report Spearman's rho, eligible-country count and a country-bootstrap 95%
     
     interval for every pair.
     
-- [ ]  Apply Holm adjustment across the four tests if p-values are reported.
-- [ ]  Display all four results, including null or contradictory associations.
-- [ ]  State that this is an exploratory ecological association and cannot show
+- [x]  Apply Holm adjustment across the four tests if p-values are reported.
+- [x]  Display all four results, including null or contradictory associations.
+- [x]  State that this is an exploratory ecological association and cannot show
     
     that material change caused social or emotional change.
     
-- [ ]  Write `reports/tables/material_social_spearman_results.csv` only if the
+- [x]  Write `reports/tables/material_social_spearman_results.csv` only if the
     
     method passes the coverage rule and adds a clear secondary finding.
     
 
-**Done when:** either the full pre-specified four-pair analysis is reported with
-
-appropriate caveats, or the team records that Method 5 was intentionally
-
-omitted to protect the quality of the primary analysis.
+**Final completion gate (not yet met):** either the full pre-specified
+four-pair analysis is reported with appropriate caveats after Methods 1–4 are
+frozen and independently checked, or the team records that Method 5 was
+intentionally omitted to protect the quality of the primary analysis.
 
 ## Final cross-method completion gate
 
