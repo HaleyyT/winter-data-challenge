@@ -2286,7 +2286,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </section>
 <section id="data-cleaning-and-preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="data-cleaning-and-preprocessing">Data, cleaning and preprocessing</h2>
-<div id="004a3c21" class="cell" data-execution_count="1">
+<div id="ad5d9eaf" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2353,7 +2353,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <h2 class="anchored" data-anchor-id="analytical-protocol">Analytical protocol</h2>
 <p>The focal country is Australia. The broad reference contains countries in the supplied extract with the same exact endpoints; it is not labelled “OECD” because the extract includes non-members. Canada, New Zealand, the United Kingdom and the United States are a separate English-speaking sensitivity group.</p>
 <p>Economic indicators are annual. Lack of social support and negative affect are six independent three-year Gallup windows. For lower-is-better outcomes, the report uses direction-oriented changes for ranks while preserving native-unit changes for interpretation.</p>
-<div id="d4fc3aec" class="cell" data-execution_count="3">
+<div id="a163b480" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 
@@ -2363,37 +2363,40 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">Outcome</th>
-<th data-quarto-table-cell-role="th">Period</th>
+<th data-quarto-table-cell-role="th">Comparison period</th>
 <th data-quarto-table-cell-role="th">Australia start</th>
 <th data-quarto-table-cell-role="th">Australia end</th>
-<th data-quarto-table-cell-role="th">Australia change</th>
-<th data-quarto-table-cell-role="th">Comparator median change</th>
-<th data-quarto-table-cell-role="th">Comparator countries</th>
+<th data-quarto-table-cell-role="th">Australia native change</th>
+<th data-quarto-table-cell-role="th">Comparator median native change</th>
+<th data-quarto-table-cell-role="th">Australia-minus-median oriented gap</th>
 <th data-quarto-table-cell-role="th">Favourable percentile</th>
+<th data-quarto-table-cell-role="th">Comparator countries</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
 <td>Household income per person, PPP</td>
-<td>2010–24</td>
+<td>2010–2024</td>
 <td>44625.00</td>
 <td>50629.00</td>
 <td>6004.00</td>
 <td>6960.00</td>
-<td>31</td>
+<td>-956.00</td>
 <td>45.16</td>
+<td>31</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
 <td>Employment rate</td>
-<td>2010–24</td>
+<td>2010–2024</td>
 <td>75.44</td>
 <td>80.26</td>
 <td>4.82</td>
 <td>5.68</td>
-<td>43</td>
+<td>-0.86</td>
 <td>37.21</td>
+<td>43</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">2</th>
@@ -2403,8 +2406,9 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <td>10.04</td>
 <td>5.12</td>
 <td>0.83</td>
-<td>46</td>
+<td>-4.29</td>
 <td>8.70</td>
+<td>46</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">3</th>
@@ -2414,8 +2418,9 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <td>14.85</td>
 <td>2.61</td>
 <td>-0.05</td>
-<td>46</td>
+<td>-2.66</td>
 <td>19.57</td>
+<td>46</td>
 </tr>
 </tbody>
 </table>
@@ -2423,6 +2428,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </div>
 </div>
 </div>
+<p>The displayed results are independently reproduced from the immutable OECD input and checked against the frozen analysis table, so the report cannot silently diverge from the Method 2 results.</p>
 </section>
 <section id="findings" class="level2">
 <h2 class="anchored" data-anchor-id="findings">Findings</h2>
@@ -2441,7 +2447,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <li>Lack of social support rose from <strong>4.93%</strong> in 2008–10 to <strong>10.04%</strong> in the 2023–25 pooled window: a <strong>5.12-point adverse change</strong>. The broad-reference median improved by 0.83 points, placing Australia at about the 9th favourable percentile of 47 common-endpoint countries.</li>
 <li>Negative affect rose from <strong>12.24%</strong> to <strong>14.85%</strong> across the same windows: a <strong>2.61-point adverse change</strong>. The broad-reference median change was near zero (+0.05 points), placing Australia at about the 20th favourable percentile.</li>
 </ul>
-<div id="607c02df" class="cell" data-execution_count="4">
+<div id="712da0a7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

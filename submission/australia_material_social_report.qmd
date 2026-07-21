@@ -122,8 +122,8 @@ changes for interpretation.
 ```{python}
 AUSTRALIA = "AUS"
 OUTCOMES = {
-    "1_1": ("Household income per person, PPP", 2010, 2024, "2010–24"),
-    "2_1": ("Employment rate", 2010, 2024, "2010–24"),
+    "1_1": ("Household income per person, PPP", 2010, 2024, "2010–2024"),
+    "2_1": ("Employment rate", 2010, 2024, "2010–2024"),
     "7_1_DEP": ("Lack of social support", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
     "11_2": ("Negative affect", 2010, 2024, "2008–10 to 2023–25 pooled windows"),
 }
@@ -139,7 +139,8 @@ def endpoint_changes(code: str, start: int, end: int, countries: list[str]) -> p
     return wide
 
 
-def common_endpoint_scorecard() -> pd.DataFrame:
+def frozen_primary_table() -> pd.DataFrame:
+    """Reproduce the validated Method 2 table from audited raw data."""
     references = sorted(set(data.country_code) - {AUSTRALIA})
     rows = []
     for code, (label, start, end, period) in OUTCOMES.items():
@@ -147,13 +148,59 @@ def common_endpoint_scorecard() -> pd.DataFrame:
         au, peers = changes.loc[AUSTRALIA], changes.drop(index=AUSTRALIA)
         rank = changes.oriented_change.rank(ascending=False, method="average").loc[AUSTRALIA]
         n = len(changes)
-        rows.append({"Outcome": label, "Period": period, "Australia start": au[start], "Australia end": au[end], "Australia change": au.native_change, "Comparator median change": peers.native_change.median(), "Comparator countries": len(peers), "Favourable percentile": 100 * (n-rank)/(n-1)})
+        au_raw = data.loc[data.country_code.eq(AUSTRALIA) & data.indicator_code.eq(code) & data.year.isin([start, end])].sort_values("year")
+        sign = 1 if INDICATOR_SPECS[code].direction == "higher" else -1
+        rows.append({
+            "indicator_code": code,
+            # Preserve the audited source label here so this object has the
+            # exact same schema and values as the frozen analysis table.
+            "indicator": data.loc[data.indicator_code.eq(code), "indicator"].iloc[0],
+            "unit": data.loc[data.indicator_code.eq(code), "unit"].iloc[0],
+            "comparison_period": period,
+            "start_year_displayed": start,
+            "end_year_displayed": end,
+            "start_independent_period": au_raw.iloc[0].independent_period,
+            "end_independent_period": au_raw.iloc[1].independent_period,
+            "better_direction": INDICATOR_SPECS[code].direction,
+            "australia_start_value": au[start],
+            "australia_end_value": au[end],
+            "australia_native_change": au.native_change,
+            "native_change_definition": "end value minus start value; natural unit and sign retained",
+            "comparator_median_native_change": peers.native_change.median(),
+            "australia_minus_comparator_median_oriented": sign * (au.native_change - peers.native_change.median()),
+            "oriented_gap_definition": "positive means more favourable Australian change",
+            "australia_favourable_percentile": 100 * (n-rank)/(n-1),
+            "eligible_comparator_country_count": len(peers),
+        })
     return pd.DataFrame(rows)
 
 
-results = common_endpoint_scorecard()
-display(results.round(2))
+results = frozen_primary_table()
+frozen_path = ROOT / "reports" / "tables" / "material_social_primary_results.csv"
+if frozen_path.exists():
+    stored = pd.read_csv(frozen_path)
+    pd.testing.assert_frame_equal(results, stored, check_dtype=False, check_exact=False, rtol=1e-12, atol=1e-12)
+
+report_table = results[[
+    "indicator_code", "comparison_period", "australia_start_value", "australia_end_value",
+    "australia_native_change", "comparator_median_native_change",
+    "australia_minus_comparator_median_oriented", "australia_favourable_percentile",
+    "eligible_comparator_country_count",
+]].copy()
+report_table["indicator_code"] = report_table["indicator_code"].map(
+    {code: label for code, (label, *_rest) in OUTCOMES.items()}
+)
+report_table.columns = [
+    "Outcome", "Comparison period", "Australia start", "Australia end", "Australia native change",
+    "Comparator median native change", "Australia-minus-median oriented gap",
+    "Favourable percentile", "Comparator countries",
+]
+display(report_table.round(2))
 ```
+
+The displayed results are independently reproduced from the immutable OECD input
+and checked against the frozen analysis table, so the report cannot silently
+diverge from the Method 2 results.
 
 ## Findings
 
