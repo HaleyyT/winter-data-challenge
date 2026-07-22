@@ -35,6 +35,8 @@ execute:
 </style>
 
 ```{python}
+#| label: setup
+
 from __future__ import annotations
 
 import subprocess
@@ -207,6 +209,8 @@ Australia's tie-aware favourable percentile—a relative position, not a
 probability or significance test.
 
 ```{python}
+#| label: method2-computation
+
 AUSTRALIA = "AUS"
 OUTCOMES = {
     "1_1": ("Household income per person, PPP", 2010, 2024),
@@ -269,8 +273,10 @@ for _, row in results.iterrows():
 
 ::: {.scorecard}
 ```{python}
+#| label: method2-scorecard
+
 display(
-    results.drop(columns="Indicator code").round(2).style.hide(axis="index")
+    results.drop(columns="Indicator code").round(2).style.set_uuid("method2_scorecard").hide(axis="index")
     .format({"AU change": "{:,.2f}", "Median change": "{:,.2f}", "Favourable gap": "{:,.2f}", "Favourable percentile": "{:.1f}"})
     .set_caption("Method 2 primary scorecard; income is USD PPP and other outcomes are percentage points")
 )
@@ -294,6 +300,8 @@ significance test. Full bootstrap and placebo outputs are retained in
 [Appendix C](#sec-robustness-diagnostics).
 
 ```{python}
+#| label: method3-computation
+
 method3_bootstrap = pd.read_csv(ROOT / "reports" / "tables" / "material_social_bootstrap_results.csv")
 method3_placebo = pd.read_csv(ROOT / "reports" / "tables" / "material_social_placebo_results.csv")
 method3_order = ["1_1", "2_1", "7_1_DEP", "11_2"]
@@ -327,8 +335,10 @@ method3_display.columns = [
 
 ::: {.compact-table}
 ```{python}
+#| label: method3-scorecard
+
 display(
-    method3_display.style.hide(axis="index")
+    method3_display.style.set_uuid("method3_scorecard").hide(axis="index")
     .format({"Observed favourable gap": "{:.2f}", "Favourable percentile": "{:.1f}"})
     .set_caption("Method 3 bootstrap sensitivity; values retain each outcome's native unit")
 )
@@ -431,6 +441,8 @@ affect. This reduces dependence on endpoint choice, although negative affect's
 weak monotonic ordering makes its trend a cautious directional check.
 
 ```{python}
+#| label: method4-scorecard
+
 trend = pd.read_csv(ROOT / "reports" / "tables" / "material_social_trend_results.csv").set_index("indicator_code").loc[method3_order].reset_index()
 assert trend.slope_endpoint_agree.all()
 trend_display = pd.DataFrame({
@@ -439,7 +451,7 @@ trend_display = pd.DataFrame({
     "Favourable slope percentile": trend.australia_favourable_slope_percentile.map(lambda x: f"{x:.1f}"),
     "Endpoint agrees": trend.slope_endpoint_agree.map({True: "Yes", False: "No"}),
 })
-display(trend_display.style.hide(axis="index").set_caption("Method 4 compact trend robustness scorecard"))
+display(trend_display.style.set_uuid("method4_scorecard").hide(axis="index").set_caption("Method 4 compact trend robustness scorecard"))
 ```
 
 ::: {.main-figure}
@@ -459,6 +471,8 @@ multiplicity adjustment. These ecological patterns provide context but do not
 explain Australia's result.
 
 ```{python}
+#| label: method5-scorecard
+
 spearman = pd.read_csv(ROOT / "reports" / "tables" / "material_social_spearman_results.csv")
 assert spearman.spearman_rho.between(-1, 1).all()
 assert spearman.permutation_p_holm.between(0, 1).all()
@@ -468,7 +482,7 @@ spearman_display = pd.DataFrame({
     "Spearman rho": spearman.spearman_rho,
     "Holm p": spearman.permutation_p_holm,
 })
-display(spearman_display.style.hide(axis="index").format({"Spearman rho": "{:.3f}", "Holm p": "{:.4f}"}).set_caption("Method 5 exploratory material–social rank associations"))
+display(spearman_display.style.set_uuid("method5_scorecard").hide(axis="index").format({"Spearman rho": "{:.3f}", "Holm p": "{:.4f}"}).set_caption("Method 5 exploratory material–social rank associations"))
 ```
 
 ### Evidence synthesis: social deterioration is the more stable result
@@ -534,13 +548,15 @@ rows to six independent pooled windows, with no interpolation. These are the
 implementation details supporting the cleaning claims in the main body.
 
 ```{python}
+#| label: audit-summary
+
 cleaning_summary = pd.DataFrame([
     {"Check": "Raw input", "Evidence": f"{len(data):,} rows; {data.country_code.nunique()} countries; {data.indicator_code.nunique()} indicators", "Status": "pass"},
     {"Check": "Structure", "Evidence": "Unique country–indicator–year keys and complete observed values", "Status": "pass"},
     {"Check": "Quality metadata", "Evidence": f"{int(data.is_flagged.sum())} flagged observations retained for sensitivity checks", "Status": "recorded"},
     {"Check": "Time handling", "Evidence": "Annual and pooled Gallup series retained in their designed units", "Status": "pass"},
 ])
-display(cleaning_summary.style.hide(axis="index").set_caption("Reproducible data audit summary"))
+display(cleaning_summary.style.set_uuid("audit_summary").hide(axis="index").set_caption("Reproducible data audit summary"))
 
 test_run = subprocess.run([sys.executable, "-m", "pytest", "-q"], cwd=ROOT, capture_output=True, text=True)
 if test_run.returncode != 0:
@@ -581,6 +597,8 @@ the main results because it directly shows Australia's full-trajectory position
 among eligible comparators.
 
 ```{python}
+#| label: robustness-appendix-tables
+
 method3_appendix = method3_bootstrap[[
     "indicator", "unit", "comparison_period", "observed_oriented_gap",
     "bootstrap_gap_median", "bootstrap_ci_lower", "bootstrap_ci_upper",
@@ -592,7 +610,7 @@ method3_appendix.columns = [
     "2.5%", "97.5%", "Comparators", "Replicates", "Seed", "Interpretation",
 ]
 display(
-    method3_appendix.style.hide(axis="index")
+    method3_appendix.style.set_uuid("method3_appendix").hide(axis="index")
     .format({"Observed gap": "{:.3f}", "Bootstrap median": "{:.3f}", "2.5%": "{:.3f}", "97.5%": "{:.3f}"})
     .set_caption("Method 3 full comparator-composition bootstrap results")
 )
@@ -607,7 +625,7 @@ placebo_appendix.columns = [
     "More favourable countries", "Less favourable countries", "Ties",
 ]
 display(
-    placebo_appendix.style.hide(axis="index")
+    placebo_appendix.style.set_uuid("placebo_appendix").hide(axis="index")
     .format({"Australia placebo gap": "{:.3f}", "Favourable percentile": "{:.1f}"})
     .set_caption("Method 3 leave-one-country-out placebo ranking")
 )
@@ -624,7 +642,7 @@ trend_appendix.columns = [
     "Favourable slope percentile", "Endpoint agrees",
 ]
 display(
-    trend_appendix.style.hide(axis="index")
+    trend_appendix.style.set_uuid("trend_appendix").hide(axis="index")
     .format({"Native slope": "{:.3f}", "Slope CI low": "{:.3f}", "Slope CI high": "{:.3f}", "Favourable tau": "{:.3f}", "Holm p": "{:.4f}", "Favourable slope percentile": "{:.1f}"})
     .set_caption("Method 4 full trend robustness results")
 )
@@ -643,6 +661,8 @@ fixed common-panel check; the scatterplot shows the underlying cross-country
 ecological relationship.
 
 ```{python}
+#| label: association-appendix-table
+
 spearman_appendix = spearman[[
     "material_outcome", "social_outcome", "comparator_country_count",
     "spearman_rho", "bootstrap_ci_lower", "bootstrap_ci_upper",
@@ -655,7 +675,7 @@ spearman_appendix.columns = [
     "Fixed-panel rho", "Leave-one-out sign stable",
 ]
 display(
-    spearman_appendix.style.hide(axis="index")
+    spearman_appendix.style.set_uuid("association_appendix").hide(axis="index")
     .format({"Spearman rho": "{:.3f}", "Bootstrap 2.5%": "{:.3f}", "Bootstrap 97.5%": "{:.3f}", "Holm p": "{:.4f}", "Fixed-panel rho": "{:.3f}"})
     .set_caption("Method 5 full exploratory association diagnostics")
 )
