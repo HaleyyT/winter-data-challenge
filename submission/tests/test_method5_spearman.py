@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.oecd_audit import INDICATOR_SPECS, load_clean
+from submission.code.oecd_audit import INDICATOR_SPECS, load_clean
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -51,8 +51,8 @@ PAIR_SPECS = [
 EXPECTED_PAIR_COUNTS = [31, 31, 43, 43]
 
 DATA = load_clean()
-TRACKED_RESULTS = pd.read_csv(ROOT / "reports/tables/material_social_spearman_results.csv")
-PRIMARY = pd.read_csv(ROOT / "reports/tables/material_social_primary_results.csv")
+TRACKED_RESULTS = pd.read_csv(ROOT / "report/tables/material_social_spearman_results.csv")
+PRIMARY = pd.read_csv(ROOT / "report/tables/material_social_primary_results.csv")
 
 
 def exact_endpoint_changes(frame: pd.DataFrame, code: str) -> pd.DataFrame:

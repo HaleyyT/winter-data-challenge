@@ -5,10 +5,10 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BOOTSTRAP_PATH = ROOT / "reports" / "tables" / "material_social_bootstrap_results.csv"
-PLACEBO_PATH = ROOT / "reports" / "tables" / "material_social_placebo_results.csv"
-PRIMARY_PATH = ROOT / "reports" / "tables" / "material_social_primary_results.csv"
-FIGURE_PATH = ROOT / "reports" / "figures" / "material_social_comparative_gaps.png"
+BOOTSTRAP_PATH = ROOT / "report" / "tables" / "material_social_bootstrap_results.csv"
+PLACEBO_PATH = ROOT / "report" / "tables" / "material_social_placebo_results.csv"
+PRIMARY_PATH = ROOT / "report" / "tables" / "material_social_primary_results.csv"
+FIGURE_PATH = ROOT / "report" / "figures" / "material_social_comparative_gaps.png"
 ORDER = ["1_1", "2_1", "7_1_DEP", "11_2"]
 COUNTS = [31, 43, 46, 46]
 
