@@ -2,11 +2,10 @@
 
 The raw CSV is never modified. Run from the repository root:
 
-    python -m src.oecd_audit
+    python -m submission.code.oecd_audit
 
-Outputs are written to ``data/processed`` and ``reports/tables``. These
-generated files are ignored by Git; the implementation and interpretation
-notes remain version controlled.
+Outputs are written inside ``submission/data`` and
+``submission/report/tables``.
 """
 
 from __future__ import annotations
@@ -19,9 +18,9 @@ import pandas as pd
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-RAW_FILE = PROJECT_ROOT / "data" / "raw" / "OECD Data.csv"
-PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
-TABLE_DIR = PROJECT_ROOT / "reports" / "tables"
+RAW_FILE = PROJECT_ROOT / "OECD Data.csv"
+PROCESSED_DIR = PROJECT_ROOT / "data"
+TABLE_DIR = PROJECT_ROOT / "report" / "tables"
 
 EXPECTED_COLUMNS = {
     "REF_AREA",

@@ -1,0 +1,2 @@
+indicator_code,indicator,start_year,end_year,australia_start_value,australia_end_value,australia_absolute_change,australia_oriented_change,reference_country_count,reference_median_oriented_change,australia_minus_reference_median,australia_change_percentile,normal_values_only
+1_2,Top average household disposable income quintile,2012,2020,5.5211588883,5.5644570179,0.043298129600000124,-0.043298129600000124,30,-0.016273263149999995,-0.02702486645000013,46.666666666666664,False

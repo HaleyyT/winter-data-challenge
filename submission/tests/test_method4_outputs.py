@@ -5,9 +5,9 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS = pd.read_csv(ROOT / "reports/tables/material_social_trend_results.csv")
-SLOPES = pd.read_csv(ROOT / "reports/tables/method4_country_slope_distribution.csv")
-PRIMARY = pd.read_csv(ROOT / "reports/tables/material_social_primary_results.csv")
+RESULTS = pd.read_csv(ROOT / "report/tables/material_social_trend_results.csv")
+SLOPES = pd.read_csv(ROOT / "report/tables/method4_country_slope_distribution.csv")
+PRIMARY = pd.read_csv(ROOT / "report/tables/material_social_primary_results.csv")
 
 
 def test_method4_contains_the_four_prespecified_outcomes_once():

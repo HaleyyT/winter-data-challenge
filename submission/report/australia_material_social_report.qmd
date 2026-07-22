@@ -51,16 +51,18 @@ from IPython.display import display
 def project_root() -> Path:
     """Locate the repository so the report runs from any working directory."""
     for candidate in (Path.cwd(), *Path.cwd().parents):
-        if (candidate / "data" / "raw" / "OECD Data.csv").exists():
+        if (candidate / "OECD Data.csv").exists() and (candidate / "code").is_dir():
             return candidate
-    raise FileNotFoundError("Could not locate data/raw/OECD Data.csv.")
+        if (candidate / "submission" / "OECD Data.csv").exists():
+            return candidate / "submission"
+    raise FileNotFoundError("Could not locate submission/OECD Data.csv.")
 
 
 ROOT = project_root()
-sys.path.insert(0, str(ROOT))
-from src.oecd_audit import INDICATOR_SPECS, load_clean  # noqa: E402
+sys.path.insert(0, str(ROOT.parent))
+from submission.code.oecd_audit import INDICATOR_SPECS, load_clean  # noqa: E402
 
-data = load_clean(ROOT / "data" / "raw" / "OECD Data.csv")
+data = load_clean(ROOT / "OECD Data.csv")
 assert not data.duplicated(["country_code", "indicator_code", "year"]).any()
 assert data.value.notna().all()
 ```
@@ -260,7 +262,7 @@ def common_endpoint_scorecard() -> pd.DataFrame:
 
 
 results = common_endpoint_scorecard()
-frozen = pd.read_csv(ROOT / "reports" / "tables" / "material_social_primary_results.csv").set_index("indicator_code")
+frozen = pd.read_csv(ROOT / "report" / "tables" / "material_social_primary_results.csv").set_index("indicator_code")
 for _, row in results.iterrows():
     stored = frozen.loc[row["Indicator code"]]
     np.testing.assert_allclose(
@@ -302,8 +304,8 @@ significance test. Full bootstrap and placebo outputs are retained in
 ```{python}
 #| label: method3-computation
 
-method3_bootstrap = pd.read_csv(ROOT / "reports" / "tables" / "material_social_bootstrap_results.csv")
-method3_placebo = pd.read_csv(ROOT / "reports" / "tables" / "material_social_placebo_results.csv")
+method3_bootstrap = pd.read_csv(ROOT / "report" / "tables" / "material_social_bootstrap_results.csv")
+method3_placebo = pd.read_csv(ROOT / "report" / "tables" / "material_social_placebo_results.csv")
 method3_order = ["1_1", "2_1", "7_1_DEP", "11_2"]
 assert method3_bootstrap.indicator_code.tolist() == method3_order
 assert method3_placebo.indicator_code.tolist() == method3_order
@@ -422,14 +424,14 @@ bands show the interquartile range and reference counts exclude Australia.
 Income is PPP-converted USD per person. Lower social values are more favourable;
 social points are independent three-year pooled estimates and connecting lines
 are visual guides, not annual observations. The bands describe cross-country
-spread, not estimation uncertainty.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
+spread, not estimation uncertainty.](figures/material_social_trajectories.png){#fig-trajectories width=100%}
 :::
 
 ::: {.main-figure}
 ![Method 3 same-endpoint gaps. Orange points are Australia's observed
 direction-aware gaps and blue intervals show sensitivity to resampling eligible
 comparator countries. Positive values favour Australia; an interval crossing
-zero indicates that the comparative sign is composition-sensitive.](../reports/figures/material_social_comparative_gaps.png){#fig-method3-gaps width=100%}
+zero indicates that the comparative sign is composition-sensitive.](figures/material_social_comparative_gaps.png){#fig-method3-gaps width=100%}
 :::
 
 ### Method 4 robustness: full-trajectory directions agree
@@ -443,7 +445,7 @@ weak monotonic ordering makes its trend a cautious directional check.
 ```{python}
 #| label: method4-scorecard
 
-trend = pd.read_csv(ROOT / "reports" / "tables" / "material_social_trend_results.csv").set_index("indicator_code").loc[method3_order].reset_index()
+trend = pd.read_csv(ROOT / "report" / "tables" / "material_social_trend_results.csv").set_index("indicator_code").loc[method3_order].reset_index()
 assert trend.slope_endpoint_agree.all()
 trend_display = pd.DataFrame({
     "Outcome": trend.short_name,
@@ -459,7 +461,7 @@ display(trend_display.style.set_uuid("method4_scorecard").hide(axis="index").set
 to eligible supplied countries with the required same-span coverage. Grey
 points are individual countries and boxes summarise their slope distributions;
 positive values indicate more favourable change. This is a full-trajectory
-comparative robustness check, not an uncertainty interval.](../reports/figures/method4_country_slope_distributions.png){#fig-method4-slopes width=100%}
+comparative robustness check, not an uncertainty interval.](figures/method4_country_slope_distributions.png){#fig-method4-slopes width=100%}
 :::
 
 ### Method 5 associations provide context, not explanation
@@ -473,7 +475,7 @@ explain Australia's result.
 ```{python}
 #| label: method5-scorecard
 
-spearman = pd.read_csv(ROOT / "reports" / "tables" / "material_social_spearman_results.csv")
+spearman = pd.read_csv(ROOT / "report" / "tables" / "material_social_spearman_results.csv")
 assert spearman.spearman_rho.between(-1, 1).all()
 assert spearman.permutation_p_holm.between(0, 1).all()
 spearman_display = pd.DataFrame({
@@ -558,13 +560,18 @@ cleaning_summary = pd.DataFrame([
 ])
 display(cleaning_summary.style.set_uuid("audit_summary").hide(axis="index").set_caption("Reproducible data audit summary"))
 
-test_run = subprocess.run([sys.executable, "-m", "pytest", "-q"], cwd=ROOT, capture_output=True, text=True)
+test_run = subprocess.run(
+    [sys.executable, "-m", "pytest", "submission/tests", "-q"],
+    cwd=ROOT.parent,
+    capture_output=True,
+    text=True,
+)
 if test_run.returncode != 0:
     raise RuntimeError(test_run.stdout + test_run.stderr)
 ```
 
-The audit writes `data/processed/oecd_clean.csv` and the following generated
-tables under `reports/tables/`: `time_series_gaps.csv`,
+The audit writes `submission/data/oecd_clean.csv` and the following generated
+tables under `submission/report/tables/`: `time_series_gaps.csv`,
 `coverage_by_country_indicator.csv`, `coverage_by_country_year.csv`,
 `indicator_metadata.csv`, `same_year_australia_comparisons.csv`,
 `australia_indicator_summary.csv`, `domain_coverage_all.csv` and
@@ -651,7 +658,7 @@ display(
 ![Australian observations and fitted Theil–Sen trends for the four primary
 outcomes. Material panels use 15 annual observations and social panels use six
 independent pooled windows; the fits summarise direction rather than causal
-effects.](../reports/figures/method4_australia_theilsen_trends.png){#fig-method4-trajectories width=100%}
+effects.](figures/method4_australia_theilsen_trends.png){#fig-method4-trajectories width=100%}
 
 ### D. Exploratory Association Diagnostics {#sec-association-diagnostics}
 
@@ -683,7 +690,7 @@ display(
 
 ![Exploratory cross-country material–social associations. Positive values
 indicate improvement. Australia is shown separately and excluded from the
-Spearman estimates, bootstrap intervals and permutation tests.](../reports/figures/material_social_spearman_associations.png){#fig-method5 width=100%}
+Spearman estimates, bootstrap intervals and permutation tests.](figures/material_social_spearman_associations.png){#fig-method5 width=100%}
 
 ### E. Reproduction Instructions and File Provenance {#sec-reproduction-provenance}
 
@@ -694,24 +701,24 @@ or validates.
 ::: {.provenance-table}
 | Stage | Notebook or source | Generated or validated files | Purpose |
 |---|---|---|---|
-| Raw input | `data/raw/OECD Data.csv` | Immutable supplied input | Source data for every result |
-| Audit and cleaning | `notebooks/00_data_audit.ipynb` | `data/processed/oecd_clean.csv`; audit/coverage tables listed above | Validates structure, preserves flags and labels independent periods |
-| Exploration | `notebooks/01_eda.ipynb` | Coverage and same-year comparison evidence | Selects outcomes and documents why the question is feasible |
-| Primary and bootstrap analysis | `notebooks/02_analysis.ipynb` | `material_social_primary_results.csv`, `material_social_bootstrap_results.csv`, `material_social_placebo_results.csv` | Methods 2 and 3 |
-| Main visualisation | `notebooks/04_final_visuals.ipynb` | `material_social_trajectories.png`, `material_social_trajectory_coverage.csv` | Method 1 trajectory figure and coverage check |
-| Trend robustness | `notebooks/method4_theilsen_kendall.ipynb` | `material_social_trend_results.csv`, `method4_*.csv` and Method 4 figures | Method 4 |
-| Exploratory association | `notebooks/method5_spearman_association.ipynb` | `material_social_spearman_results.csv`, `material_social_spearman_associations.png` | Method 5 |
-| Report | `submission/australia_material_social_report.qmd` | `submission/australia_material_social_report.html` | Recreates the narrative, tables and figures |
+| Raw input | `submission/OECD Data.csv` | Immutable supplied input | Source data for every result |
+| Audit and cleaning | `submission/code/data_audit.ipynb` | `submission/data/oecd_clean.csv`; audit/coverage tables listed above | Validates structure, preserves flags and labels independent periods |
+| Exploration | `submission/code/method1_eda.ipynb` | Coverage and same-year comparison evidence | Selects outcomes and documents why the question is feasible |
+| Primary same-endpoint comparison | `submission/code/method02_primary_same_endpoint.ipynb` | `material_social_primary_results.csv` | Method 2 |
+| Comparator bootstrap and placebo ranking | `submission/code/method03_comparator_bootstrap_placebo.ipynb` | `material_social_bootstrap_results.csv`, `material_social_placebo_results.csv`, `material_social_comparative_gaps.png` | Method 3 |
+| Main visualisation | `submission/code/final_visuals.ipynb` | `material_social_trajectories.png`, `material_social_trajectory_coverage.csv` | Method 1 trajectory figure and coverage check |
+| Trend robustness | `submission/code/method4_theilsen_kendall.ipynb` | `material_social_trend_results.csv`, `method4_*.csv` and Method 4 figures | Method 4 |
+| Exploratory association | `submission/code/method5_spearman_association.ipynb` | `material_social_spearman_results.csv`, `material_social_spearman_associations.png` | Method 5 |
+| Report | `submission/report/australia_material_social_report.qmd` | `submission/report/australia_material_social_report.html` | Recreates the narrative, tables and figures |
 :::
 
-`notebooks/03_robustness.ipynb` is retained as an additional robustness
-check. The automated tests verify audit invariants and deterministic seeded
-Method 3 and Method 5 outputs.
+The automated tests verify audit invariants and deterministic seeded Method 3
+and Method 5 outputs.
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-python -m pytest -q
-quarto render submission/australia_material_social_report.qmd
+python -m pytest submission/tests -q
+quarto render submission/report/australia_material_social_report.qmd
 ```

@@ -1,0 +1,5 @@
+indicator_code,indicator,start_year,end_year,australia_start_value,australia_end_value,australia_absolute_change,australia_oriented_change,reference_country_count,reference_median_oriented_change,australia_minus_reference_median,australia_change_percentile,normal_values_only
+1_1,Households and NPISHs net adjusted disposable income per capita,2010,2024,44625.0,50629.0,6004.0,6004.0,3,5218.0,786.0,66.66666666666667,False
+2_1,Employment rate,2010,2024,75.444,80.262,4.817999999999998,4.817999999999998,4,5.165999999999997,-0.347999999999999,25.0,False
+2_7,Long hours in paid work,2010,2024,13.99,10.18,-3.8100000000000005,3.8100000000000005,4,1.7999999999999998,2.0100000000000007,100.0,False
+2_2,Gender wage gap,2010,2024,14.04293381,10.671212968,-3.3717208419999984,3.3717208419999984,4,2.5965254170000005,0.7751954249999979,50.0,False
