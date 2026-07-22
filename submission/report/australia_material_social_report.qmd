@@ -65,6 +65,14 @@ from submission.code.oecd_audit import INDICATOR_SPECS, load_clean  # noqa: E402
 data = load_clean(ROOT / "OECD Data.csv")
 assert not data.duplicated(["country_code", "indicator_code", "year"]).any()
 assert data.value.notna().all()
+
+# Fail rendering if the principal Method 1 figure loses its coverage trace.
+trajectory_coverage = pd.read_csv(
+    ROOT / "report" / "tables" / "material_social_trajectory_coverage.csv"
+)
+assert len(trajectory_coverage) == 42
+assert set(trajectory_coverage.indicator_code) == {"1_1", "2_1", "7_1_DEP", "11_2"}
+assert not trajectory_coverage.duplicated(["indicator_code", "period"]).any()
 ```
 
 ## Executive Summary
@@ -703,17 +711,17 @@ or validates.
 |---|---|---|---|
 | Raw input | `submission/OECD Data.csv` | Immutable supplied input | Source data for every result |
 | Audit and cleaning | `submission/code/data_audit.ipynb` | `submission/data/oecd_clean.csv`; audit/coverage tables listed above | Validates structure, preserves flags and labels independent periods |
-| Exploration | `submission/code/method1_eda.ipynb` | Coverage and same-year comparison evidence | Selects outcomes and documents why the question is feasible |
+| Exploration and principal trajectory | `submission/code/method1_eda.ipynb` | `material_social_trajectories.png`, `material_social_trajectory_coverage.csv`; coverage and same-year comparison evidence | Selects outcomes and exports Method 1 with traceable comparator counts |
 | Primary same-endpoint comparison | `submission/code/method02_primary_same_endpoint.ipynb` | `material_social_primary_results.csv` | Method 2 |
 | Comparator bootstrap and placebo ranking | `submission/code/method03_comparator_bootstrap_placebo.ipynb` | `material_social_bootstrap_results.csv`, `material_social_placebo_results.csv`, `material_social_comparative_gaps.png` | Method 3 |
-| Main visualisation | `submission/code/final_visuals.ipynb` | `material_social_trajectories.png`, `material_social_trajectory_coverage.csv` | Method 1 trajectory figure and coverage check |
+| Visual review | `submission/code/final_visuals.ipynb` | Displays generated Method 3–5 assets without overwriting them | Consolidated visual inspection |
 | Trend robustness | `submission/code/method4_theilsen_kendall.ipynb` | `material_social_trend_results.csv`, `method4_*.csv` and Method 4 figures | Method 4 |
 | Exploratory association | `submission/code/method5_spearman_association.ipynb` | `material_social_spearman_results.csv`, `material_social_spearman_associations.png` | Method 5 |
 | Report | `submission/report/australia_material_social_report.qmd` | `submission/report/australia_material_social_report.html` | Recreates the narrative, tables and figures |
 :::
 
-The automated tests verify audit invariants and deterministic seeded Method 3
-and Method 5 outputs.
+The automated tests verify audit invariants, Method 1 coverage and deterministic
+seeded Method 3–5 outputs.
 
 ```bash
 python3 -m venv .venv
@@ -721,4 +729,13 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m pytest submission/tests -q
 quarto render submission/report/australia_material_social_report.qmd
+```
+
+From the repository root, the commands above create the environment, run the
+automated validation suite and rebuild the rendered report. To regenerate all
+processed data, tables and figures before those checks, run the complete
+workflow instead:
+
+```bash
+./submission/run_all.sh
 ```

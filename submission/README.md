@@ -1,6 +1,8 @@
 # Winter Data Challenge Submission
 
-The current folder is an independent submission that evaluates the changes in the social well-being of Australia with respect to the rest of the countries in the given OECD dataset while the physical conditions improve.
+This folder is a self-contained submission examining whether Australia's gains
+in household income and employment were accompanied by comparable improvements
+in perceived social support and negative affect.
 
 The following four dependent variables are considered for evaluation:
 
@@ -19,7 +21,16 @@ Winnie Qiu (550720773)
 
 ## Quick start
 
-To execute the entire workflow from the root of the repository (including report, code, tests), use:
+Create the environment from the parent directory containing `submission/`:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r submission/requirements.txt
+```
+
+Quarto must also be installed to render the HTML report. Execute the entire
+workflow from the same parent directory with:
 
 ```bash
 ./submission/run_all.sh
@@ -27,7 +38,8 @@ To execute the entire workflow from the root of the repository (including report
 
 This process will halt at once in case any command is not successful. This workflow will run the data audit, execute the notebooks in their order of dependency, run the tests automatically, and render the Quarto report. Copies of executed notebooks will be created in a temporary folder instead of overwriting the submitted notebooks.
 
-The required Python modules are listed in the file `requirements.txt` on the repository level. Also, Quarto should be installed to generate the HTML report.
+The workflow stops on the first failed command. It writes executed notebook
+copies to a temporary directory, leaving the submitted source notebooks clean.
 
 ## Folder structure
 
@@ -35,7 +47,9 @@ The required Python modules are listed in the file `requirements.txt` on the rep
 submission/
 ├── OECD Data.csv
 ├── README.md
+├── SUBMISSION_CHECKLIST.md
 ├── ai_acknowledgement.md
+├── requirements.txt
 ├── run_all.sh
 ├── code/
 ├── data/
@@ -54,7 +68,9 @@ submission/
 |---|---|
 | `OECD Data.csv` | Original supplied OECD dataset. The analysis treats this as an immutable raw input. |
 | `README.md` | Guide to the submission structure, execution order and outputs. |
+| `SUBMISSION_CHECKLIST.md` | Final technical and manual checks before portal upload. |
 | `ai_acknowledgement.md` | Required acknowledgement describing the use of AI assistance. |
+| `requirements.txt` | Python environment specification for notebooks, tests and report code. |
 | `run_all.sh` | Executes the complete analysis, tests and report build in the required order. |
 | `.gitignore` | Excludes local caches and other runtime artefacts that should not be submitted. |
 
@@ -86,7 +102,7 @@ python -m submission.code.oecd_audit
 | Order | Notebook | Purpose | Principal outputs |
 |---:|---|---|---|
 | 1 | `data_audit.ipynb` | Inspects the supplied file, validates fields and values, cleans the data, documents quality flags, and creates domain summaries. | Files in `submission/data/` and general audit tables in `submission/report/tables/`. |
-| 2 | `method1_eda.ipynb` | Exploratory data analysis of coverage, Australian changes, same-year comparisons and selected material/social outcomes. | Diagnostic results displayed in the notebook; it does not define the primary inferential result. |
+| 2 | `method1_eda.ipynb` | Exploratory analysis of coverage, Australian changes, same-year comparisons and selected material/social outcomes. It excludes Australia from reference distributions and counts social windows independently. | `material_social_trajectories.png` and `material_social_trajectory_coverage.csv`. |
 | 3 | `method02_primary_same_endpoint.ipynb` | Primary exact-endpoint comparison. A comparator is eligible only when it reports both of Australia's required endpoints. Native changes are retained, while direction-oriented changes support rankings. | `material_social_primary_results.csv`. |
 | 4 | `method03_comparator_bootstrap_placebo.ipynb` | Holds Australia's endpoint change fixed, resamples eligible comparator countries, and calculates placebo rankings. The interval measures comparator-composition sensitivity rather than survey-sampling uncertainty. | `material_social_bootstrap_results.csv`, `material_social_placebo_results.csv`, and `material_social_comparative_gaps.png`. |
 | 5 | `method4_theilsen_kendall.ipynb` | Tests trend robustness using independent observations, Theil–Sen slopes and Kendall statistics. It also compares Australia's slope with same-span country slope distributions. | Method 4 result tables and two Method 4 figures. |
@@ -147,7 +163,9 @@ quarto render submission/report/australia_material_social_report.qmd
 | `method4_country_slope_distributions.png` | Method 04 comparison of Australia's favourable-oriented slope with eligible country slopes. |
 | `material_social_spearman_associations.png` | Method 05 scatterplots for the four pre-specified material/social change pairs. |
 
-`final_visuals.ipynb` rebuilds Method 03-05 visuals for review but does not save anything to this directory.
+`final_visuals.ipynb` rebuilds Method 03-05 visuals for review but does not save
+anything to this directory. The principal Method 01 trajectory figure is
+generated by `method1_eda.ipynb`.
 
 ### Main analysis tables: `submission/report/tables/`
 
@@ -194,6 +212,6 @@ Below are the tables containing earlier attempts at exploration of sensitivity t
 - All random processes are done with known seeds which are stated in the tables of results.
 - Social-support and negative-affect lines with the same repeated pooled three-year numbers are converted to independent pools whenever necessary.
 - Results which follow the lower-is-better principle are only multiplied by `-1` in favor-oriented comparisons; native results are left with their own signs and measurements.
-- This study is descriptive and comparative. No causal relationship will be discussed.
+- This study is descriptive and comparative; no causal relationship is inferred.
 - Intervals for Method 03 reflect the sensitivity to the collection of comparator countries, not the original survey data uncertainty.
-- Australia is shown in Method 05 graphs but not used in estimating the comparator countries'.
+- Australia is shown in Method 05 graphs but excluded from comparator association estimates.

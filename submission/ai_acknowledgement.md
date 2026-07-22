@@ -1,10 +1,13 @@
-# AI Acknowledegement
+# AI Acknowledgement
 
-The generative AI tools including OpenAI ChatGPT, CodeX were applied during this challenge development and final submission checking.
+OpenAI ChatGPT and Codex were used during development and final submission checking.
 
-The AI assistance was used for:
-- Fixing code and grammar, polish writing where needed 
-- Checking errors in the Python and notebooks
-- Organising and fixing file paths
-- Checking automated tests
-- Checking the reproducibility of the analysis workflow
+AI assistance supported:
+
+- debugging Python and notebook execution;
+- organising file paths and the reproducible workflow;
+- reviewing automated tests and generated outputs; and
+- editing grammar and presentation clarity.
+
+The team selected the research question, made the analytical decisions, verified
+the generated results and takes responsibility for the submitted conclusions.
