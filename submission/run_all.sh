@@ -38,4 +38,5 @@ echo "Rendering report..."
 quarto render submission/report/australia_material_social_report.qmd
 
 echo "Submission completed successfully."
+echo "Rendered report: $SCRIPT_DIR/report/australia_material_social_report.html"
 echo "Executed notebook copies: $EXECUTED_NOTEBOOK_DIR"

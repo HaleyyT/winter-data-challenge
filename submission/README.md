@@ -21,25 +21,37 @@ Winnie Qiu (550720773)
 
 ## Quick start
 
-Create the environment from the parent directory containing `submission/`:
+After extracting the archive, keep the folder name `submission`, enter it and
+run the self-contained workflow:
+
+```bash
+cd submission
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+./run_all.sh
+# macOS convenience command:
+open report/australia_material_social_report.html
+```
+
+On Windows or Linux, open `report/australia_material_social_report.html` in a
+web browser using the usual file manager or browser command for that system.
+
+Quarto must also be installed to render the HTML report. If you remain in the
+parent directory containing `submission/`, the equivalent commands are:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r submission/requirements.txt
-```
-
-Quarto must also be installed to render the HTML report. Execute the entire
-workflow from the same parent directory with:
-
-```bash
 ./submission/run_all.sh
 ```
 
-This process will halt at once in case any command is not successful. This workflow will run the data audit, execute the notebooks in their order of dependency, run the tests automatically, and render the Quarto report. Copies of executed notebooks will be created in a temporary folder instead of overwriting the submitted notebooks.
-
-The workflow stops on the first failed command. It writes executed notebook
-copies to a temporary directory, leaving the submitted source notebooks clean.
+Both commands run the same script. Do not use `./submission/run_all.sh` after
+you have already entered `submission/`; from there, the correct path is
+`./run_all.sh`. The workflow stops on the first failed command, executes all
+notebooks in dependency order, runs the tests, renders the report and writes
+executed notebook copies to a temporary directory.
 
 ## Folder structure
 
@@ -91,7 +103,8 @@ A shared audit/cleaning module used by both the notebooks and tests. This module
 - creates the coverage, gap, comparison, and Australian-specific tables; and
 - generates the cleaned dataset and audit tables.
 
-This can be executed independently of the repository root:
+The full workflow calls this module automatically. To run only the audit from
+the parent directory containing `submission/`, use:
 
 ```bash
 python -m submission.code.oecd_audit
@@ -125,10 +138,12 @@ Original file `OECD Data.csv` is present in the submission directory. Workflow d
 
 ## Automated tests: `submission/tests/`
 
-Run all tests from the repository root with:
+The full workflow runs all tests automatically. To run only the tests while
+you are inside `submission/`, use a subshell that moves to its parent so the
+`submission` package remains importable:
 
 ```bash
-python -m pytest submission/tests -q
+(cd .. && python -m pytest submission/tests -q)
 ```
 
 | Test file | Coverage |
@@ -147,11 +162,14 @@ python -m pytest submission/tests -q
 | `australia_material_social_report.html` | Rendered, self-contained HTML report. |
 | `references.bib` | BibTeX bibliography used by the Quarto report. Because it is in the same directory as the QMD file, the report uses `bibliography: references.bib`. |
 
-Rebuild the report independently with:
+To rebuild only the report while inside `submission/`, use:
 
 ```bash
-quarto render submission/report/australia_material_social_report.qmd
+quarto render report/australia_material_social_report.qmd
 ```
+
+From the parent directory, the equivalent command is
+`quarto render submission/report/australia_material_social_report.qmd`.
 
 ### Figures: `submission/report/figures/`
 

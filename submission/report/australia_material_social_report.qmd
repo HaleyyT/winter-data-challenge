@@ -723,19 +723,24 @@ or validates.
 The automated tests verify audit invariants, Method 1 coverage and deterministic
 seeded Method 3–5 outputs.
 
+After extracting the archive, keep the folder name `submission` and run the
+complete workflow from inside it:
+
 ```bash
+cd submission
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-python -m pytest submission/tests -q
-quarto render submission/report/australia_material_social_report.qmd
+./run_all.sh
+# macOS convenience command:
+open report/australia_material_social_report.html
 ```
 
-From the repository root, the commands above create the environment, run the
-automated validation suite and rebuild the rendered report. To regenerate all
-processed data, tables and figures before those checks, run the complete
-workflow instead:
+On Windows or Linux, open `report/australia_material_social_report.html` in a
+web browser using the normal file manager or browser command for that system.
 
-```bash
-./submission/run_all.sh
-```
+The script regenerates all processed data, tables and figures, runs the tests
+and renders this report. From the parent directory containing `submission/`,
+the equivalent command is `./submission/run_all.sh`. Report-only regeneration
+from inside `submission/` uses
+`quarto render report/australia_material_social_report.qmd`.
