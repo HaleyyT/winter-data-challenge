@@ -1,7 +1,7 @@
 ---
-title: "Material Progress and Social Well-being in Australia"
+title: "Material Progress and Social Well-being in Australia: A Comparative Assessment"
 subtitle: "A reproducible descriptive international comparison using the supplied OECD Current Well-being extract"
-author: "Yilin Li (530536402), Haley Tran (530002284), Winnie Qiu (550720773)"
+author: "Haley Tran (530002284), Yilin Li (530536402), Winnie Qiu (550720773)"
 date: last-modified
 bibliography: references.bib
 link-citations: true
@@ -25,6 +25,13 @@ execute:
 .scorecard th:first-child, .scorecard td:first-child { width: 24%; text-align: left; }
 .scorecard th:not(:first-child), .scorecard td:not(:first-child), .compact-table th:not(:first-child), .compact-table td:not(:first-child) { text-align: right; }
 .main-figure img { display: block; width: 100%; max-width: 100%; height: auto; margin: 1rem auto; }
+.provenance-table table { width: 100%; table-layout: fixed; font-size: .78rem; }
+.provenance-table th, .provenance-table td { padding: .4rem; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.provenance-table th:nth-child(1), .provenance-table td:nth-child(1) { width: 12%; }
+.provenance-table th:nth-child(2), .provenance-table td:nth-child(2) { width: 22%; }
+.provenance-table th:nth-child(3), .provenance-table td:nth-child(3) { width: 32%; }
+.provenance-table th:nth-child(4), .provenance-table td:nth-child(4) { width: 34%; }
+.provenance-table code { white-space: normal; overflow-wrap: anywhere; }
 </style>
 
 ```{python}
@@ -58,9 +65,9 @@ assert data.value.notna().all()
 
 ## Executive Summary
 
-**Research question.** As Australia's material conditions improved, did perceived
-social support and emotional well-being deteriorate relative to comparable
-countries?
+**Research question.** As Australia's household income and employment improved,
+did lack of perceived social support and negative affect worsen relative to
+eligible supplied-country comparators?
 
 Australia recorded substantial absolute material gains between 2010 and 2024:
 household income per person rose by USD 6,004 and employment by 4.82 percentage
@@ -79,7 +86,7 @@ the material ranking is more sensitive. The analysis does not establish that
 material progress caused social deterioration, nor that two indicators exhaust
 the concepts of connection or well-being.
 
-## Introduction and Research Question
+## Research Question and Context
 
 Income and employment are important measures of national progress, but they do
 not by themselves describe how people experience daily life. Material and
@@ -98,7 +105,13 @@ It neither independently validates the estimate nor identifies a cause.
 The question is deliberately bounded: it tests a comparative descriptive
 pattern, not its causes or individual-level experience.
 
-## Data Cleaning and Preprocessing
+The analysis moves from [comparative trajectories (Method 1)](#sec-method-1), to
+[matched endpoint changes (Method 2)](#sec-method-2),
+[comparator-composition sensitivity (Method 3)](#sec-method-3),
+[full-trajectory corroboration (Method 4)](#sec-method-4), and finally
+[secondary cross-country associations (Method 5)](#sec-method-5).
+
+## Data Preparation and Comparability
 
 The immutable input is the supplied `OECD Data.csv`: 8,806
 country-indicator-year observations for 47 countries, 21 indicators and 10
@@ -125,9 +138,10 @@ The audit records this distinction through an `independent_period` field, so
 repeated annual-looking Gallup rows are counted once per pooled window rather
 than as repeated independent evidence. Coverage and metadata outputs determined
 which outcomes could support a matched comparison; their details are in the
-[Appendix](#sec-audit-traceability).
+[Appendix A audit](#sec-audit-traceability). Indicator constructs, units and pooling
+rules follow the supplied OECD definitions [@OECD2026Definitions].
 
-## Exploratory Analysis and Research Question Formation
+## Outcome Selection and Exploratory Design
 
 Exploratory coverage and construct checks fixed four primary outcomes before
 the common-endpoint analysis: household income per person (PPP), employment
@@ -135,7 +149,8 @@ rate, lack of social support and negative affect. The first two represent
 material conditions; the latter two are focused measures of perceived social
 support and emotional well-being. Life satisfaction has only two Australian
 observations, and the health measures have limited common-endpoint coverage, so
-they are not primary long-run outcomes.
+they are not primary long-run outcomes. The full inclusion rationale and
+secondary-indicator roles are documented in [Appendix B](#sec-outcome-selection).
 
 All comparative claims use **eligible supplied-country comparators**: countries
 other than Australia that report the same indicator at Australia's exact
@@ -158,7 +173,7 @@ and the sensitivity analysis below tests how much the reported gap depends on
 that observed set. These decisions favour transparent, reproducible comparison
 over a broader but less defensible international ranking.
 
-### Method 1: Exploratory Data Analysis
+### Method 1: Comparative Trajectory Exploration {#sec-method-1}
 
 For every observed period, Australia is plotted in native units against the
 median and interquartile range of countries reporting the same outcome in that
@@ -167,9 +182,12 @@ analysis reveals direction, coverage and timing without a composite score or
 filled-in years. Because reporting countries can change across periods, it is
 an exploratory description rather than a fixed-panel estimate.
 
-## Methodology
+## Analytical Methods
 
-### Method 2: Primary Common-Endpoint Comparison
+The executable analysis order and output provenance are listed in
+[Appendix E](#sec-reproduction-provenance).
+
+### Method 2: Primary Same-Endpoint Comparison {#sec-method-2}
 
 For each outcome, a country is eligible only if it reports both Australian
 endpoints. We first calculate each country's observed change, then compare
@@ -259,34 +277,21 @@ display(
 ```
 :::
 
-### Method 3: Bootstrap Comparator-Composition Sensitivity and Placebo Ranking
+### Method 3: Comparator-Composition Bootstrap and Placebo Ranking {#sec-method-3}
 
 Method 3 holds Australia's observed endpoint change fixed and resamples the
 exact eligible comparator countries with replacement 10,000 times. Every
 replicate recalculates the comparator median and favourable gap. Its interval
 is therefore a **comparator-composition sensitivity interval**, not
 survey-sampling uncertainty or a confidence interval for Australia's change.
-A leave-one-country-out placebo ranking gives a second presentation of the
-same relative endpoint position.
-
-This distinction is important for interpretation. The countries in the supplied
-extract are not a random sample of a larger target population, and the OECD
-observation does not supply respondent-level sampling information for this
-calculation. Resampling countries answers a narrower practical question:
-would the conclusion change materially if a different mix of the already
-eligible country observations carried the benchmark? An interval that crosses
-zero says that the relative point estimate is not stable to this composition
-perturbation. An interval wholly on one side of zero supports a more confident
-description of the sign of the comparative gap, but it still does not convert
-the analysis into a causal or population-inference design.
-
-The placebo ranking is a complementary diagnostic, not a second significance
-test. It treats each eligible country in turn as the focal country and compares
-its oriented change with the median of the remaining countries. Australia's
-percentile therefore locates its endpoint change in the Method 2 comparator
-distribution. It helps distinguish an unusually adverse Australian result from
-a pattern common across the available comparators, but adds no independent
-evidence.
+Because the supplied countries are not a random sample, this asks only whether
+the sign changes when the observed comparator composition is perturbed. Crossing
+zero denotes composition sensitivity; remaining on one side supports stability
+within the eligible set, not causal or population inference. A complementary
+leave-one-country-out placebo ranking treats each eligible country as focal in
+turn and locates Australia in that distribution. It is not an independent
+significance test. Full bootstrap and placebo outputs are retained in
+[Appendix C](#sec-robustness-diagnostics).
 
 ```{python}
 method3_bootstrap = pd.read_csv(ROOT / "reports" / "tables" / "material_social_bootstrap_results.csv")
@@ -330,7 +335,7 @@ display(
 ```
 :::
 
-### Method 4: Theil–Sen and Kendall Trend Robustness
+### Method 4: Robust Full-Trajectory Trends {#sec-method-4}
 
 Method 4 checks whether the primary endpoint directions agree with robust
 full-trajectory summaries. Direction-aware Theil–Sen slopes describe median
@@ -338,9 +343,10 @@ pairwise change, while Kendall's tau describes monotonic ordering. Material
 outcomes use 15 annual observations; only the social outcomes use six
 independent pooled windows. These diagnostics corroborate direction and
 comparative position; they are not causal estimates or definitive tests under
-temporal dependence.
+temporal dependence. Full slope intervals, Kendall diagnostics and the fitted
+trajectory figure are provided in [Appendix C](#sec-robustness-diagnostics).
 
-### Method 5: Exploratory Material–Social Association
+### Method 5: Exploratory Cross-Country Associations {#sec-method-5}
 
 Method 5 asks a different, secondary question: across countries, do stronger
 material improvements tend to rank alongside more favourable social change?
@@ -348,10 +354,12 @@ Australia is excluded from estimation. Fixed common country panels, Spearman
 rank correlations, paired-country bootstraps, permutation p-values and Holm
 adjustment are used for the four pre-specified pairs. The analysis is
 ecological and exploratory, so it cannot identify a mechanism for Australia.
+Bootstrap intervals, fixed-panel and leave-one-out checks, and the diagnostic
+scatterplots are reported in [Appendix D](#sec-association-diagnostics).
 
 ## Results
 
-### Material gains did not amount to broad outperformance
+### Material conditions improved without comparative outperformance
 
 Australia's household income per person rose by USD 6,004 from 2010 to 2024.
 This is a substantial domestic gain, yet the median rise among 31 eligible
@@ -367,7 +375,7 @@ material intervals cross zero, so the precise relative ranking is sensitive to
 which eligible countries are resampled. Claims that Australia materially
 underperformed the entire reference population would exceed the evidence.
 
-### Social support and negative affect deteriorated comparatively
+### Social indicators deteriorated relative to comparators
 
 Lack of perceived social support rose from 4.93% in 2008–10 to 10.04% in
 2023–25: a 5.12-point adverse Australian change. The median eligible comparator
@@ -382,8 +390,8 @@ gap at –2.66 points and its percentile around 20th. Its bootstrap interval,
 change in two reported measures; they are not prevalence estimates for all
 forms of loneliness, isolation or mental ill-health.
 
-The trajectories help separate a persistent pattern from a single endpoint
-comparison. Income and employment follow annual paths and show substantial
+The trajectories in @fig-trajectories help separate a persistent pattern from
+a single endpoint comparison. Income and employment follow annual paths and show substantial
 Australian improvement, including short-term variation around the pandemic
 period. The social panels are intentionally sparser because each point is an
 independent pooled survey window. They show that the adverse social conclusion
@@ -393,35 +401,34 @@ lack of social support. That is why the report presents both the endpoint
 result and the full-trajectory robustness check rather than treating a single
 latest value as decisive.
 
-The trajectory figure shows timing, native units and pooled-window structure;
-the gap figure shows the fixed comparison rule and comparator-composition
+@fig-trajectories shows timing, native units and pooled-window structure;
+@fig-method3-gaps shows the fixed comparison rule and comparator-composition
 sensitivity. Together they present the progression from exploratory pattern to
 matched comparison and perturbation check.
 
 ::: {.main-figure}
-![Australia and the same-period supplied-country distributions. The shaded band
-is the interquartile range; reference counts exclude Australia; social
-observations are independent three-year pooled windows.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
+![Australia (orange) and the same-period supplied-country median (blue); shaded
+bands show the interquartile range and reference counts exclude Australia.
+Income is PPP-converted USD per person. Lower social values are more favourable;
+social points are independent three-year pooled estimates and connecting lines
+are visual guides, not annual observations. The bands describe cross-country
+spread, not estimation uncertainty.](../reports/figures/material_social_trajectories.png){#fig-trajectories width=100%}
 :::
 
 ::: {.main-figure}
-![Method 3 common-endpoint gaps. Points are Australia's direction-aware gaps;
-intervals show sensitivity to resampling eligible comparator countries.
-Positive values favour Australia.](../reports/figures/material_social_comparative_gaps.png){#fig-method3-gaps width=100%}
+![Method 3 same-endpoint gaps. Orange points are Australia's observed
+direction-aware gaps and blue intervals show sensitivity to resampling eligible
+comparator countries. Positive values favour Australia; an interval crossing
+zero indicates that the comparative sign is composition-sensitive.](../reports/figures/material_social_comparative_gaps.png){#fig-method3-gaps width=100%}
 :::
 
-### Robustness and Exploratory Association Results
+### Method 4 robustness: full-trajectory directions agree
 
-Method 4 agrees with every endpoint direction: income and employment rise in
-Australia but sit below the median favourable comparator slope, while both
-social outcomes worsen. This corroborates direction, not a causal mechanism.
-For negative affect, weak monotonic ordering means the trend result should be
-read as a cautious directional check.
-
-Method 5 finds that stronger material improvement generally ranks alongside
-more favourable social change, especially for negative affect after Holm
-adjustment. This secondary ecological result does not identify an
-individual-level relationship or explain Australia's result.
+All four Theil–Sen slopes agree with the endpoint directions. In
+@fig-method4-slopes, Australia's favourable slope percentiles are 39th for
+income, 33rd for employment, 28th for social support and 24th for negative
+affect. This reduces dependence on endpoint choice, although negative affect's
+weak monotonic ordering makes its trend a cautious directional check.
 
 ```{python}
 trend = pd.read_csv(ROOT / "reports" / "tables" / "material_social_trend_results.csv").set_index("indicator_code").loc[method3_order].reset_index()
@@ -433,7 +440,25 @@ trend_display = pd.DataFrame({
     "Endpoint agrees": trend.slope_endpoint_agree.map({True: "Yes", False: "No"}),
 })
 display(trend_display.style.hide(axis="index").set_caption("Method 4 compact trend robustness scorecard"))
+```
 
+::: {.main-figure}
+![Australia's favourable-oriented Theil–Sen slopes (orange diamonds) relative
+to eligible supplied countries with the required same-span coverage. Grey
+points are individual countries and boxes summarise their slope distributions;
+positive values indicate more favourable change. This is a full-trajectory
+comparative robustness check, not an uncertainty interval.](../reports/figures/method4_country_slope_distributions.png){#fig-method4-slopes width=100%}
+:::
+
+### Method 5 associations provide context, not explanation
+
+Positive rank associations were clearest for negative affect: income
+($\rho=.496$, Holm-adjusted $p=.0156$) and employment ($\rho=.437$,
+Holm-adjusted $p=.0136$). Associations with social support did not survive
+multiplicity adjustment. These ecological patterns provide context but do not
+explain Australia's result.
+
+```{python}
 spearman = pd.read_csv(ROOT / "reports" / "tables" / "material_social_spearman_results.csv")
 assert spearman.spearman_rho.between(-1, 1).all()
 assert spearman.permutation_p_holm.between(0, 1).all()
@@ -446,19 +471,17 @@ spearman_display = pd.DataFrame({
 display(spearman_display.style.hide(axis="index").format({"Spearman rho": "{:.3f}", "Holm p": "{:.4f}"}).set_caption("Method 5 exploratory material–social rank associations"))
 ```
 
-### Evidence Synthesis
+### Evidence synthesis: social deterioration is the more stable result
 
-The evidence is strongest for the comparative social conclusion. Both social
-outcomes deteriorate relative to their eligible comparator medians; both
-Method 3 intervals remain adverse when the comparator composition is
-resampled; and Method 4 preserves the same adverse direction over the full
-available trajectories. The material conclusion is deliberately more qualified:
-income and employment improved domestically, but their relative gaps are
-composition-sensitive. Method 5 does not add causal proof. Its role is limited
-to showing that a related cross-country rank pattern is compatible with, but
-does not explain, the Australian descriptive result.
+The comparative social conclusion is strongest: both outcomes deteriorate
+relative to eligible medians, their Method 3 intervals remain adverse, and
+Method 4 preserves the directions over the full trajectories. Material outcomes
+improved domestically, but their relative gaps are composition-sensitive.
+Method 5 supplies compatible cross-country context, not causal explanation.
+Methods 2–4 reuse the same observations, so their agreement is triangulation
+across analytical summaries rather than independent replication.
 
-## Discussion: Interpretation, Alternatives and Limitations
+## Discussion: Interpretation and Limits
 
 The strongest supported statement is narrow: in the supplied extract, over the
 specified periods and with exact same-endpoint comparators, Australia's
@@ -477,11 +500,21 @@ eligible country sets vary by outcome. Income is PPP-adjusted household income
 per person, not household cash income or its distribution; employment does not
 measure job security or quality. More decisive explanation would require
 individual-level longitudinal data, compatible repeated surveys or a policy
-design that can test mechanisms and distributional heterogeneity.
+design that can test mechanisms and distributional heterogeneity. Indicator
+caveats and outcome boundaries are consolidated in [Appendix A](#sec-audit-traceability)
+and [Appendix B](#sec-outcome-selection), respectively.
+
+The analysis also conditions on countries observed at both endpoints. It cannot
+recover countries excluded by missing endpoints, test whether coverage is
+non-random, or propagate survey and measurement uncertainty in Australia's
+estimates. Conclusions therefore generalise only to the eligible supplied-country
+sets.
 
 ## Conclusion
 
-Australia's income and employment rose in absolute terms, but their relative
+On this bounded definition, Australia did well materially in absolute terms,
+but the supplied data do not support an equally favourable social assessment.
+Income and employment rose, but their relative
 gaps were comparator-sensitive. Across the available pooled survey windows,
 perceived lack of social support and negative affect worsened more than their
 eligible supplied-country comparator medians, with sensitivity intervals that
@@ -522,7 +555,7 @@ tables under `reports/tables/`: `time_series_gaps.csv`,
 `domain_coverage_australia.csv`. Together they document coverage, units,
 direction, status flags and indicator-specific comparability caveats.
 
-### B. Outcome Selection and Secondary Indicators
+### B. Outcome Selection and Secondary Indicators {#sec-outcome-selection}
 
 The audit considered economics, health, social connections and subjective
 well-being. The primary outcomes were selected for temporal coverage,
@@ -538,13 +571,14 @@ are not allowed to alter the four-outcome primary conclusion.
 | Life satisfaction | Excluded from long-run inference | Only two Australian observations |
 | Health indicators | Context only | Life expectancy rose from 81.7 years in 2010 to 83.0 in 2023; the combined suicide/alcohol/drug measure has only 18 shared 2024 endpoints and combines distinct causes |
 
-### C. Full Robustness Diagnostics
+### C. Full Robustness Diagnostics {#sec-robustness-diagnostics}
 
 The main text reports the key Method 3 conclusion. The tables below retain the
 full bootstrap and placebo information needed to reproduce its interpretation.
-The two Method 4 figures are supporting diagnostics: they show the fitted
-Australian trajectories and Australia's slope position among eligible
-comparators, rather than additional primary outcomes.
+The remaining Method 4 figure is a supporting diagnostic of the fitted
+Australian trajectories; the comparative slope-distribution figure appears in
+the main results because it directly shows Australia's full-trajectory position
+among eligible comparators.
 
 ```{python}
 method3_appendix = method3_bootstrap[[
@@ -596,12 +630,12 @@ display(
 )
 ```
 
-![Australian trajectories with fitted Theil–Sen trends.](../reports/figures/method4_australia_theilsen_trends.png){#fig-method4-trajectories width=100%}
+![Australian observations and fitted Theil–Sen trends for the four primary
+outcomes. Material panels use 15 annual observations and social panels use six
+independent pooled windows; the fits summarise direction rather than causal
+effects.](../reports/figures/method4_australia_theilsen_trends.png){#fig-method4-trajectories width=100%}
 
-![Australia's favourable-oriented Theil–Sen slopes relative to eligible
-supplied-country slope distributions.](../reports/figures/method4_country_slope_distributions.png){#fig-method4-slopes width=100%}
-
-### D. Exploratory Association Diagnostics
+### D. Exploratory Association Diagnostics {#sec-association-diagnostics}
 
 Method 5 is retained as a diagnostic rather than an explanation of Australia’s
 outcome. The full table reports uncertainty, multiplicity adjustment and the
@@ -631,12 +665,13 @@ display(
 indicate improvement. Australia is shown separately and excluded from the
 Spearman estimates, bootstrap intervals and permutation tests.](../reports/figures/material_social_spearman_associations.png){#fig-method5 width=100%}
 
-### E. Reproduction Instructions and File Provenance
+### E. Reproduction Instructions and File Provenance {#sec-reproduction-provenance}
 
 The analysis implementation is in notebooks. Execute them in the following
 order before rendering the report; each row identifies the files it generates
 or validates.
 
+::: {.provenance-table}
 | Stage | Notebook or source | Generated or validated files | Purpose |
 |---|---|---|---|
 | Raw input | `data/raw/OECD Data.csv` | Immutable supplied input | Source data for every result |
@@ -647,6 +682,7 @@ or validates.
 | Trend robustness | `notebooks/method4_theilsen_kendall.ipynb` | `material_social_trend_results.csv`, `method4_*.csv` and Method 4 figures | Method 4 |
 | Exploratory association | `notebooks/method5_spearman_association.ipynb` | `material_social_spearman_results.csv`, `material_social_spearman_associations.png` | Method 5 |
 | Report | `submission/australia_material_social_report.qmd` | `submission/australia_material_social_report.html` | Recreates the narrative, tables and figures |
+:::
 
 `notebooks/03_robustness.ipynb` is retained as an additional robustness
 check. The automated tests verify audit invariants and deterministic seeded
