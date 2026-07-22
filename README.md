@@ -4,20 +4,30 @@ Team workspace for the University of Sydney Winter Data Analysis Challenge, held
 
 Challenge page: <https://spds.sydney.edu.au/winter-data-analysis-challenge/>
 
-## Quick start
+## Reproduce the final submission
 
-Requires Python 3.11+.
+Python 3.11+ and [Quarto](https://quarto.org/docs/get-started/) are required.
+Run the following commands from the repository root:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-jupyter lab
+python -m pytest submission/tests -q
+quarto render submission/report/australia_material_social_report.qmd
 ```
 
-Always start Jupyter from the activated environment (or run `.venv/bin/jupyter lab`) so notebooks use the project dependencies. Verify the workspace with `python -m pytest` and regenerate the OECD audit with `python -m src.oecd_audit`.
+The commands above create the environment, run the automated validation suite
+and rebuild the self-contained HTML report. To regenerate the processed data,
+all Method 1–5 outputs, the tests and the report in dependency order, run:
 
-When the dataset is released, place the original, unchanged files in `data/raw/`. Do not commit restricted or large data files. Record their source, download time, licence, and any access conditions in `data/README.md`.
+```bash
+./submission/run_all.sh
+```
+
+Executed notebook copies are written to a temporary directory, leaving the
+submitted source notebooks unchanged. To explore interactively, start
+`jupyter lab` from the activated environment.
 
 ## Project structure
 
@@ -52,24 +62,17 @@ Suggested notebook names are `00_data_audit.ipynb`, `01_eda.ipynb`, `02_analysis
 
 ## Reproduce the report
 
-```bash
-.venv/bin/jupyter nbconvert --to notebook --execute notebooks/02_analysis.ipynb \
-  --output /tmp/02_analysis.executed.ipynb --ExecutePreprocessor.timeout=300
-.venv/bin/jupyter nbconvert --to notebook --execute notebooks/04_final_visuals.ipynb \
-  --output /tmp/04_final_visuals.executed.ipynb --ExecutePreprocessor.timeout=300
-.venv/bin/jupyter nbconvert --to notebook --execute notebooks/method4_theilsen_kendall.ipynb \
-  --output /tmp/method4_theilsen_kendall.executed.ipynb --ExecutePreprocessor.timeout=300
-.venv/bin/jupyter nbconvert --to notebook --execute notebooks/method5_spearman_association.ipynb \
-  --output /tmp/method5_spearman_association.executed.ipynb --ExecutePreprocessor.timeout=300
-QUARTO_PYTHON="$PWD/.venv/bin/python" quarto render submission/australia_material_social_report.qmd
+The full commands are given in **Reproduce the final submission** above and in
+[`submission/README.md`](submission/README.md). For report-only regeneration
+after all tables and figures already exist, run:
 
-# command to open the report 
-open submission/australia_material_social_report.html
+```bash
+source .venv/bin/activate
+quarto render submission/report/australia_material_social_report.qmd
 ```
 
-The notebooks regenerate the reviewable primary, trajectory, robust-trend and
-exploratory material-social association outputs before Quarto checks and embeds
-them. Run the commands from the repository root.
+The rendered output is
+`submission/report/australia_material_social_report.html`.
 
 ## Team workflow
 
@@ -77,4 +80,7 @@ See [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md). Agree on names and ownership
 
 ## Current status
 
-The released OECD dataset audit and initial economic/social exploration are implemented. The team still needs to lock the primary question, comparison group, statistical protocol, robustness checks, and final submission format.
+The reproducible submission package is implemented. It contains the frozen
+research question, audited data workflow, Methods 1–5, automated validation,
+Quarto source and rendered HTML report. The full workflow currently passes 20
+tests. The final under-three-minute video remains a manual portal deliverable.
